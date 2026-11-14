@@ -6,20 +6,20 @@
 <title>Integrated or modular? A 3D supply chain trade-off slider</title>
 <meta name="description" content="Pick a product, slide from integrated to modular, and watch a 3D model come apart while cost and benefit scores update. A plain-language look at flexibility, risk pooling and postponement.">
 <meta name="author" content="Mark Fourmanovskis">
-<link rel="canonical" href="https://markfourman.github.io/integrated-vs-modular-slider/">
+<link rel="canonical" href="https://markfourman.github.io/design-modularity-slider/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Integrated or modular?">
 <meta property="og:title" content="Integrated or modular? Slide to take a product apart">
 <meta property="og:description" content="A 3D slider that shows how flexibility rises as a product becomes more modular, and what that costs. Five products, plain language, sourced examples.">
-<meta property="og:url" content="https://markfourman.github.io/integrated-vs-modular-slider/">
-<meta property="og:image" content="https://markfourman.github.io/integrated-vs-modular-slider/preview.png">
+<meta property="og:url" content="https://markfourman.github.io/design-modularity-slider/">
+<meta property="og:image" content="https://markfourman.github.io/design-modularity-slider/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="A desktop computer shown as an exploded 3D diagram beside flexibility, cost and benefit scores.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Integrated or modular? Slide to take a product apart">
 <meta name="twitter:description" content="A 3D slider that shows how flexibility rises as a product becomes more modular, and what that costs.">
-<meta name="twitter:image" content="https://markfourman.github.io/integrated-vs-modular-slider/preview.png">
+<meta name="twitter:image" content="https://markfourman.github.io/design-modularity-slider/preview.png">
 <meta name="theme-color" content="#1D3B47">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231D3B47'/%3E%3Crect x='5' y='6' width='9' height='9' fill='%2356B4E9'/%3E%3Crect x='18' y='6' width='9' height='9' fill='%23E69F00'/%3E%3Crect x='5' y='18' width='9' height='9' fill='%23F0E442'/%3E%3Crect x='18' y='18' width='9' height='9' fill='%23CC79A7'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -225,7 +225,7 @@ a{color:#005A8F}
 }
 @media (min-width:700px){
   .cmpgrid{grid-template-columns:1fr 1fr}
-  .notice{grid-template-columns:1fr 1fr 1fr}
+  .notice{grid-template-columns:1fr 1fr}
   .masthead h1{font-size:44px}
 }
 @media (min-width:980px){
@@ -349,6 +349,7 @@ a{color:#005A8F}
     <ul class="notice">
       <li><h3>Choices multiply. Parts only add.</h3><p>Four modules with 4, 3, 2 and 4 options make 4 × 3 × 2 × 4 = 96 products from 4 + 3 + 2 + 4 = 13 kinds of part. That is how a modular maker offers variety without filling a warehouse.</p></li>
       <li><h3>Unit cost can go either way.</h3><p>In electronics, sealing parts in is the cheap end. In furniture and cabinets, modular is the cheap end, because standard flat parts are cheap to make, ship and store.</p></li>
+      <li><h3>Each side wins something.</h3><p>Modular wins on choice, repair and stock. Sealed wins on looks, fit and keeping out water and dust, and brand-only parts can keep repair sales with the maker. Even where modular comes out ahead overall, the trade-off is real.</p></li>
       <li><h3>Waiting is the other way to avoid stock.</h3><p>Made-to-order furniture and custom cabinets carry little finished stock too, but the customer waits. Shared parts give low stock risk and a short wait together.</p></li>
     </ul>
     <p class="about"><strong>About the scores.</strong> Every score on this page (flexibility out of 10, costs and benefits out of 5) is an illustrative judgment based on the reason printed beside it. They are for comparing positions, not measurements. The option counts (4, 3, 2 and 4) and the 3D models are teaching examples, not catalogue data. Facts about real companies carry a citation. Between two anchors, scores are blended in a straight line from the nearest two.</p>
@@ -400,7 +401,7 @@ a{color:#005A8F}
 (function(){
 'use strict';
 
-var LIVE_URL='https://markfourman.github.io/integrated-vs-modular-slider/';
+var LIVE_URL='https://markfourman.github.io/design-modularity-slider/';
 var PI=Math.PI;
 var MODCOL=['#56B4E9','#E69F00','#F0E442','#CC79A7'];
 var MODLET=['A','B','C','D'];
@@ -561,8 +562,10 @@ var P=[
   {v:[2,3,5],why:["You choose from a few set versions when you buy.","Pick memory, storage and graphics from the maker's list.","Mix and match parts from many makers."]},
   {v:[1,3,5],why:["Memory can't be upgraded later {c:r-apple-mac|Apple, 2026a}.","Memory, storage and often graphics can be upgraded. The board can't {c:r-dell|Dell, 2026}.","Any part can be swapped or upgraded on its own."]},
   {v:[2,3,5],why:["Each version is a different finished unit that has to be forecast.","Shared parts help. Brand-only parts are tied to one product line.","A few shared parts can become many different PCs. That is {t:pooling|risk pooling}."]},
-  {v:[2,4,5],why:["Special versions are built at the factory, then shipped.","Final assembly can wait until the order arrives. That is {t:postponement|postponement}.","Fit the chosen parts when the order arrives."]}],
+  {v:[2,4,5],why:["Special versions are built at the factory, then shipped.","Final assembly can wait until the order arrives. That is {t:postponement|postponement}.","Fit the chosen parts when the order arrives."]},
+  {v:[5,3,2],why:["Everything fits in one small, quiet box. Memory built into the chip package can also be faster.","A tower with room for standard parts is bigger, but tidy inside.","Standard sockets, cables and spare room take space, so the box is bigger."]}],
  take:["Compact and sealed. What you buy is what you keep.","A middle path: upgrade the common parts, while the core stays tied to the brand.","The most flexible. You pay with more parts to manage and a little more cost per unit."],
+ winLine:'a smaller, quieter box',
  catchLine:'every socket and connector adds a little cost and one more thing to support'},
 
 {id:'furniture',name:'Furniture',short:'Furniture',noun:'shelving unit',sealed:'#C9A27A',neutral:'#DCC3A1',yaw:-.6,pitch:.3,build:buildFurniture,
@@ -580,8 +583,10 @@ var P=[
   {v:[2,4,4],why:["What the maker built is what you get.","A wide menu, but you choose once, before it is built.","Combine frames, shelves, doors and legs from stock."]},
   {v:[3,3,4],why:["Built to last, but a broken part means a workshop repair.","Sturdy, but parts are specific to your order.","Replace a damaged panel or add a door without replacing the unit."]},
   {v:[2,4,5],why:["Finished pieces in every style are bulky and risky to stock.","Built after the order, so little finished stock. The customer waits instead.","Shared panels and fittings serve many products, so stock is pooled ({t:pooling|risk pooling})."]},
-  {v:[1,2,5],why:["A change means building a new piece.","Made to order, so the {t:leadtime|lead time} is the factory's build time.","Pick the parts off the shelf and take them home."]}],
+  {v:[1,2,5],why:["A change means building a new piece.","Made to order, so the {t:leadtime|lead time} is the factory's build time.","Pick the parts off the shelf and take them home."]},
+  {v:[5,4,2],why:["Glued joints stay tight and solid for decades, with no fittings to work loose.","Built and finished in a workshop, so the joints are solid.","Fittings can work loose over time, especially after a move, and the seams show."]}],
  take:["Solid and finished. Changing it later means a new piece.","You get your own combination, and you wait while it is built.","Low cost and ready today. The assembly work moves to you."],
+ winLine:'joints that stay tight for decades',
  catchLine:'the design work is harder and the assembly moves to the customer'},
 
 {id:'phone',name:'Smartphone',short:'Phone',noun:'smartphone',sealed:'#C7CCD2',neutral:'#DDE3E8',yaw:2.5,pitch:.3,build:buildPhone,
@@ -599,8 +604,10 @@ var P=[
   {v:[2,3,4],why:["Pick a colour and storage size when you buy.","The same, plus spare batteries to swap in.","Add or change back accessories and replace parts yourself."]},
   {v:[2,3,5],why:["Repair is possible, but adhesive and special tools stand in the way {c:r-apple-iphone|Apple, 2026b}.","A worn battery swaps by hand {c:r-samsung|Samsung, n.d.}.","Owners can replace up to 12 parts, and one screwdriver opens the phone {c:r-fairphone|Fairphone, n.d.}."]},
   {v:[2,3,4],why:["Each colour and storage size is its own finished phone to forecast.","One battery type serves every unit. The rest is fixed.","Shared modules serve repairs and new phones from one stock ({t:pooling|risk pooling})."]},
-  {v:[1,2,4],why:["Versions are fixed at the factory.","Only the battery can change after purchase.","Accessories and parts can be added at the last step, or by the owner."]}],
+  {v:[1,2,4],why:["Versions are fixed at the factory.","Only the battery can change after purchase.","Accessories and parts can be added at the last step, or by the owner."]},
+  {v:[5,3,2],why:["Glue lets the phone be thinner and easier to seal against water and dust.","A back that opens by hand needs clips and seals, so it is a little thicker.","Screws, connectors and module casings add thickness and more seams to seal."]}],
  take:["Sealed and compact. Repair is a job for a technician.","One part swaps by hand. The rest stays sealed.","Built to be opened. You trade some unit cost and design effort for a longer life."],
+ winLine:'a thinner phone that is easier to seal against water',
  catchLine:'each module needs its own connector and casing, which adds design work and unit cost'},
 
 {id:'bike',name:'Bicycle',short:'Bicycle',noun:'bicycle',sealed:'#D3D9DE',neutral:'#DDE3E8',yaw:-.42,pitch:.2,build:buildBike,
@@ -618,8 +625,10 @@ var P=[
   {v:[1,3,5],why:["A few models and colours.","Models and sizes, with some swaps at the shop.","Choose every part yourself."]},
   {v:[1,4,5],why:["Parts come only from the maker. After VanMoof's 2023 bankruptcy, repair bookings stopped {c:r-croxton|Croxton, 2023}.","Standard parts swap easily. The brand-only seatpost does not {c:r-giant|Giant Bicycles, n.d.}.","Every part can be replaced or upgraded with a standard one."]},
   {v:[1,4,5],why:["Own-design spares are useful for one model only.","Standard parts fit many models, so shops can pool stock ({t:pooling|risk pooling}).","One stock of standard parts can build many different bikes."]},
-  {v:[1,3,4],why:["Fixed at the factory.","Swap a saddle or tyres at the shop.","Build to order from parts on the shelf ({t:postponement|postponement})."]}],
+  {v:[1,3,4],why:["Fixed at the factory.","Swap a saddle or tyres at the shop.","Build to order from parts on the shelf ({t:postponement|postponement})."]},
+  {v:[5,3,2],why:["Battery and wiring hide inside the frame: a clean look, kept out of the rain.","Mostly tidy, with some cables and fittings on show.","Parts from many makers, with cables and fittings on the outside."]}],
  take:["Sleek and all-in-one. Everything depends on one maker staying in business.","Easy to service almost anywhere, with a few brand-only exceptions.","You choose everything. Someone has to do the choosing and the building."],
+ winLine:'a clean frame with the battery tucked out of the rain',
  catchLine:'someone still has to choose, stock and build all those parts'},
 
 {id:'cabinets',name:'Kitchen cabinets',short:'Cabinets',noun:'set of kitchen cabinets',sealed:'#E6E2D9',neutral:'#DDE3E8',yaw:-.55,pitch:.36,build:buildCabinets,
@@ -637,8 +646,10 @@ var P=[
   {v:[5,4,4],why:["Almost anything is possible, but you decide once, before it is built.","Many door styles and finishes within standard sizes.","Many combinations of boxes, fronts and fittings from stock."]},
   {v:[2,3,5],why:["Changing the layout later means rebuilding.","Doors and handles can be replaced. Box sizes are fixed.","Swap fronts, add a drawer or move a box without starting over."]},
   {v:[4,4,5],why:["Nothing is built before the order, so no finished stock. The customer waits instead.","Built to order from standard components.","Standard boxes are stocked once and serve every layout ({t:pooling|risk pooling})."]},
-  {v:[1,2,5],why:["Delivery can take up to nine or more weeks {c:r-homedepot|The Home Depot Canada, n.d.}.","Longer {t:leadtime|lead times} than stock cabinets {c:r-homedepot|The Home Depot Canada, n.d.}.","Stock cabinets are often available the same day or within a few days {c:r-homedepot|The Home Depot Canada, n.d.}."]}],
+  {v:[1,2,5],why:["Delivery can take up to nine or more weeks {c:r-homedepot|The Home Depot Canada, n.d.}.","Longer {t:leadtime|lead times} than stock cabinets {c:r-homedepot|The Home Depot Canada, n.d.}.","Stock cabinets are often available the same day or within a few days {c:r-homedepot|The Home Depot Canada, n.d.}."]},
+  {v:[5,3,2],why:["Made to fit the room exactly, with no gaps to fill.","Standard sizes in 3-inch steps can leave small gaps to fill {c:r-kraftmaid|KraftMaid, 2022}.","Set box sizes often need filler panels to meet your walls."]}],
  take:["Made for one room: exactly what you asked for, slowly, and hard to change.","Standard sizes with your choice of finish. A wait, but less than custom.","Standard boxes, ready quickly and easy to rearrange. Your kitchen has to fit the sizes on offer."],
+ winLine:'cabinets made to fit the room exactly',
  catchLine:'your kitchen has to fit the standard sizes on offer'}
 ];
 
@@ -650,7 +661,8 @@ var BENLAB=[
   {l:'Customer choice',tip:'choice'},
   {l:'Upgrade and repair life',tip:'life'},
   {l:'Less inventory risk',tip:'pooling'},
-  {l:'Speed to customize',tip:'postponement'}];
+  {l:'Speed to customize',tip:'postponement'},
+  {l:'Sleek and sealed',tip:'sealed'}];
 
 var TERMS={
   integrated:'Integrated: built as one fixed design. Parts are sealed in, or made only for this product.',
@@ -664,6 +676,7 @@ var TERMS={
   design:'The up-front work to design the product. Making parts swappable means designing and testing how they connect, unless a shared industry standard already exists.',
   support:'The effort to stock spare parts, answer questions and fix problems. More separate parts usually means more to manage.',
   choice:'How much the customer can choose, and how easily.',
+  sealed:'Sleek and sealed: what one fixed design does best. It can be slimmer, better sealed against water and dust, tighter fitting and sometimes faster. Keeping parts brand-only can also keep repair and upgrade sales with the maker, which is good for its profit.',
   life:'How easy it is to repair the product or upgrade it later, instead of replacing it.'
 };
 
@@ -1180,7 +1193,7 @@ function buildCompare(){
   h+='<p class="cmpgroup">What it costs (out of 5, striped)</p><div class="cmpgrid">';
   for(i=0;i<3;i++)h+=item(COSTLAB[i].l,p.cost[i].v,5,'costfill');
   h+='</div><p class="cmpgroup">What you get (out of 5, solid)</p><div class="cmpgrid">';
-  for(j=0;j<4;j++)h+=item(BENLAB[j].l,p.ben[j].v,5,'benfill');
+  for(j=0;j<BENLAB.length;j++)h+=item(BENLAB[j].l,p.ben[j].v,5,'benfill');
   h+='</div>';
   $('cmpBody').innerHTML=h;
   $('cmpSub').textContent=p.name+': '+p.anchors[0].tick+', '+p.anchors[1].tick+' and '+p.anchors[2].tick+'. Illustrative scores.';
@@ -1331,17 +1344,17 @@ function buildCard(){
     ctx.fillStyle='#12202B';ctx.font='600 22px '+disp;ctx.fillText(col?'What you get':'What it costs',cx0,yy);
     yy+=10;
     for(j=0;j<defs.length;j++){
-      v=st.mix(defs[j].v);yy+=24;
+      v=st.mix(defs[j].v);yy+=21;
       ctx.fillStyle='#12202B';ctx.font='500 16px '+body;ctx.fillText(labs[j].l,cx0,yy);
       ctx.font='600 18px '+disp;var vt=(st.atAnchor?String(Math.round(v)):fmt(v));tw=ctx.measureText(vt).width;ctx.fillText(vt,cx0+colW-tw,yy);
-      yy+=7;drawBar(ctx,cx0,yy,colW,9,v/5,kind,5);yy+=13;
+      yy+=6;drawBar(ctx,cx0,yy,colW,8,v/5,kind,5);yy+=12;
     }
   }
   /* takeaway + footer */
-  y=H-112;ctx.fillStyle='#12202B';ctx.font='500 19px '+body;
-  wrapText(ctx,st.atAnchor?p.take[st.near]:'Each step right frees another part to swap. Each step left seals one in.',x,y,cw,25,2);
+  y=H-92;ctx.fillStyle='#12202B';ctx.font='500 19px '+body;
+  wrapText(ctx,st.atAnchor?p.take[st.near]:'Each step right frees another part to swap. Each step left seals one in.',x,y,cw,24,2);
   ctx.fillStyle='#44535F';ctx.font='400 15px '+body;
-  ctx.fillText('Illustrative scores. markfourman.github.io/integrated-vs-modular-slider',x,H-26);
+  ctx.fillText('Illustrative scores. markfourman.github.io/design-modularity-slider',x,H-26);
   return c;
 }
 function saveView(){
@@ -1376,6 +1389,7 @@ function buildPost(){
   else if(st.k===4)s.push('At the fully modular end, four swappable modules with '+p.mods[0].o+', '+p.mods[1].o+', '+p.mods[2].o+' and '+p.mods[3].o+' options give '+st.configs+' possible configurations from just '+st.stock+' kinds of part (an illustrative example).');
   else s.push('With '+st.k+' of 4 modules swappable, the same stocked parts can become '+st.configs+' different configurations (an illustrative example).');
   s.push('The more modular the design, the more flexible it gets: common parts can share one stock (risk pooling) and final assembly can wait for the real order (postponement), two ideas from Simchi-Levi, Kaminsky and Simchi-Levi (2022).');
+  s.push('The sealed, integrated end still wins something real: '+p.winLine+'.');
   s.push('The catch is that '+p.catchLine+'.');
   return s.join(' ')+'\n\nTry it: '+LIVE_URL+'\n\nWhere would you set the slider for a '+p.noun+'?';
 }
