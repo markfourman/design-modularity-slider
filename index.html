@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Integrated or modular? A 3D supply chain trade-off slider</title>
+<meta name="description" content="Pick a product, slide from integrated to modular, and watch a 3D model come apart while cost and benefit scores update. A plain-language look at flexibility, risk pooling and postponement.">
+<meta name="author" content="Mark Fourmanovskis">
+<link rel="canonical" href="https://markfourman.github.io/integrated-vs-modular-slider/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Integrated or modular?">
+<meta property="og:title" content="Integrated or modular? Slide to take a product apart">
+<meta property="og:description" content="A 3D slider that shows how flexibility rises as a product becomes more modular, and what that costs. Five products, plain language, sourced examples.">
+<meta property="og:url" content="https://markfourman.github.io/integrated-vs-modular-slider/">
+<meta property="og:image" content="https://markfourman.github.io/integrated-vs-modular-slider/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A desktop computer shown as an exploded 3D diagram beside flexibility, cost and benefit scores.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Integrated or modular? Slide to take a product apart">
+<meta name="twitter:description" content="A 3D slider that shows how flexibility rises as a product becomes more modular, and what that costs.">
+<meta name="twitter:image" content="https://markfourman.github.io/integrated-vs-modular-slider/preview.png">
+<meta name="theme-color" content="#1D3B47">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231D3B47'/%3E%3Crect x='5' y='6' width='9' height='9' fill='%2356B4E9'/%3E%3Crect x='18' y='6' width='9' height='9' fill='%23E69F00'/%3E%3Crect x='5' y='18' width='9' height='9' fill='%23F0E442'/%3E%3Crect x='18' y='18' width='9' height='9' fill='%23CC79A7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F4F5; --card:#FFFFFF; --ink:#12202B; --ink2:#44535F; --rule:#D2D9DF; --soft:#E4E9ED;
+  --mat:#1D3B47; --matdeep:#0E222B;
+  --cost:#D55E00; --costdark:#9A4200; --benefit:#0072B2;
+  --m0:#56B4E9; --m1:#E69F00; --m2:#F0E442; --m3:#CC79A7;
+  --body:"Barlow","Bahnschrift","DIN Alternate","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --display:"Barlow Condensed","Bahnschrift","DIN Condensed","Arial Narrow","Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.5 var(--body)}
+button{font:inherit;color:inherit}
+a{color:#005A8F}
+.skip{position:absolute;left:-999px;top:0;background:#fff;padding:10px 14px;z-index:99}
+.skip:focus{left:8px;top:8px}
+:focus{outline:3px solid #0072B2;outline-offset:2px}
+:focus:not(:focus-visible){outline:none}
+:focus-visible{outline:3px solid #0072B2;outline-offset:2px}
+.page{max-width:1240px;margin:0 auto;padding:18px 16px 0}
+
+/* masthead */
+.masthead h1{font:700 33px/1.12 var(--display);margin:0 0 6px;letter-spacing:0}
+.w-int{display:inline-block;background:var(--ink);color:#fff;padding:.03em .2em .07em;letter-spacing:-.025em;border-radius:4px}
+.w-or{font-weight:500;margin:0 .14em}
+.w-mod{display:inline-block;white-space:nowrap}
+.w-mod i{font-style:normal;display:inline-block;min-width:.76em;text-align:center;padding:.03em .08em .07em;margin-right:.08em;border-radius:4px}
+.w-mod i:nth-child(4n+1){background:var(--m0)}
+.w-mod i:nth-child(4n+2){background:var(--m1)}
+.w-mod i:nth-child(4n+3){background:var(--m2)}
+.w-mod i:nth-child(4n+4){background:var(--m3)}
+.deck{margin:0;font-size:16px;line-height:1.4;color:var(--ink2);max-width:60ch}
+
+/* product picker */
+.products{display:flex;margin:12px -3px 10px}
+.pbtn{flex:1 1 0;min-width:0;min-height:60px;margin:3px;padding:8px 2px 6px;border:1.5px solid var(--rule);background:#fff;border-radius:10px;font:500 12.5px/1.15 var(--body);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pbtn svg{width:22px;height:22px;margin:0 0 4px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pbtn .full{display:none}
+.pbtn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* layout */
+.layout{display:flex;flex-direction:column}
+.left{display:contents}
+.stage{order:1}
+.where{order:2}
+.right{order:3}
+.sliderbox{order:9}
+
+/* stage */
+.stage{position:relative;height:300px;height:min(82vw,44vh);min-height:250px;background:var(--mat);border-radius:14px;overflow:hidden;-webkit-user-select:none;user-select:none}
+.stage canvas{position:absolute;left:0;top:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab;transition:opacity .22s}
+.stage canvas.dragging{cursor:grabbing}
+.stage.swap canvas{opacity:0}
+.readout{position:absolute;left:10px;top:10px;background:rgba(9,25,32,.78);color:#fff;border-radius:9px;padding:8px 11px 9px;font-size:13px;line-height:1.3;pointer-events:none;min-width:158px}
+.readout .rl{display:flex;justify-content:space-between;align-items:baseline}
+.readout b{font:600 24px/1 var(--display);margin-left:10px}
+.readout b small{font:500 13px var(--body);opacity:.85}
+.rbar{height:6px;background:rgba(255,255,255,.22);border-radius:3px;margin:6px 0 5px;overflow:hidden}
+.rbar i{display:block;height:100%;width:0;background:#fff;border-radius:3px}
+.hint{position:absolute;right:10px;top:10px;color:#fff;font-size:13px;background:rgba(9,25,32,.6);padding:6px 10px;border-radius:9px;pointer-events:none;transition:opacity .5s}
+.hint.gone{opacity:0}
+.partlabel{position:absolute;left:10px;right:64px;bottom:10px;min-height:44px;display:flex;align-items:center;background:#fff;color:var(--ink);border-radius:10px;padding:7px 12px;font-size:15px;line-height:1.3;box-shadow:0 2px 0 rgba(0,0,0,.28)}
+.partlabel[hidden]{display:none}
+.partlabel .sw{margin-right:9px}
+.viewbtn{position:absolute;right:10px;bottom:10px;width:44px;height:44px;border-radius:10px;border:0;background:rgba(255,255,255,.16);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.viewbtn svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.basic{position:absolute;left:12px;bottom:60px;font-size:12px;color:#CFE0E7;pointer-events:none}
+.basic[hidden]{display:none}
+.sw{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;border:1.5px solid var(--ink);font:600 13px/1 var(--body);color:var(--ink);flex:none}
+.sw.s0{background:var(--m0)}.sw.s1{background:var(--m1)}.sw.s2{background:var(--m2)}.sw.s3{background:var(--m3)}
+.sw.sx{background:#fff}
+.sw.lock{background:repeating-linear-gradient(135deg,#fff 0,#fff 3px,#C5CED5 3px,#C5CED5 5px);border-color:#6B7B87;color:#44535F}
+
+/* where card */
+.where{padding:14px 2px 2px}
+.where h2{font:600 24px/1.15 var(--display);margin:0 0 4px}
+.where p{margin:0;font-size:15.5px;color:var(--ink2)}
+.where .kind{color:var(--ink);font-weight:500}
+.cite{white-space:nowrap}
+
+/* slider */
+.sliderbox{position:-webkit-sticky;position:sticky;bottom:0;z-index:20;background:#fff;border-top:1px solid var(--rule);margin:14px -16px 0;padding:8px 16px 2px;padding-bottom:calc(2px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 22px rgba(18,32,43,.13)}
+.ends{display:flex;justify-content:space-between;font:600 15px/1.2 var(--body)}
+.trackwrap{position:relative;height:44px}
+.trackwrap svg{position:absolute;left:15px;top:15px;width:calc(100% - 30px);height:14px;overflow:visible}
+#slider{position:absolute;left:0;top:0;width:100%;height:44px;margin:0;padding:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;touch-action:pan-y}
+#slider::-webkit-slider-runnable-track{height:44px;background:transparent;border:0}
+#slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:30px;height:30px;border-radius:50%;background:#fff;border:5px solid var(--ink);margin-top:7px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+#slider::-moz-range-track{height:44px;background:transparent;border:0}
+#slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:5px solid var(--ink);box-shadow:0 2px 6px rgba(0,0,0,.3)}
+#slider:focus{outline:none}
+#slider:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 4px #fff,0 0 0 7px #0072B2}
+#slider:focus-visible::-moz-range-thumb{box-shadow:0 0 0 4px #fff,0 0 0 7px #0072B2}
+.anchors{display:flex;margin:0 -4px}
+.abtn{flex:1 1 0;min-height:44px;min-width:0;padding:0 4px 6px;border:0;background:transparent;font:500 14px/1.2 var(--body);cursor:pointer;color:var(--ink2);-webkit-tap-highlight-color:transparent}
+.abtn:before{content:"";display:block;width:3px;height:7px;background:var(--ink2);margin:0 auto 5px}
+.abtn:nth-child(1){text-align:left}.abtn:nth-child(2){text-align:center}.abtn:nth-child(3){text-align:right}
+.abtn:nth-child(1):before{margin-left:13px}.abtn:nth-child(3):before{margin-right:13px}
+.abtn[aria-pressed="true"]{color:var(--ink);font-weight:600}
+.abtn[aria-pressed="true"]:before{background:var(--ink);height:9px;margin-bottom:3px}
+
+/* panels */
+.right{padding-top:18px}
+.panel{padding:16px 0 4px;border-top:2px solid var(--ink)}
+.panel h2{font:600 24px/1.15 var(--display);margin:0}
+.panel .sub{margin:2px 0 8px;font-size:14px;color:var(--ink2)}
+.flexhead{display:flex;justify-content:space-between;align-items:flex-end}
+.flexnum{font:600 46px/0.9 var(--display)}
+.flexnum small{font:500 16px var(--body);color:var(--ink2);margin-left:4px}
+.ruler{position:relative;height:18px;background:var(--soft);border-radius:4px;overflow:hidden;margin:10px 0 2px}
+.ruler i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--mat)}
+.ruler:after{content:"";position:absolute;left:0;top:0;right:0;bottom:0;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 2px),#fff calc(10% - 2px),#fff 10%)}
+.rulernums{display:flex;justify-content:space-between;font-size:13px;color:var(--ink2)}
+.flexwhy{margin:8px 0 10px}
+.cfg{font:600 26px/1.2 var(--display);margin:0}
+.cfg .eq{color:var(--ink2);font-weight:500}
+.cfg .term{font:inherit}
+.stock{margin:4px 0 12px;font-size:15.5px;color:var(--ink2)}
+.mods{list-style:none;margin:0 -4px 8px;padding:0;display:flex;flex-wrap:wrap}
+.mods li{flex:1 1 50%;min-width:150px;padding:4px}
+.mod{width:100%;min-height:48px;display:flex;align-items:center;text-align:left;background:#fff;border:1.5px solid var(--rule);border-radius:10px;padding:6px 10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mod .mt{margin-left:9px;line-height:1.2;min-width:0}
+.mod .mn{display:block;font-weight:600;font-size:15px}
+.mod .ms{display:block;font-size:13.5px;color:var(--ink2)}
+.mod.on{border-color:var(--ink)}
+.scores ul{list-style:none;margin:0;padding:0}
+.scores li{padding:10px 0 11px;border-top:1px solid var(--rule)}
+.rowtop{display:flex;justify-content:space-between;align-items:baseline}
+.lab{font-weight:600;padding-right:10px}
+.val{font:600 22px/1 var(--display);white-space:nowrap}
+.val small{font:500 13px var(--body);color:var(--ink2)}
+.val em{display:inline-block;min-width:66px;text-align:right;font:500 13.5px var(--body);font-style:normal;color:var(--ink2)}
+.bar{position:relative;height:12px;background:var(--soft);border-radius:3px;overflow:hidden;margin:7px 0 6px}
+.bar i{position:absolute;left:0;top:0;bottom:0;width:0}
+.bar:after{content:"";position:absolute;left:0;top:0;right:0;bottom:0;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(20% - 2px),#fff calc(20% - 2px),#fff 20%)}
+.bar.ten:after{background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 2px),#fff calc(10% - 2px),#fff 10%)}
+.costfill{background:repeating-linear-gradient(135deg,var(--cost) 0,var(--cost) 5px,var(--costdark) 5px,var(--costdark) 8px)}
+.benfill{background:var(--benefit)}
+.flexfill{background:var(--mat)}
+.why{margin:0;color:var(--ink2);font-size:15.5px}
+.h2icon{display:inline-flex;align-items:center}
+.h2icon svg{width:24px;height:24px;margin-right:8px;flex:none}
+.take{background:#fff;border:1.5px solid var(--ink);border-radius:12px;padding:14px 16px;margin:6px 0 16px}
+.take h2{font:600 15px/1.2 var(--body);margin:0 0 4px;color:var(--ink2)}
+.take p{margin:0;font:500 19px/1.4 var(--body)}
+.term{display:inline;border:0;background:transparent;padding:0;margin:0;cursor:help;border-bottom:2px dotted currentColor;border-radius:0;line-height:inherit;text-align:left}
+/* invisible 44px-tall tap area around small text buttons and citation links */
+.term,.cite{position:relative}
+.term::after,.cite::after{content:"";position:absolute;left:-4px;right:-4px;top:50%;height:44px;margin-top:-22px}
+.ends .term::after{top:auto;bottom:-3px;margin-top:0}
+.actions{display:flex;flex-wrap:wrap;margin:0 -4px 14px}
+.act{flex:1 1 auto;min-height:48px;margin:4px;padding:10px 16px;border-radius:10px;border:1.5px solid var(--ink);background:#fff;font:600 15.5px/1.2 var(--body);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.act svg{width:20px;height:20px;margin-right:8px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.act.primary{background:var(--ink);color:#fff}
+.act[aria-expanded="true"]{background:var(--soft)}
+.compare{border-top:2px solid var(--ink);padding:14px 0 6px}
+.compare[hidden]{display:none}
+.compare h2{font:600 24px/1.15 var(--display);margin:0 0 2px}
+.cmpgrid{display:grid;grid-template-columns:1fr;grid-gap:14px 28px;margin-top:10px}
+.cmpitem h3{font:600 15px/1.25 var(--body);margin:0 0 4px}
+.cmprow{display:grid;grid-template-columns:108px 1fr 30px;align-items:center;grid-gap:8px;font-size:14px;line-height:1.2;min-height:24px}
+.cmprow .bar{margin:0;height:10px}
+.cmprow b{font:600 17px var(--display);text-align:right}
+.cmpgroup{font:600 15px/1.2 var(--body);color:var(--ink2);margin:14px 0 0;padding-top:8px;border-top:1px solid var(--rule)}
+
+/* notes + refs */
+.notes{border-top:2px solid var(--ink);margin-top:26px;padding:18px 0 4px}
+.notes h2,.refs h2{font:600 26px/1.15 var(--display);margin:0 0 8px}
+.notice{display:grid;grid-template-columns:1fr;grid-gap:14px 30px;margin:0;padding:0;list-style:none}
+.notice h3{font:600 17px/1.3 var(--body);margin:0 0 2px}
+.notice p{margin:0;color:var(--ink2);font-size:15.5px}
+.about{margin:18px 0 0;font-size:15px;color:var(--ink2);max-width:78ch}
+.refs{border-top:1px solid var(--rule);margin-top:20px;padding:18px 0 8px}
+.refs ol{list-style:none;margin:0;padding:0;max-width:92ch}
+.refs li{font-size:14px;line-height:1.45;padding-left:1.8em;text-indent:-1.8em;margin:0 0 7px;word-wrap:break-word;overflow-wrap:anywhere}
+.refs li:target{background:#FFF3C4}
+.foot{border-top:1px solid var(--rule);margin-top:10px;padding:16px 0 26px;font-size:14.5px;color:var(--ink2)}
+.foot a{display:inline-block;padding:13px 0;min-width:44px;margin-right:16px}
+
+/* popover + dialog */
+.tip{position:absolute;z-index:60;max-width:300px;background:var(--ink);color:#fff;font-size:14.5px;line-height:1.4;padding:10px 12px;border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.tip[hidden]{display:none}
+.modal{position:fixed;left:0;top:0;right:0;bottom:0;z-index:80;background:rgba(9,25,32,.62);display:flex;align-items:center;justify-content:center;padding:14px}
+.modal[hidden]{display:none}
+.sheet{background:#fff;border-radius:14px;max-width:660px;width:100%;max-height:92vh;overflow:auto;padding:18px}
+.sheet h2{font:600 26px/1.15 var(--display);margin:0 0 6px}
+.sheet p{margin:0 0 10px}
+.sheet img{display:block;width:100%;height:auto;border:1px solid var(--rule);border-radius:8px;margin:6px 0 10px}
+.posttext{white-space:pre-wrap;background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:12px;font-size:15px;-webkit-user-select:text;user-select:text}
+.sheet .actions{margin-bottom:0}
+.status{font-weight:600}
+
+@media (min-width:600px){
+  .products{flex-wrap:wrap;margin:14px -4px 10px}
+  .pbtn{flex:0 1 auto;flex-direction:row;min-height:46px;margin:4px;padding:8px 16px;font-size:15px;line-height:1.2}
+  .pbtn svg{margin:0 8px 0 0}
+  .pbtn .full{display:inline}.pbtn .short{display:none}
+}
+@media (min-width:700px){
+  .cmpgrid{grid-template-columns:1fr 1fr}
+  .notice{grid-template-columns:1fr 1fr 1fr}
+  .masthead h1{font-size:44px}
+}
+@media (min-width:980px){
+  .page{padding:22px 28px 0}
+  .products{margin:14px -4px 0}
+  .pbtn{padding:8px 18px}
+  .layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);grid-column-gap:34px;margin-top:16px;align-items:start}
+  .left{display:block;position:-webkit-sticky;position:sticky;top:12px}
+  .stage{height:400px;height:min(50vh,580px);min-height:300px}
+  .sliderbox{position:static;margin:10px 0 0;border:1px solid var(--rule);border-radius:12px;padding:10px 14px 4px;box-shadow:none}
+  .where{padding:12px 2px 0}
+  .right{padding-top:0}
+  .right .panel:first-child{border-top:0;padding-top:0}
+}
+@media (min-width:1240px){
+  .head{display:flex;align-items:flex-end;justify-content:space-between}
+  .masthead h1{font-size:40px;margin-bottom:4px}
+  .products{flex-wrap:nowrap;margin:0 -4px 2px}
+  .pbtn{padding:8px 12px}
+}
+@media (max-height:520px) and (max-width:979px){
+  .sliderbox{position:static}
+}
+@media (prefers-reduced-motion:reduce){
+  .stage canvas,.hint{transition:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#panels">Skip to the scores</a>
+<div class="page">
+  <div class="head">
+    <header class="masthead">
+      <h1 aria-label="Integrated or modular?"><span aria-hidden="true"><span class="w-int">Integrated</span><span class="w-or">or</span><span class="w-mod"><i>m</i><i>o</i><i>d</i><i>u</i><i>l</i><i>a</i><i>r</i></span>?</span></h1>
+      <p class="deck">Pick a product. Slide to take it apart. See what the flexibility costs.</p>
+    </header>
+    <nav class="products" id="products" aria-label="Choose a product"></nav>
+  </div>
+
+  <main class="layout">
+    <div class="left">
+      <div class="stage" id="stage">
+        <canvas id="cvSoft" aria-hidden="true"></canvas>
+        <canvas id="cvGL" aria-hidden="true" style="display:none"></canvas>
+        <div class="readout" aria-hidden="true">
+          <div class="rl"><span>Flexibility</span><b><span id="roFlex">1.0</span><small> / 10</small></b></div>
+          <div class="rbar"><i id="roBar"></i></div>
+          <div id="roCfg">1 configuration</div>
+        </div>
+        <div class="hint" id="hint">Drag to turn. Tap a part.</div>
+        <div class="basic" id="basicNote" hidden>Basic 3D mode</div>
+        <div class="partlabel" id="partLabel" role="status" aria-live="polite" hidden></div>
+        <button type="button" class="viewbtn" id="resetView" aria-label="Reset the view" title="Reset the view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4v5h5"/></svg></button>
+      </div>
+
+      <div class="sliderbox">
+        <div class="ends"><button type="button" class="term" data-term="integrated">Integrated</button><button type="button" class="term" data-term="modular">Modular</button></div>
+        <div class="trackwrap">
+          <svg id="trackSvg" viewBox="0 0 400 14" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <input type="range" id="slider" min="0" max="100" step="1" value="0" aria-label="Design position, from integrated on the left to modular on the right">
+        </div>
+        <div class="anchors" id="anchors"></div>
+      </div>
+
+      <section class="where" aria-live="polite">
+        <h2 id="whereTitle"></h2>
+        <p id="whereText"></p>
+      </section>
+    </div>
+
+    <div class="right" id="panels">
+      <section class="panel" aria-labelledby="hFlex">
+        <div class="flexhead">
+          <div>
+            <h2 id="hFlex">Flexibility</h2>
+            <p class="sub">How many things the same parts can become.</p>
+          </div>
+          <div class="flexnum" aria-live="off"><span id="flexNum">1.0</span><small>/ 10</small></div>
+        </div>
+        <div class="ruler" role="img" id="flexRuler" aria-label="Flexibility 1 out of 10"><i id="flexFill"></i></div>
+        <div class="rulernums" aria-hidden="true"><span>0</span><span>5</span><span>10</span></div>
+        <p class="flexwhy" id="flexWhy"></p>
+        <p class="cfg"><span id="cfgFormula"></span> <span class="eq">=</span> <span id="cfgTotal"></span> <button type="button" class="term" data-term="configuration" id="cfgWord">configurations</button></p>
+        <p class="stock" id="stockLine"></p>
+        <ul class="mods" id="mods"></ul>
+      </section>
+
+      <section class="panel scores" aria-labelledby="hCost">
+        <h2 id="hCost" class="h2icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="#D55E00"/><path d="M7 12h10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>What it costs</h2>
+        <p class="sub">Striped bars. Longer means more cost or effort for the company.</p>
+        <ul id="costRows"></ul>
+      </section>
+
+      <section class="panel scores" aria-labelledby="hBen">
+        <h2 id="hBen" class="h2icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="#0072B2"/><path d="M7 12h10M12 7v10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>What you get</h2>
+        <p class="sub">Solid bars. Longer means more benefit.</p>
+        <ul id="benRows"></ul>
+      </section>
+
+      <section class="take" aria-live="polite">
+        <h2>Takeaway</h2>
+        <p id="takeaway"></p>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="act" id="btnCompare" aria-expanded="false" aria-controls="compare"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Compare all three</button>
+        <button type="button" class="act primary" id="btnSave"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Save this view</button>
+        <button type="button" class="act" id="btnCopy"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copy LinkedIn post</button>
+      </div>
+
+      <section class="compare" id="compare" hidden aria-labelledby="hCmp">
+        <h2 id="hCmp">All three, side by side</h2>
+        <p class="sub" id="cmpSub"></p>
+        <div id="cmpBody"></div>
+      </section>
+    </div>
+  </main>
+
+  <section class="notes" aria-labelledby="hNotice">
+    <h2 id="hNotice">What to notice</h2>
+    <ul class="notice">
+      <li><h3>Choices multiply. Parts only add.</h3><p>Four modules with 4, 3, 2 and 4 options make 4 × 3 × 2 × 4 = 96 products from 4 + 3 + 2 + 4 = 13 kinds of part. That is how a modular maker offers variety without filling a warehouse.</p></li>
+      <li><h3>Unit cost can go either way.</h3><p>In electronics, sealing parts in is the cheap end. In furniture and cabinets, modular is the cheap end, because standard flat parts are cheap to make, ship and store.</p></li>
+      <li><h3>Waiting is the other way to avoid stock.</h3><p>Made-to-order furniture and custom cabinets carry little finished stock too, but the customer waits. Shared parts give low stock risk and a short wait together.</p></li>
+    </ul>
+    <p class="about"><strong>About the scores.</strong> Every score on this page (flexibility out of 10, costs and benefits out of 5) is an illustrative judgment based on the reason printed beside it. They are for comparing positions, not measurements. The option counts (4, 3, 2 and 4) and the 3D models are teaching examples, not catalogue data. Facts about real companies carry a citation. Between two anchors, scores are blended in a straight line from the nearest two.</p>
+  </section>
+
+  <section class="refs" aria-labelledby="hRefs">
+    <h2 id="hRefs">References</h2>
+    <ol>
+      <li id="r-apple-mac">Apple. (2026a, September 21). <i>Upgrade or install memory in your Mac mini</i>. Apple Support. Retrieved November 14, 2026, from <a href="https://support.apple.com/en-ca/102328">https://support.apple.com/en-ca/102328</a></li>
+      <li id="r-apple-iphone">Apple. (2026b, October 23). <i>iPhone introduction</i> [Repair manual]. Apple Support. Retrieved November 14, 2026, from <a href="https://support.apple.com/en-ca/125146">https://support.apple.com/en-ca/125146</a></li>
+      <li id="r-canadel">Canadel. (n.d.). <i>Canadel store in Ottawa</i>. Retrieved November 14, 2026, from <a href="https://canadel.com/canadel-stores/ottawa/?lang=en">https://canadel.com/canadel-stores/ottawa/?lang=en</a></li>
+      <li id="r-croxton">Croxton, J. (2023, July 19). <i>E-bike brand VanMoof declared bankrupt</i>. Cyclingnews. Retrieved November 14, 2026, from <a href="https://www.cyclingnews.com/news/e-bike-brand-vanmoof-declared-bankrupt">https://www.cyclingnews.com/news/e-bike-brand-vanmoof-declared-bankrupt</a></li>
+      <li id="r-dell">Dell. (2026, October 9). <i>Upgrades to consider for your Dell computer</i> (Article No. 000191108). Dell Support. Retrieved November 14, 2026, from <a href="https://www.dell.com/support/kbdoc/en-ca/000191108/upgrades-to-consider-for-your-dell-computer">https://www.dell.com/support/kbdoc/en-ca/000191108/upgrades-to-consider-for-your-dell-computer</a></li>
+      <li id="r-fairphone">Fairphone. (n.d.). <i>The Fairphone (Gen. 6)</i>. Retrieved November 14, 2026, from <a href="https://www.fairphone.com/the-fairphone-gen-6">https://www.fairphone.com/the-fairphone-gen-6</a></li>
+      <li id="r-feitzinger">Feitzinger, E., &amp; Lee, H. L. (1997). Mass customization at Hewlett-Packard: The power of postponement. <i>Harvard Business Review, 75</i>(1), 116–121.</li>
+      <li id="r-fisher">Fisher, M. L. (1997). What is the right supply chain for your product? <i>Harvard Business Review, 75</i>(2), 105–116.</li>
+      <li id="r-framework">Framework. (2025, February 25). <i>Introducing the Framework Desktop</i> [Online forum post]. Framework Community. Retrieved November 14, 2026, from <a href="https://community.frame.work/t/introducing-the-framework-desktop/65008">https://community.frame.work/t/introducing-the-framework-desktop/65008</a></li>
+      <li id="r-giant">Giant Bicycles. (n.d.). <i>D-Fuse composite seatpost</i>. Retrieved November 14, 2026, from <a href="https://www.giant-bicycles.com/au/d-fuse-composite-seatpost">https://www.giant-bicycles.com/au/d-fuse-composite-seatpost</a></li>
+      <li id="r-westbros">Hofmann, A. (2026, May 25). <i>What makes quality wood furniture last?</i> West Bros Furniture. Retrieved November 14, 2026, from <a href="https://www.westbrosfurniture.com/blogs/journal/what-makes-quality-wood-furniture-last">https://www.westbrosfurniture.com/blogs/journal/what-makes-quality-wood-furniture-last</a></li>
+      <li id="r-homedepot">The Home Depot Canada. (n.d.). <i>How to buy kitchen cabinets: Buying guide</i>. Retrieved November 14, 2026, from <a href="https://www.homedepot.ca/en/home/ideas-how-to/kitchen/how-to-buy-kitchen-cabinets.html">https://www.homedepot.ca/en/home/ideas-how-to/kitchen/how-to-buy-kitchen-cabinets.html</a></li>
+      <li id="r-ikea-ca">IKEA Canada. (n.d.). <i>How to choose kitchen cabinets and cabinet interiors</i>. Retrieved November 14, 2026, from <a href="https://www.ikea.com/ca/en/rooms/kitchen/how-to/how-to-choose-kitchen-cabinets-and-cabinet-interiors-pubde8f91e0">https://www.ikea.com/ca/en/rooms/kitchen/how-to/how-to-choose-kitchen-cabinets-and-cabinet-interiors-pubde8f91e0</a></li>
+      <li id="r-ikea-museum">IKEA Museum. (n.d.). <i>How IKEA took flatpacks to a whole new level</i>. Retrieved November 14, 2026, from <a href="https://ikeamuseum.com/en/explore/the-story-of-ikea/flatpacks/">https://ikeamuseum.com/en/explore/the-story-of-ikea/flatpacks/</a></li>
+      <li id="r-kraftmaid">KraftMaid. (2022, June 23). <i>What are standard kitchen cabinet sizes?</i> Retrieved November 14, 2026, from <a href="https://www.kraftmaid.com/kraftmaid/kitchen-cabinet-sizes">https://www.kraftmaid.com/kraftmaid/kitchen-cabinet-sizes</a></li>
+      <li id="r-samsung">Samsung. (n.d.). <i>Galaxy XCover7 Pro: Specifications</i>. Samsung Mobile Press. Retrieved November 14, 2026, from <a href="https://www.samsungmobilepress.com/media-assets/galaxy-xcover7-pro?tab=specs">https://www.samsungmobilepress.com/media-assets/galaxy-xcover7-pro?tab=specs</a></li>
+      <li id="r-schmitz">Schmitz, R. (2023, August 23). <i>The downfall of e-bike company VanMoof has left its customers stranded</i> [Radio broadcast transcript]. NPR. Retrieved November 14, 2026, from <a href="https://www.npr.org/2023/08/23/1195541570/the-downfall-of-e-bike-company-vanmoof-has-left-its-customers-stranded">https://www.npr.org/2023/08/23/1195541570/the-downfall-of-e-bike-company-vanmoof-has-left-its-customers-stranded</a></li>
+      <li id="r-simchi">Simchi-Levi, D., Kaminsky, P., &amp; Simchi-Levi, E. (2022). <i>Designing and managing the supply chain: Concepts, strategies and case studies</i> (4th ed.). McGraw Hill.</li>
+      <li id="r-surly">Surly Bikes. (n.d.). <i>Steamroller frameset</i>. Retrieved November 14, 2026, from <a href="https://surlybikes.com/products/steamroller-frameset-anxious-lavender">https://surlybikes.com/products/steamroller-frameset-anxious-lavender</a></li>
+      <li id="r-ulrich">Ulrich, K. (1995). The role of product architecture in the manufacturing firm. <i>Research Policy, 24</i>(3), 419–440.</li>
+    </ol>
+  </section>
+
+  <footer class="foot">
+    <p>Built by Mark Fourmanovskis, a supply chain management student at Seneca Polytechnic. The ideas of modular design, postponement and risk pooling follow Simchi-Levi et al. (2022, Chapter 10), Ulrich (1995), Fisher (1997) and Feitzinger and Lee (1997).</p>
+    <a href="https://www.linkedin.com/in/mark-fourmanovskis/">LinkedIn</a><a href="https://github.com/markfourman">GitHub</a>
+  </footer>
+</div>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<div class="modal" id="modal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle"></h2>
+    <div id="modalBody"></div>
+    <div class="actions" id="modalActions"></div>
+  </div>
+</div>
+<noscript><p style="padding:16px">This page needs JavaScript to draw the 3D models and update the scores.</p></noscript>
+
+<script>
+(function(){
+'use strict';
+
+var LIVE_URL='https://markfourman.github.io/integrated-vs-modular-slider/';
+var PI=Math.PI;
+var MODCOL=['#56B4E9','#E69F00','#F0E442','#CC79A7'];
+var MODLET=['A','B','C','D'];
+var MAT='#1D3B47';
+var THREE_URLS=[
+  'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js',
+  'https://unpkg.com/three@0.128.0/build/three.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'
+];
+
+/* ---------- geometry helpers ---------- */
+function B(w,h,d,x,y,z,rx,ry,rz){return {s:'b',sz:[w,h,d],p:[x,y,z],r:[rx||0,ry||0,rz||0]};}
+function C(rad,len,x,y,z,axis,seg){
+  var r=axis==='x'?[0,0,PI/2]:(axis==='z'?[PI/2,0,0]:[0,0,0]);
+  return {s:'c',rad:rad,len:len,seg:seg||14,p:[x,y,z],r:r};
+}
+function T(x1,y1,x2,y2,th,z,dz){
+  var dx=x2-x1,dy=y2-y1,L=Math.sqrt(dx*dx+dy*dy);
+  return B(L,th,dz||th,(x1+x2)/2,(y1+y2)/2,z||0,0,0,Math.atan2(dy,dx));
+}
+function fx(prim,col){prim.fx=col;return prim;}
+function part(name,o,prims){o.n=name;o.prims=prims;return o;}
+
+function buildDesktop(){
+  var a=[],i,sy=[.85,.85,-.85,-.85],sz=[.85,-.85,.85,-.85],scr=[];
+  a.push(part('Case frame',{rel:9,lock:'part of the sealed body',free:'holds everything, with standard mounting points'},[
+    B(.06,2,2,-.47,0,0),B(.88,.06,2,0,.97,0),B(.88,.06,2,0,-.97,0),B(.88,1.88,.06,0,0,-.97)]));
+  a.push(part('Side panel',{rel:.2,out:[2.35,0,0],lock:'part of the sealed body',free:'comes off for access'},[B(.06,2,2,.47,0,0)]));
+  a.push(part('Front panel',{rel:.85,out:[0,0,.7],lock:'part of the sealed body',free:'unclips from the frame'},[B(.88,1.44,.06,0,.22,.97),fx(C(.055,.02,.26,.78,1.0,'z',12),'#16222B')]));
+  a.push(part('Port card',{m:3,rel:.9,out:[-.14,0,1.3]},[B(.44,.44,.5,-.22,-.72,.75),fx(B(.24,.08,.02,-.22,-.72,1.0),'#16222B')]));
+  a.push(part('Port card',{m:3,rel:.9,out:[.14,0,1.3]},[B(.44,.44,.5,.22,-.72,.75),fx(B(.24,.08,.02,.22,-.72,1.0),'#16222B')]));
+  a.push(part('Mainboard',{rel:.95,out:[.32,0,0],col:'#3E7A5E',lock:'one board with everything attached',free:'standard size, can be replaced'},[B(.04,1.6,1.6,-.41,0,-.05)]));
+  a.push(part('Memory',{m:1,rel:.4,out:[1.75,.3,0]},[B(.3,.7,.05,-.24,.45,.28),B(.3,.7,.05,-.24,.45,.42)]));
+  a.push(part('Storage drive',{m:0,rel:.2,out:[1.5,-.05,.25]},[B(.12,.5,.7,.15,-.6,.1)]));
+  a.push(part('Graphics card',{m:2,rel:.7,out:[1.85,0,0]},[B(.7,.16,1.2,0,-.12,-.15)]));
+  a.push(part('Power supply',{rel:.8,out:[1.55,.45,-.25],col:'#8A97A3',lock:'built in',free:'standard size, can be replaced'},[B(.6,.45,.75,.1,.68,-.5)]));
+  a.push(part('Cooling fan',{rel:.7,out:[0,0,-.95],col:'#66757F',lock:'built in',free:'standard size, can be replaced'},[C(.33,.1,0,.1,-.86,'z',16)]));
+  for(i=0;i<4;i++)scr.push(C(.04,.12,.5,sy[i],sz[i],'x',8));
+  a.push(part('Screws',{rel:.25,fast:true,out:[2.75,0,0],col:'#F4F6F8',free:'standard screws hold the panel on'},scr));
+  return a;
+}
+
+function buildFurniture(){
+  var a=[],t=.12,i,lx=[-.95,.95,-.95,.95],lz=[.33,.33,-.33,-.33],legs=[],dw;
+  a.push(part('Centre divider',{rel:9,lock:'glued into the unit',free:'fixed with dowels'},[B(t,2.16,1,0,0,0)]));
+  a.push(part('Side panel',{m:3,rel:.9,out:[-.8,0,0]},[B(t,2.4,1,-1.14,0,0)]));
+  a.push(part('Side panel',{m:3,rel:.9,out:[.8,0,0]},[B(t,2.4,1,1.14,0,0)]));
+  a.push(part('Top panel',{m:3,rel:.9,out:[0,.7,0]},[B(2.16,t,1,0,1.14,0)]));
+  a.push(part('Bottom panel',{m:3,rel:.9,out:[0,-.45,0]},[B(2.16,t,1,0,-1.14,0)]));
+  a.push(part('Shelf',{m:2,rel:.7,out:[0,0,1.3]},[B(1.02,t,1,-.57,0,0)]));
+  a.push(part('Shelf',{m:2,rel:.7,out:[0,0,1.3]},[B(1.02,t,1,.57,0,0)]));
+  a.push(part('Back panel',{rel:.8,out:[0,0,-.9],col:'#EAD9BD',lock:'glued into the unit',free:'thin board that slots in'},[B(2.16,2.16,.04,0,0,-.46)]));
+  a.push(part('Door',{m:1,rel:.4,out:[-.1,0,1.95]},[B(1.02,1.02,.06,-.57,-.57,.47),C(.045,.06,-.2,-.57,.53,'z',10)]));
+  a.push(part('Storage insert',{m:1,rel:.4,out:[.1,0,2.35]},[B(.96,.62,.86,.57,.37,.05)]));
+  for(i=0;i<4;i++)legs.push(C(.07,.3,lx[i],-1.35,lz[i],'y',10));
+  a.push(part('Legs',{m:0,rel:.2,out:[0,-.55,0]},legs));
+  dw=[];for(i=0;i<2;i++)dw.push(C(.035,.26,-1.08,1.14,i?-.3:.3,'x',8));
+  a.push(part('Dowels',{rel:.9,fast:true,out:[-.4,.7,0],col:'#F1E3C8',free:'wooden pins that line up the panels'},dw));
+  dw=[];for(i=0;i<2;i++)dw.push(C(.035,.26,1.08,1.14,i?-.3:.3,'x',8));
+  a.push(part('Dowels',{rel:.9,fast:true,out:[.4,.7,0],col:'#F1E3C8',free:'wooden pins that line up the panels'},dw));
+  dw=[];for(i=0;i<2;i++)dw.push(C(.035,.26,-1.08,-1.14,i?-.3:.3,'x',8));
+  a.push(part('Dowels',{rel:.9,fast:true,out:[-.4,-.45,0],col:'#F1E3C8',free:'wooden pins that line up the panels'},dw));
+  dw=[];for(i=0;i<2;i++)dw.push(C(.035,.26,1.08,-1.14,i?-.3:.3,'x',8));
+  a.push(part('Dowels',{rel:.9,fast:true,out:[.4,-.45,0],col:'#F1E3C8',free:'wooden pins that line up the panels'},dw));
+  return a;
+}
+
+function buildPhone(){
+  var a=[],i,sx=[-.62,.62,-.62,.62],sy=[1.36,1.36,-1.36,-1.36],scr=[];
+  a.push(part('Frame',{rel:9,lock:'one sealed shell',free:'every part screws into it'},[
+    B(.08,3,.2,-.71,0,0),B(.08,3,.2,.71,0,0),B(1.34,.08,.2,0,1.46,0),B(1.34,.08,.2,0,-1.46,0)]));
+  a.push(part('Main board',{rel:9,col:'#3E7A5E',lock:'chips fixed to one board',free:'the one part that is not a swap-in module'},[B(1.34,2.84,.03,0,0,.07)]));
+  a.push(part('Screen',{rel:.85,out:[0,0,1.15],fixed:'#16222B',lock:'glued to the frame',free:'unscrews for repair'},[B(1.5,3,.05,0,0,.125)]));
+  a.push(part('Back cover',{rel:.2,out:[0,0,-1.9],lock:'glued shut',free:'comes off for access'},[B(1.5,3,.05,0,0,-.125)]));
+  a.push(part('Battery',{m:0,rel:.3,out:[0,0,-1.05]},[B(1,1.5,.1,.05,-.35,-.03)]));
+  a.push(part('Storage card',{m:1,rel:.45,out:[-1.0,0,0]},[B(.34,.44,.03,-.5,.75,-.03)]));
+  a.push(part('Camera',{m:2,rel:.7,out:[0,.2,-.8]},[B(.52,.52,.1,.36,1.05,-.04),fx(C(.15,.1,.36,1.05,-.16,'z',16),'#16222B')]));
+  a.push(part('Charging port',{rel:.8,out:[0,-.8,-.45],col:'#8A97A3',lock:'fixed to the main board',free:'a small replaceable module'},[B(.42,.2,.1,0,-1.3,-.03)]));
+  for(i=0;i<4;i++)scr.push(C(.04,.07,sx[i],sy[i],-.16,'z',8));
+  a.push(part('Screws',{rel:.25,fast:true,out:[0,0,-2.25],col:'#F4F6F8',free:'standard screws instead of glue'},scr));
+  a.push(part('Back add-on',{m:3,rel:.9,fast:true,out:[0,0,-2.5]},[B(1,.8,.04,.1,-.8,-.17)]));
+  return a;
+}
+
+function wheelPrims(cx,cy,R){
+  var pr=[],N=16,i,an,seg=2*R*Math.tan(PI/N)*1.04;
+  for(i=0;i<N;i++){an=i*2*PI/N;pr.push(B(seg,.1,.09,cx+R*Math.cos(an),cy+R*Math.sin(an),0,0,0,an+PI/2));}
+  for(i=0;i<4;i++){pr.push(B(2*R-.08,.028,.028,cx,cy,0,0,0,i*PI/4));}
+  pr.push(C(.09,.18,cx,cy,0,'z',10));
+  return pr;
+}
+function buildBike(){
+  var a=[],R=.88,RA=[-1.45,0],FA=[1.45,0],BBx=-.2,BBy=-.06,STx=-.6,STy=1.05,HTx=.9,HTy=1.1,HBx=.98,HBy=.8;
+  var dx=HTx-HBx,dy=HTy-HBy,L=Math.sqrt(dx*dx+dy*dy),ux=dx/L,uy=dy/L;
+  var mx=(BBx+HBx)/2,my=(BBy+HBy)/2,ang=Math.atan2(HBy-BBy,HBx-BBx),dl=Math.sqrt((HBx-BBx)*(HBx-BBx)+(HBy-BBy)*(HBy-BBy));
+  a.push(part('Frame',{rel:9,lock:'one piece, with the electronics inside',free:'bare frame with standard fittings'},[
+    T(BBx,BBy,STx,STy,.09),T(STx,STy,HTx,HTy,.09),T(BBx,BBy,HBx,HBy,.2,0,.16),
+    T(HBx-ux*.07,HBy-uy*.07,HTx+ux*.07,HTy+uy*.07,.12),
+    T(BBx,BBy,RA[0],RA[1],.055,.09),T(BBx,BBy,RA[0],RA[1],.055,-.09),
+    T(STx,STy,RA[0],RA[1],.05,.09),T(STx,STy,RA[0],RA[1],.05,-.09)]));
+  a.push(part('Fork',{rel:.8,out:[.28,0,0],lock:'part of the frame set',free:'standard steering fitting'},[
+    T(HBx,HBy,FA[0],FA[1],.06,.09),T(HBx,HBy,FA[0],FA[1],.06,-.09),B(.1,.08,.26,HBx,HBy-.02,0)]));
+  a.push(part('Front wheel',{m:0,rel:.25,out:[.8,0,0],noEdge:true},wheelPrims(FA[0],FA[1],R)));
+  a.push(part('Rear wheel',{m:0,rel:.25,out:[-.8,0,0],noEdge:true},wheelPrims(RA[0],RA[1],R)));
+  a.push(part('Gears and chain',{m:1,rel:.4,out:[0,-.2,.95]},[
+    C(.2,.03,BBx,BBy,.13,'z',14),T(BBx,BBy,BBx+.06,BBy-.36,.05,.18,.03),B(.16,.04,.1,BBx+.06,BBy-.36,.25),
+    C(.09,.03,RA[0],RA[1],.13,'z',10),
+    T(BBx,BBy+.2,RA[0],RA[1]+.09,.022,.13),T(BBx,BBy-.2,RA[0],RA[1]-.09,.022,.13)]));
+  a.push(part('Handlebar and stem',{m:2,rel:.7,out:[.2,.6,0]},[
+    T(HTx+ux*.07,HTy+uy*.07,1.0,1.4,.07),B(.07,.07,1,1.02,1.42,0),
+    fx(B(.09,.09,.2,1.02,1.42,.4),'#22303A'),fx(B(.09,.09,.2,1.02,1.42,-.4),'#22303A')]));
+  a.push(part('Saddle and seatpost',{m:3,rel:.9,out:[-.12,.65,0]},[
+    T(STx,STy,STx-.08,STy+.43,.06),B(.5,.07,.2,STx-.1,STy+.47,0)]));
+  a.push(part('Battery',{rel:.75,inside:true,out:[.25,-.6,.55],col:'#A9BAC6',lock:'sealed inside the frame',free:'slides out as a standard pack (on e-bikes)'},[
+    B(dl*.72,.12,.1,mx,my,0,0,0,ang)]));
+  return a;
+}
+
+function buildCabinets(){
+  var a=[],i,xs=[-1,0,1],sx=[-.3,0,.3],ys=[.5,.05,-.45];
+  for(i=0;i<3;i++)a.push(part('Cabinet box',{m:3,rel:.9,out:[sx[i],0,0]},[B(1,1.4,1,xs[i],0,0)]));
+  a.push(part('Worktop',{rel:.8,out:[0,.65,0],col:'#B7A183',lock:'fitted across the whole run',free:'lifts off and is cut to length'},[B(3.1,.08,1.12,0,.74,.03)]));
+  a.push(part('Base strip',{rel:.85,out:[0,0,1.05],col:'#8A97A3',lock:'built in',free:'clips on to hide the legs'},[B(3,.2,.9,0,-.8,-.05)]));
+  a.push(part('Door',{m:1,rel:.4,out:[-.3,0,1.2]},[B(1,1.4,.06,-1,0,.53)]));
+  a.push(part('Drawer fronts',{m:1,rel:.4,out:[0,0,1.2]},[B(1,.4,.06,0,.5,.53),B(1,.5,.06,0,.05,.53),B(1,.5,.06,0,-.45,.53)]));
+  a.push(part('Door',{m:1,rel:.4,out:[.3,0,1.2]},[B(1,1.4,.06,1,0,.53)]));
+  a.push(part('Handle',{m:0,rel:.25,fast:true,out:[-.3,0,1.75]},[B(.045,.36,.045,-.6,.3,.585)]));
+  a.push(part('Handles',{m:0,rel:.25,fast:true,out:[0,0,1.75]},[B(.36,.045,.045,0,ys[0],.585),B(.36,.045,.045,0,ys[1],.585),B(.36,.045,.045,0,ys[2],.585)]));
+  a.push(part('Handle',{m:0,rel:.25,fast:true,out:[.3,0,1.75]},[B(.045,.36,.045,.6,.3,.585)]));
+  a.push(part('Shelves',{m:2,rel:.7,inside:true,out:[-.3,0,.85]},[B(.88,.04,.86,-1,.1,0),B(.88,.04,.86,-1,-.3,0)]));
+  a.push(part('Drawer boxes',{m:2,rel:.7,inside:true,out:[0,0,.85]},[B(.86,.26,.84,0,.48,0),B(.86,.3,.84,0,.03,0),B(.86,.3,.84,0,-.47,0)]));
+  a.push(part('Pull-out rack',{m:2,rel:.7,inside:true,out:[.3,0,.85]},[B(.3,1.1,.84,1,0,0)]));
+  return a;
+}
+
+/* ---------- content ---------- */
+var ICONS={
+  desktop:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="1.5"/><path d="M10 7h4M10 10h4"/><circle cx="12" cy="16.5" r="1.2"/></svg>',
+  furniture:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="15" rx="1"/><path d="M12 3.5v15M4 11h16M6.5 18.5V21M17.5 18.5V21"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg>',
+  bike:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="16" r="3.5"/><circle cx="18.5" cy="16" r="3.5"/><path d="M5.5 16l4-7h6l3.5 7M9.5 9l3 7 3-7M8 9h3M15 6.5h2"/></svg>',
+  cabinets:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M9 5v14M15 5v14M3 3.5h18M6.5 11v2M17.5 11v2M11 9h2M11 12h2M11 15h2"/></svg>'
+};
+
+var P=[
+{id:'desktop',name:'Desktop PC',short:'Desktop',noun:'desktop PC',sealed:'#C9CED4',neutral:'#DDE3E8',yaw:-.68,pitch:.34,build:buildDesktop,
+ mods:[{n:'Storage drive',o:3,rel:.2},{n:'Memory',o:4,rel:.4},{n:'Graphics card',o:2,rel:.7},{n:'Port cards',o:4,rel:.9}],
+ anchors:[
+  {tick:'Mac mini',label:'Sealed and compact',ex:"Apple's Mac mini. Apple says the memory is built into the chip package and can't be upgraded, so you choose it when you buy {c:r-apple-mac|Apple, 2026a}."},
+  {tick:'Dell tower',label:'Standard parts, some brand-only',ex:"Dell desktops. Dell says storage, memory and often the graphics card can be upgraded, but not the motherboard, because upgrade boards are generally not available {c:r-dell|Dell, 2026}."},
+  {tick:'Custom-built PC',label:'Built from standard parts',ex:"A PC assembled from standard parts. Framework's Desktop uses a standard-size main board (Mini-ITX) and swappable front port cards, though its memory is soldered on to reach the speed its chip needs {c:r-framework|Framework, 2025}."}],
+ flex:[1,6,10],
+ cost:[
+  {v:[5,3,2],why:["Board, chips and case are all designed in-house to fit one sealed unit.","Mostly standard parts, plus the maker's own board and case.","The {t:interface|connections} are shared industry standards, so that design work is already done."]},
+  {v:[2,3,4],why:["One board with few sockets and connectors is cheap to make in huge numbers.","Standard parts are cheap. Brand-only parts add some cost.","Every socket, connector and separate casing adds a little cost."]},
+  {v:[2,3,4],why:["Few versions to support, but a fault can mean replacing the whole board.","A known parts list, with a mix of standard and brand-only spares.","Many part combinations to stock, test and troubleshoot."]}],
+ ben:[
+  {v:[2,3,5],why:["You choose from a few set versions when you buy.","Pick memory, storage and graphics from the maker's list.","Mix and match parts from many makers."]},
+  {v:[1,3,5],why:["Memory can't be upgraded later {c:r-apple-mac|Apple, 2026a}.","Memory, storage and often graphics can be upgraded. The board can't {c:r-dell|Dell, 2026}.","Any part can be swapped or upgraded on its own."]},
+  {v:[2,3,5],why:["Each version is a different finished unit that has to be forecast.","Shared parts help. Brand-only parts are tied to one product line.","A few shared parts can become many different PCs. That is {t:pooling|risk pooling}."]},
+  {v:[2,4,5],why:["Special versions are built at the factory, then shipped.","Final assembly can wait until the order arrives. That is {t:postponement|postponement}.","Fit the chosen parts when the order arrives."]}],
+ take:["Compact and sealed. What you buy is what you keep.","A middle path: upgrade the common parts, while the core stays tied to the brand.","The most flexible. You pay with more parts to manage and a little more cost per unit."],
+ catchLine:'every socket and connector adds a little cost and one more thing to support'},
+
+{id:'furniture',name:'Furniture',short:'Furniture',noun:'shelving unit',sealed:'#C9A27A',neutral:'#DCC3A1',yaw:-.6,pitch:.3,build:buildFurniture,
+ mods:[{n:'Legs',o:2,rel:.2},{n:'Doors and inserts',o:3,rel:.4},{n:'Shelves',o:4,rel:.7},{n:'Frame panels',o:4,rel:.9}],
+ anchors:[
+  {tick:'West Bros',label:'Built and glued',ex:"West Bros Furniture in Hanover, Ontario, glues its wood joints (mortise and tenon), which locks them in place {c:r-westbros|Hofmann, 2026}."},
+  {tick:'Canadel',label:'Customized, then built',ex:"Canadel sells Canadian-made custom dining furniture. You customize a piece, then wait: its site lists a production {t:leadtime|lead time} of 4 to 6 weeks for new orders {c:r-canadel|Canadel, n.d.}."},
+  {tick:'IKEA',label:'Flat-pack with standard fittings',ex:"IKEA put three flat-pack tables in its 1953 catalogue. Flat, stackable packs fit far more product into trucks and warehouses {c:r-ikea-museum|IKEA Museum, n.d.}."}],
+ flex:[1,5,9],
+ cost:[
+  {v:[2,3,5],why:["Proven joinery. Little system design is needed.","A menu of sizes, legs and finishes has to be designed to combine.","Every piece must pack flat, use standard fittings and be buildable at home."]},
+  {v:[5,4,1],why:["Skilled labour, and a full-size piece is bulky to ship and store.","Built one order at a time.","Flat packs fill trucks and shelves densely {c:r-ikea-museum|IKEA Museum, n.d.}, and the customer does the assembly."]},
+  {v:[1,3,4],why:["One finished piece. Nothing to assemble or get wrong.","Each order's options must be tracked through the factory.","Fittings, instructions and missing-part requests to manage."]}],
+ ben:[
+  {v:[2,4,4],why:["What the maker built is what you get.","A wide menu, but you choose once, before it is built.","Combine frames, shelves, doors and legs from stock."]},
+  {v:[3,3,4],why:["Built to last, but a broken part means a workshop repair.","Sturdy, but parts are specific to your order.","Replace a damaged panel or add a door without replacing the unit."]},
+  {v:[2,4,5],why:["Finished pieces in every style are bulky and risky to stock.","Built after the order, so little finished stock. The customer waits instead.","Shared panels and fittings serve many products, so stock is pooled ({t:pooling|risk pooling})."]},
+  {v:[1,2,5],why:["A change means building a new piece.","Made to order, so the {t:leadtime|lead time} is the factory's build time.","Pick the parts off the shelf and take them home."]}],
+ take:["Solid and finished. Changing it later means a new piece.","You get your own combination, and you wait while it is built.","Low cost and ready today. The assembly work moves to you."],
+ catchLine:'the design work is harder and the assembly moves to the customer'},
+
+{id:'phone',name:'Smartphone',short:'Phone',noun:'smartphone',sealed:'#C7CCD2',neutral:'#DDE3E8',yaw:2.5,pitch:.3,build:buildPhone,
+ mods:[{n:'Battery',o:2,rel:.3},{n:'Storage card',o:4,rel:.45},{n:'Camera',o:3,rel:.7},{n:'Back add-on',o:4,rel:.9}],
+ anchors:[
+  {tick:'iPhone',label:'Sealed with adhesive',ex:"Apple's iPhone. Apple sells genuine repair parts, but its repair manual is written for experienced technicians and uses a heated fixture to soften the adhesive under the display {c:r-apple-iphone|Apple, 2026b}."},
+  {tick:'Galaxy XCover',label:'One part swaps by hand',ex:"Samsung's Galaxy XCover7 Pro. Samsung lists the battery as user replaceable {c:r-samsung|Samsung, n.d.}."},
+  {tick:'Fairphone',label:'Built to be opened',ex:"The Fairphone (Gen. 6). Fairphone says owners can replace up to 12 spare parts themselves, and that a single screwdriver opens the phone {c:r-fairphone|Fairphone, n.d.}."}],
+ flex:[1,4,8],
+ cost:[
+  {v:[3,4,5],why:["Parts are packed and glued tightly. No swap-in connections to design.","A sealed design plus one part that must open by hand.","Each module needs its own connector, screws and housing, designed and tested."]},
+  {v:[2,3,4],why:["Glue and tight packing use fewer parts.","A removable battery adds a cover and contacts.","Each module carries its own connector and casing."]},
+  {v:[2,3,4],why:["Few parts for owners to handle. Repairs need trained people and special tools.","Spare batteries become one more product to stock and sell.","Up to 12 spare parts to stock and guide owners through {c:r-fairphone|Fairphone, n.d.}."]}],
+ ben:[
+  {v:[2,3,4],why:["Pick a colour and storage size when you buy.","The same, plus spare batteries to swap in.","Add or change back accessories and replace parts yourself."]},
+  {v:[2,3,5],why:["Repair is possible, but adhesive and special tools stand in the way {c:r-apple-iphone|Apple, 2026b}.","A worn battery swaps by hand {c:r-samsung|Samsung, n.d.}.","Owners can replace up to 12 parts, and one screwdriver opens the phone {c:r-fairphone|Fairphone, n.d.}."]},
+  {v:[2,3,4],why:["Each colour and storage size is its own finished phone to forecast.","One battery type serves every unit. The rest is fixed.","Shared modules serve repairs and new phones from one stock ({t:pooling|risk pooling})."]},
+  {v:[1,2,4],why:["Versions are fixed at the factory.","Only the battery can change after purchase.","Accessories and parts can be added at the last step, or by the owner."]}],
+ take:["Sealed and compact. Repair is a job for a technician.","One part swaps by hand. The rest stays sealed.","Built to be opened. You trade some unit cost and design effort for a longer life."],
+ catchLine:'each module needs its own connector and casing, which adds design work and unit cost'},
+
+{id:'bike',name:'Bicycle',short:'Bicycle',noun:'bicycle',sealed:'#D3D9DE',neutral:'#DDE3E8',yaw:-.42,pitch:.2,build:buildBike,
+ mods:[{n:'Wheels and tyres',o:4,rel:.25},{n:'Gears and chain',o:3,rel:.4},{n:'Handlebar and stem',o:2,rel:.7},{n:'Saddle and seatpost',o:4,rel:.9}],
+ anchors:[
+  {tick:'VanMoof',label:'All-in-one e-bike',ex:"VanMoof e-bikes fit the battery, main board and electronic shifter inside the frame {c:r-schmitz|Schmitz, 2023}. When VanMoof was declared bankrupt on 17 July 2023, spare parts and repair bookings stopped {c:r-croxton|Croxton, 2023}."},
+  {tick:'Giant',label:'Standard parts, some brand-only',ex:"Giant's D-Fuse seatpost is D-shaped and fits only selected Giant and Liv bikes {c:r-giant|Giant Bicycles, n.d.}."},
+  {tick:'Surly frameset',label:'Bare frame, standard fittings',ex:"Surly sells its Steamroller as a frame and fork only. The crank bearings screw into a common 68 mm threaded shell, and riders pick every other part {c:r-surly|Surly Bikes, n.d.}."}],
+ flex:[2,7,10],
+ cost:[
+  {v:[5,3,2],why:["The maker designs its own battery, electronics and fittings.","Mostly bought-in standard parts, plus a few of the brand's own.","Fittings follow shared standards, so most of the design work is already done."]},
+  {v:[4,3,3],why:["Own-design parts are made in smaller numbers.","Standard parts are made in huge volumes for many brands.","Parts are cheap, but building bikes one at a time adds labour."]},
+  {v:[4,2,3],why:["Only the maker can supply parts and do repairs.","Most bike shops can service most of it.","Any shop can fix it, but no two builds are the same."]}],
+ ben:[
+  {v:[1,3,5],why:["A few models and colours.","Models and sizes, with some swaps at the shop.","Choose every part yourself."]},
+  {v:[1,4,5],why:["Parts come only from the maker. After VanMoof's 2023 bankruptcy, repair bookings stopped {c:r-croxton|Croxton, 2023}.","Standard parts swap easily. The brand-only seatpost does not {c:r-giant|Giant Bicycles, n.d.}.","Every part can be replaced or upgraded with a standard one."]},
+  {v:[1,4,5],why:["Own-design spares are useful for one model only.","Standard parts fit many models, so shops can pool stock ({t:pooling|risk pooling}).","One stock of standard parts can build many different bikes."]},
+  {v:[1,3,4],why:["Fixed at the factory.","Swap a saddle or tyres at the shop.","Build to order from parts on the shelf ({t:postponement|postponement})."]}],
+ take:["Sleek and all-in-one. Everything depends on one maker staying in business.","Easy to service almost anywhere, with a few brand-only exceptions.","You choose everything. Someone has to do the choosing and the building."],
+ catchLine:'someone still has to choose, stock and build all those parts'},
+
+{id:'cabinets',name:'Kitchen cabinets',short:'Cabinets',noun:'set of kitchen cabinets',sealed:'#E6E2D9',neutral:'#DDE3E8',yaw:-.55,pitch:.36,build:buildCabinets,
+ mods:[{n:'Handles',o:2,rel:.25},{n:'Doors and fronts',o:3,rel:.4},{n:'Interior fittings',o:4,rel:.7},{n:'Cabinet boxes',o:4,rel:.9}],
+ anchors:[
+  {tick:'Custom-built',label:'Built in as one design',ex:"Custom cabinets are built by hand to fit your kitchen. Delivery can take up to nine or more weeks {c:r-homedepot|The Home Depot Canada, n.d.}."},
+  {tick:'KraftMaid',label:'Standard sizes, set options',ex:"KraftMaid calls itself a semi-custom cabinet company. Its cabinet widths start at 6 inches and go up in 3-inch steps {c:r-kraftmaid|KraftMaid, 2022}."},
+  {tick:'IKEA SEKTION',label:'Standard boxes you combine',ex:"IKEA's SEKTION kitchen system. You combine cabinets that come in a range of heights, widths and depths, then add the fronts and interior fittings you want {c:r-ikea-ca|IKEA Canada, n.d.}."}],
+ flex:[1,5,9],
+ cost:[
+  {v:[3,4,5],why:["Each kitchen is designed fresh, one job at a time.","A catalogue of sizes and options that must all combine.","One system where every box, front and fitting has to fit every other."]},
+  {v:[5,3,1],why:["Built by hand to fit one kitchen at a time {c:r-homedepot|The Home Depot Canada, n.d.}.","Factory-made in standard sizes, with paid extras.","Standard boxes made in large runs."]},
+  {v:[2,3,4],why:["One fixed design. Changes need the cabinetmaker back.","Orders with many options to get right.","Many boxes, fronts and fittings to stock, plan and install correctly."]}],
+ ben:[
+  {v:[5,4,4],why:["Almost anything is possible, but you decide once, before it is built.","Many door styles and finishes within standard sizes.","Many combinations of boxes, fronts and fittings from stock."]},
+  {v:[2,3,5],why:["Changing the layout later means rebuilding.","Doors and handles can be replaced. Box sizes are fixed.","Swap fronts, add a drawer or move a box without starting over."]},
+  {v:[4,4,5],why:["Nothing is built before the order, so no finished stock. The customer waits instead.","Built to order from standard components.","Standard boxes are stocked once and serve every layout ({t:pooling|risk pooling})."]},
+  {v:[1,2,5],why:["Delivery can take up to nine or more weeks {c:r-homedepot|The Home Depot Canada, n.d.}.","Longer {t:leadtime|lead times} than stock cabinets {c:r-homedepot|The Home Depot Canada, n.d.}.","Stock cabinets are often available the same day or within a few days {c:r-homedepot|The Home Depot Canada, n.d.}."]}],
+ take:["Made for one room: exactly what you asked for, slowly, and hard to change.","Standard sizes with your choice of finish. A wait, but less than custom.","Standard boxes, ready quickly and easy to rearrange. Your kitchen has to fit the sizes on offer."],
+ catchLine:'your kitchen has to fit the standard sizes on offer'}
+];
+
+var COSTLAB=[
+  {l:'Design and development cost',tip:'design'},
+  {l:'Unit cost at volume',tip:'unitcost'},
+  {l:'Support and complexity',tip:'support'}];
+var BENLAB=[
+  {l:'Customer choice',tip:'choice'},
+  {l:'Upgrade and repair life',tip:'life'},
+  {l:'Less inventory risk',tip:'pooling'},
+  {l:'Speed to customize',tip:'postponement'}];
+
+var TERMS={
+  integrated:'Integrated: built as one fixed design. Parts are sealed in, or made only for this product.',
+  modular:'Modular: built from separate blocks (modules) that connect in a standard way, so they can be swapped.',
+  interface:'Interface: the standard way two parts connect, like a plug and its socket.',
+  configuration:'Configuration: one specific combination of options, for example one memory size with one drive size.',
+  pooling:'Risk pooling: keeping one shared stock of common parts instead of separate stocks of finished products. Highs and lows in demand partly cancel out, so less spare stock is needed (Simchi-Levi et al., 2022).',
+  postponement:"Postponement: waiting to finish or customize a product until the real order arrives, so less has to be guessed in advance (Feitzinger & Lee, 1997; Simchi-Levi et al., 2022).",
+  leadtime:'Lead time: the wait between placing an order and receiving it.',
+  unitcost:'Unit cost at volume: what each one costs to make when you are making a lot of them.',
+  design:'The up-front work to design the product. Making parts swappable means designing and testing how they connect, unless a shared industry standard already exists.',
+  support:'The effort to stock spare parts, answer questions and fix problems. More separate parts usually means more to manage.',
+  choice:'How much the customer can choose, and how easily.',
+  life:'How easy it is to repair the product or upgrade it later, instead of replacing it.'
+};
+
+/* ---------- small utilities ---------- */
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function rich(s){
+  return esc(s).replace(/\{t:([a-z]+)\|([^}]+)\}/g,function(_,k,x){return '<button type="button" class="term" data-term="'+k+'">'+x+'</button>';})
+    .replace(/\s?\{c:([a-z0-9-]+)\|([^}]+)\}/g,function(_,k,x){return ' <a class="cite" href="#'+k+'">('+x+')</a>';});
+}
+function plain(s){
+  return s.replace(/\{t:[a-z]+\|([^}]+)\}/g,function(_,x){return x;}).replace(/\{c:[a-z0-9-]+\|([^}]+)\}/g,function(_,x){return '('+x+')';});
+}
+function clamp(x,a,b){return x<a?a:(x>b?b:x);}
+function smooth(x){x=clamp(x,0,1);return x*x*(3-2*x);}
+function lerp(a,b,u){return a+(b-a)*u;}
+function hex(h){var n=parseInt(h.slice(1),16);return [(n>>16&255)/255,(n>>8&255)/255,(n&255)/255];}
+function css(c){return 'rgb('+Math.round(clamp(c[0],0,1)*255)+','+Math.round(clamp(c[1],0,1)*255)+','+Math.round(clamp(c[2],0,1)*255)+')';}
+function fmt(v){return (Math.round(v*10)/10).toFixed(1);}
+function word(v){return v<1.8?'Very low':(v<2.6?'Low':(v<3.4?'Medium':(v<4.2?'High':'Very high')));}
+var reduceMotion=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+/* ---------- math for the 3D view ---------- */
+function eulerMat(r){
+  var a=Math.cos(r[0]),b=Math.sin(r[0]),c=Math.cos(r[1]),d=Math.sin(r[1]),e=Math.cos(r[2]),f=Math.sin(r[2]);
+  return [c*e,-c*f,d, a*f+b*d*e,a*e-b*d*f,-b*c, b*f-a*d*e,b*e+a*d*f,a*c];
+}
+function mv(m,v){return [m[0]*v[0]+m[1]*v[1]+m[2]*v[2],m[3]*v[0]+m[4]*v[1]+m[5]*v[2],m[6]*v[0]+m[7]*v[1]+m[8]*v[2]];}
+function norm(v){var l=Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2])||1;return [v[0]/l,v[1]/l,v[2]/l];}
+var LIGHT=norm([-.38,.82,.5]);
+var FOV=30*PI/180;
+
+/* Turn a product definition into a flat list of primitives with cached meshes. */
+function makeModel(p){
+  var parts=p.build(),prims=[],i,j,k,pt,pr,m,R,v,f,rv,fn,c,n,a,b2;
+  for(i=0;i<parts.length;i++){
+    pt=parts[i];
+    pt.own=hex(pt.fixed?pt.fixed:(pt.m!=null?MODCOL[pt.m]:(pt.col||p.neutral)));
+    if(!pt.out)pt.out=[0,0,0];
+    for(j=0;j<pt.prims.length;j++){
+      pr=pt.prims[j];pr.part=i;
+      v=[];f=[];
+      if(pr.s==='b'){
+        var w=pr.sz[0]/2,h=pr.sz[1]/2,d=pr.sz[2]/2;
+        v=[[-w,-h,-d],[w,-h,-d],[w,h,-d],[-w,h,-d],[-w,-h,d],[w,-h,d],[w,h,d],[-w,h,d]];
+        f=[[4,5,6,7],[1,0,3,2],[5,1,2,6],[0,4,7,3],[7,6,2,3],[0,1,5,4]];
+        pr.br=Math.sqrt(w*w+h*h+d*d);
+      }else{
+        var ns=pr.seg,top=[],bot=[],hh=pr.len/2;
+        for(k=0;k<ns;k++){a=k*2*PI/ns;v.push([pr.rad*Math.cos(a),hh,pr.rad*Math.sin(a)]);v.push([pr.rad*Math.cos(a),-hh,pr.rad*Math.sin(a)]);}
+        for(k=0;k<ns;k++){b2=(k+1)%ns;f.push([2*k,2*b2,2*b2+1,2*k+1]);top.push(2*k);bot.push(2*k+1);}
+        f.push(top);f.push(bot);
+        pr.br=Math.sqrt(pr.rad*pr.rad+hh*hh);
+      }
+      R=eulerMat(pr.r);rv=[];
+      for(k=0;k<v.length;k++)rv.push(mv(R,v[k]));
+      fn=[];
+      for(k=0;k<f.length;k++){
+        var q=f[k],p0=rv[q[0]],p1=rv[q[1]],p2=rv[q[2]];
+        n=norm([(p1[1]-p0[1])*(p2[2]-p0[2])-(p1[2]-p0[2])*(p2[1]-p0[1]),(p1[2]-p0[2])*(p2[0]-p0[0])-(p1[0]-p0[0])*(p2[2]-p0[2]),(p1[0]-p0[0])*(p2[1]-p0[1])-(p1[1]-p0[1])*(p2[0]-p0[0])]);
+        c=[0,0,0];for(m=0;m<q.length;m++){c[0]+=rv[q[m]][0];c[1]+=rv[q[m]][1];c[2]+=rv[q[m]][2];}
+        if(n[0]*c[0]+n[1]*c[1]+n[2]*c[2]<0){q.reverse();n=[-n[0],-n[1],-n[2]];}
+        fn.push(n);
+      }
+      pr.rv=rv;pr.f=f;pr.fn=fn;
+      pr.fxc=pr.fx?hex(pr.fx):null;
+      prims.push(pr);
+    }
+  }
+  var model={p:p,parts:parts,prims:prims,sealed:hex(p.sealed)};
+  var b0=frameFor(model,0,-1,-1).bounds,b1=frameFor(model,1,-1,-1).bounds;
+  var minx=Math.min(b0.min[0],b1.min[0]),maxx=Math.max(b0.max[0],b1.max[0]),minz=Math.min(b0.min[2],b1.min[2]),maxz=Math.max(b0.max[2],b1.max[2]);
+  model.mat={cx:(minx+maxx)/2,cz:(minz+maxz)/2,half:Math.max(maxx-minx,maxz-minz)/2*1.12+.5};
+  return model;
+}
+
+/* Where every primitive sits, and what colour it is, at slider position t. */
+function frameFor(model,t,hi,hm){
+  var items=[],i,pr,pt,e,s,col,own,pos,min=[1e9,1e9,1e9],max=[-1e9,-1e9,-1e9],k,edge,g=smooth(t),r;
+  for(i=0;i<model.prims.length;i++){
+    pr=model.prims[i];pt=model.parts[pr.part];
+    if(pt.rel>1){e=0;edge=g*.85;}
+    else{e=smooth((t-(pt.rel-.2))/.2);edge=e;}
+    s=pt.fast?e:1+.006*(1-smooth(t*10));
+    pos=[pr.p[0]+pt.out[0]*e,pr.p[1]+pt.out[1]*e,pr.p[2]+pt.out[2]*e];
+    if(pr.fxc)col=pr.fxc;
+    else if(pt.fixed)col=pt.own;
+    else{own=pt.own;k=pt.rel>1?g:e;col=[lerp(model.sealed[0],own[0],k),lerp(model.sealed[1],own[1],k),lerp(model.sealed[2],own[2],k)];}
+    if(hi===pr.part||(hm>=0&&pt.m===hm))col=[lerp(col[0],1,.4),lerp(col[1],1,.4),lerp(col[2],1,.4)];
+    if(pt.noEdge)edge=0;
+    if(pt.inside&&e<.02)s=0;
+    items.push({pos:pos,s:s,col:col,edge:edge});
+    if(s>.02){
+      r=pr.br*s;
+      for(k=0;k<3;k++){if(pos[k]-r<min[k])min[k]=pos[k]-r;if(pos[k]+r>max[k])max[k]=pos[k]+r;}
+    }
+  }
+  var c=[(min[0]+max[0])/2,(min[1]+max[1])/2,(min[2]+max[2])/2],rad=0,dx,dy,dz,dd,lowY=1e9,rm,ym;
+  for(i=0;i<items.length;i++){
+    if(items[i].s<=.02)continue;
+    pr=model.prims[i];
+    dx=items[i].pos[0]-c[0];dy=items[i].pos[1]-c[1];dz=items[i].pos[2]-c[2];
+    dd=Math.sqrt(dx*dx+dy*dy+dz*dz)+pr.br*items[i].s;if(dd>rad)rad=dd;
+    for(k=0;k<pr.rv.length;k++){ym=items[i].pos[1]+pr.rv[k][1]*items[i].s;if(ym<lowY)lowY=ym;}
+  }
+  return {items:items,bounds:{min:min,max:max,c:c,r:rad,groundY:lowY-.012}};
+}
+
+function camFor(model,fr,aspect,yaw,pitch,ins){
+  var b=fr.bounds,Rv=eulerMat([pitch,yaw,0]),tv=Math.tan(FOV/2),th=tv*aspect,i,k,it,pr,v,vs=[],minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9,ox,oy,dist=0,d;
+  for(i=0;i<fr.items.length;i++){
+    it=fr.items[i];if(it.s<=.02)continue;pr=model.prims[i];
+    for(k=0;k<pr.rv.length;k++){
+      v=mv(Rv,[it.pos[0]+pr.rv[k][0]*it.s-b.c[0],it.pos[1]+pr.rv[k][1]*it.s-b.c[1],it.pos[2]+pr.rv[k][2]*it.s-b.c[2]]);vs.push(v);
+      if(v[0]<minx)minx=v[0];if(v[0]>maxx)maxx=v[0];if(v[1]<miny)miny=v[1];if(v[1]>maxy)maxy=v[1];
+    }
+  }
+  var it2=ins?ins.t:0,ib2=ins?ins.b:0,tve=tv*(1-it2-ib2);
+  ox=(minx+maxx)/2;oy=(miny+maxy)/2;
+  for(i=0;i<vs.length;i++){
+    v=vs[i];
+    d=v[2]+Math.abs(v[0]-ox)/th;if(d>dist)dist=d;
+    d=v[2]+Math.abs(v[1]-oy)/tve;if(d>dist)dist=d;
+  }
+  dist*=1.12;oy-=(ib2-it2)*tv*dist;
+  return {yaw:yaw,pitch:pitch,c:[b.c[0]+Rv[0]*ox+Rv[3]*oy,b.c[1]+Rv[1]*ox+Rv[4]*oy,b.c[2]+Rv[2]*ox+Rv[5]*oy],dist:dist,groundY:b.groundY,r:b.r,mat:model.mat,fov:FOV};
+}
+
+/* ---------- fallback renderer: plain 2D canvas, no WebGL needed ---------- */
+function SoftView(canvas){this.cv=canvas;this.ctx=canvas.getContext('2d');this.sh=document.createElement('canvas');this.polys=[];this.model=null;}
+SoftView.prototype.setModel=function(m){this.model=m;};
+SoftView.prototype.resize=function(w,h,dpr){this.cv.width=Math.round(w*dpr);this.cv.height=Math.round(h*dpr);};
+SoftView.prototype.paint=function(ctx,W,H,fr,cam,keep){
+  var model=this.model,Rv=eulerMat([cam.pitch,cam.yaw,0]),f=(H/2)/Math.tan(cam.fov/2),c=cam.c,i,j,k,pr,it,q,pts,vz,vv,nv,I,col,faces=[],z;
+  function view(p){return mv(Rv,[p[0]-c[0],p[1]-c[1],p[2]-c[2]]);}
+  function proj(v){var zz=cam.dist-v[2];if(zz<.05)zz=.05;return [W/2+f*v[0]/zz,H/2-f*v[1]/zz];}
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.fillStyle=MAT;ctx.fillRect(0,0,W,H);
+  /* cutting-mat grid on the ground */
+  var m=cam.mat,gy=cam.groundY,N=12,a,b2,u;
+  ctx.lineWidth=Math.max(1,W/700);
+  for(i=0;i<=N;i++){
+    u=-m.half+2*m.half*i/N;
+    ctx.strokeStyle=(i===0||i===N)?'rgba(255,255,255,.34)':(i%3===0?'rgba(255,255,255,.2)':'rgba(255,255,255,.1)');
+    a=proj(view([m.cx+u,gy,m.cz-m.half]));b2=proj(view([m.cx+u,gy,m.cz+m.half]));
+    ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b2[0],b2[1]);ctx.stroke();
+    a=proj(view([m.cx-m.half,gy,m.cz+u]));b2=proj(view([m.cx+m.half,gy,m.cz+u]));
+    ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b2[0],b2[1]);ctx.stroke();
+  }
+  /* shadows: every face pushed onto the ground along the light */
+  var sh=this.sh;if(sh.width!==W||sh.height!==H){sh.width=W;sh.height=H;}
+  var sx=sh.getContext('2d');sx.setTransform(1,0,0,1,0,0);sx.clearRect(0,0,W,H);sx.fillStyle='#000';
+  var ng=mv(Rv,[0,1,0]),p0=view([c[0],gy,c[2]]),ln=LIGHT[0]*ng[0]+LIGHT[1]*ng[1]+LIGHT[2]*ng[2];
+  if(ln>.05){
+    for(i=0;i<model.prims.length;i++){
+      pr=model.prims[i];it=fr.items[i];if(it.s<=.02)continue;
+      vv=[];
+      for(k=0;k<pr.rv.length;k++){
+        var pv=view([it.pos[0]+pr.rv[k][0]*it.s,it.pos[1]+pr.rv[k][1]*it.s,it.pos[2]+pr.rv[k][2]*it.s]);
+        var sd=((pv[0]-p0[0])*ng[0]+(pv[1]-p0[1])*ng[1]+(pv[2]-p0[2])*ng[2])/ln;
+        vv.push(proj([pv[0]-LIGHT[0]*sd,pv[1]-LIGHT[1]*sd,pv[2]-LIGHT[2]*sd]));
+      }
+      for(j=0;j<pr.f.length;j++){
+        q=pr.f[j];sx.beginPath();sx.moveTo(vv[q[0]][0],vv[q[0]][1]);
+        for(k=1;k<q.length;k++)sx.lineTo(vv[q[k]][0],vv[q[k]][1]);
+        sx.closePath();sx.fill();
+      }
+    }
+    ctx.globalAlpha=.3;ctx.drawImage(sh,0,0);ctx.globalAlpha=1;
+  }
+  /* solids, back to front. Each block is convex, so the order between two blocks comes from a plane that separates them. */
+  var objs=[],o,A,Bo,r,EPS=.03,x0,x1,y0,y1,zc,nn;
+  for(i=0;i<model.prims.length;i++){
+    pr=model.prims[i];it=fr.items[i];if(it.s<=.02)continue;
+    vv=[];pts=[];x0=y0=1e9;x1=y1=-1e9;zc=0;
+    for(k=0;k<pr.rv.length;k++){
+      vz=view([it.pos[0]+pr.rv[k][0]*it.s,it.pos[1]+pr.rv[k][1]*it.s,it.pos[2]+pr.rv[k][2]*it.s]);vv.push(vz);zc+=vz[2];
+      q=proj(vz);pts.push(q);if(q[0]<x0)x0=q[0];if(q[0]>x1)x1=q[0];if(q[1]<y0)y0=q[1];if(q[1]>y1)y1=q[1];
+    }
+    nn=[];for(j=0;j<pr.fn.length;j++)nn.push(mv(Rv,pr.fn[j]));
+    objs.push({pr:pr,it:it,vv:vv,pts:pts,n:nn,x0:x0,x1:x1,y0:y0,y1:y1,z:zc/pr.rv.length,after:[],indeg:0});
+  }
+  function sep(P1,P2){
+    var a1,b1,n1,q0,mn,dd,cs;
+    for(a1=0;a1<P1.n.length;a1++){
+      n1=P1.n[a1];q0=P1.vv[P1.pr.f[a1][0]];mn=1e9;
+      for(b1=0;b1<P2.vv.length;b1++){
+        dd=n1[0]*(P2.vv[b1][0]-q0[0])+n1[1]*(P2.vv[b1][1]-q0[1])+n1[2]*(P2.vv[b1][2]-q0[2]);
+        if(dd<mn){mn=dd;if(mn<-EPS)break;}
+      }
+      if(mn>=-EPS){cs=-n1[0]*q0[0]-n1[1]*q0[1]+n1[2]*(cam.dist-q0[2]);return cs>0?1:-1;}
+    }
+    return 0;
+  }
+  for(i=0;i<objs.length;i++)for(j=i+1;j<objs.length;j++){
+    A=objs[i];Bo=objs[j];
+    if(A.x1<Bo.x0-1||Bo.x1<A.x0-1||A.y1<Bo.y0-1||Bo.y1<A.y0-1)continue;
+    r=sep(A,Bo);if(!r)r=-sep(Bo,A);if(!r)r=A.z<Bo.z?1:-1;
+    if(r>0){A.after.push(Bo);Bo.indeg++;}else{Bo.after.push(A);A.indeg++;}
+  }
+  var left=objs.slice(),order=[],best,bi;
+  while(left.length){
+    best=-1;
+    for(i=0;i<left.length;i++)if(left[i].indeg<=0&&(best<0||left[i].z<left[best].z))best=i;
+    if(best<0){best=0;for(i=1;i<left.length;i++)if(left[i].z<left[best].z)best=i;}
+    o=left[best];left.splice(best,1);order.push(o);
+    for(i=0;i<o.after.length;i++)o.after[i].indeg--;
+  }
+  ctx.lineJoin='round';
+  for(i=0;i<order.length;i++){
+    o=order[i];pr=o.pr;it=o.it;
+    for(j=0;j<pr.f.length;j++){
+      q=pr.f[j];nv=o.n[j];vz=o.vv[q[0]];
+      if(-nv[0]*vz[0]-nv[1]*vz[1]+nv[2]*(cam.dist-vz[2])<=0)continue;
+      I=.5+.1*nv[1]+.46*Math.max(0,nv[0]*LIGHT[0]+nv[1]*LIGHT[1]+nv[2]*LIGHT[2]);
+      pts=[];for(k=0;k<q.length;k++)pts.push(o.pts[q[k]]);
+      col=css([it.col[0]*I,it.col[1]*I,it.col[2]*I]);
+      ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+      for(k=1;k<pts.length;k++)ctx.lineTo(pts[k][0],pts[k][1]);
+      ctx.closePath();ctx.fillStyle=col;ctx.fill();
+      if(it.edge>.03&&!(pr.s==='c'&&j<pr.f.length-2)){ctx.strokeStyle='rgba(12,26,34,'+(it.edge*.55).toFixed(3)+')';ctx.lineWidth=Math.max(1,W/620);}
+      else{ctx.strokeStyle=col;ctx.lineWidth=1;}
+      ctx.stroke();
+      if(keep)faces.push({pts:pts,part:pr.part});
+    }
+  }
+  if(keep)this.polys=faces;
+};
+SoftView.prototype.draw=function(fr,cam){this.paint(this.ctx,this.cv.width,this.cv.height,fr,cam,true);};
+SoftView.prototype.pick=function(x,y,dpr){
+  var X=x*dpr,Y=y*dpr,i,j,k,p,inside,a,b2;
+  for(i=this.polys.length-1;i>=0;i--){
+    p=this.polys[i].pts;inside=false;
+    for(j=0,k=p.length-1;j<p.length;k=j++){
+      a=p[j];b2=p[k];
+      if(((a[1]>Y)!==(b2[1]>Y))&&(X<(b2[0]-a[0])*(Y-a[1])/(b2[1]-a[1])+a[0]))inside=!inside;
+    }
+    if(inside)return this.polys[i].part;
+  }
+  return -1;
+};
+SoftView.prototype.snapshot=function(w,h,fr,camFn){
+  var c=document.createElement('canvas');c.width=w;c.height=h;
+  this.paint(c.getContext('2d'),w,h,fr,camFn(w/h),false);
+  return c;
+};
+SoftView.prototype.dispose=function(){};
+
+/* ---------- main renderer: Three.js (WebGL) ---------- */
+function GLView(canvas){
+  var T3=window.THREE;
+  this.cv=canvas;
+  this.r=new T3.WebGLRenderer({canvas:canvas,antialias:true,alpha:false});
+  this.r.setClearColor(new T3.Color(MAT),1);
+  this.r.shadowMap.enabled=true;
+  this.r.shadowMap.type=T3.PCFSoftShadowMap;
+  this.scene=new T3.Scene();
+  this.cam=new T3.PerspectiveCamera(30,1,.1,300);
+  this.root=new T3.Group();this.scene.add(this.root);
+  this.scene.add(new T3.HemisphereLight(0xffffff,0x6f8590,.6));
+  this.sun=new T3.DirectionalLight(0xffffff,.46);
+  this.sun.castShadow=true;this.sun.shadow.mapSize.set(1024,1024);this.sun.shadow.bias=-.0006;
+  this.scene.add(this.sun);this.scene.add(this.sun.target);
+  this.ray=new T3.Raycaster();
+  this.meshes=[];this.model=null;this.grid=null;this.ground=null;
+}
+GLView.prototype.clear=function(){
+  var i,o;
+  while(this.root.children.length){
+    o=this.root.children[0];this.root.remove(o);
+    o.traverse(function(n){if(n.geometry)n.geometry.dispose();if(n.material)n.material.dispose();});
+  }
+  this.meshes=[];
+};
+GLView.prototype.setModel=function(model){
+  var T3=window.THREE,i,pr,pt,g,mesh,mat,ed,m=model.mat,N=12,pos=[],colr=[],u,strong,gg;
+  this.clear();this.model=model;
+  for(i=0;i<model.prims.length;i++){
+    pr=model.prims[i];pt=model.parts[pr.part];
+    g=pr.s==='b'?new T3.BoxGeometry(pr.sz[0],pr.sz[1],pr.sz[2]):new T3.CylinderGeometry(pr.rad,pr.rad,pr.len,Math.max(pr.seg,18));
+    mat=new T3.MeshLambertMaterial({color:0xffffff});
+    mesh=new T3.Mesh(g,mat);mesh.rotation.set(pr.r[0],pr.r[1],pr.r[2]);
+    mesh.castShadow=true;mesh.userData.part=pr.part;
+    if(!pt.noEdge){
+      ed=new T3.LineSegments(new T3.EdgesGeometry(g,28),new T3.LineBasicMaterial({color:0x0c1a22,transparent:true,opacity:0}));
+      ed.visible=false;mesh.add(ed);mesh.userData.edges=ed;
+    }
+    this.root.add(mesh);this.meshes.push(mesh);
+  }
+  /* cutting-mat grid */
+  for(i=0;i<=N;i++){
+    u=-m.half+2*m.half*i/N;strong=(i===0||i===N)?.34:(i%3===0?.2:.1);
+    pos.push(m.cx+u,0,m.cz-m.half,m.cx+u,0,m.cz+m.half,m.cx-m.half,0,m.cz+u,m.cx+m.half,0,m.cz+u);
+    colr.push(strong,strong,strong,strong);
+  }
+  gg=new T3.BufferGeometry();gg.setAttribute('position',new T3.Float32BufferAttribute(pos,3));
+  var cols=[],c0=hex(MAT),k;
+  for(i=0;i<colr.length;i++){k=colr[i];cols.push(lerp(c0[0],1,k),lerp(c0[1],1,k),lerp(c0[2],1,k));}
+  gg.setAttribute('color',new T3.Float32BufferAttribute(cols,3));
+  this.grid=new T3.LineSegments(gg,new T3.LineBasicMaterial({vertexColors:true}));
+  this.root.add(this.grid);
+  this.ground=new T3.Mesh(new T3.PlaneGeometry(m.half*6,m.half*6),new T3.ShadowMaterial({opacity:.34}));
+  this.ground.rotation.x=-PI/2;this.ground.position.set(m.cx,0,m.cz);this.ground.receiveShadow=true;
+  this.root.add(this.ground);
+};
+GLView.prototype.resize=function(w,h,dpr){this.r.setPixelRatio(dpr);this.r.setSize(w,h,false);this.cam.aspect=w/h;this.cam.updateProjectionMatrix();};
+GLView.prototype.apply=function(fr,cam){
+  var T3=window.THREE,i,it,me,ed,v,b;
+  for(i=0;i<this.meshes.length;i++){
+    it=fr.items[i];me=this.meshes[i];
+    me.visible=it.s>.02;
+    me.position.set(it.pos[0],it.pos[1],it.pos[2]);
+    me.scale.set(it.s||.001,it.s||.001,it.s||.001);
+    me.material.color.setRGB(it.col[0],it.col[1],it.col[2]);
+    ed=me.userData.edges;
+    if(ed){ed.visible=it.edge>.03;ed.material.opacity=it.edge*.55;}
+  }
+  this.grid.position.y=cam.groundY+.004;this.ground.position.y=cam.groundY;
+  this.root.rotation.set(cam.pitch,cam.yaw,0);
+  v=new T3.Vector3(cam.c[0],cam.c[1],cam.c[2]).applyEuler(this.root.rotation);
+  this.root.position.set(-v.x,-v.y,-v.z);
+  this.cam.position.set(0,0,cam.dist);this.cam.lookAt(0,0,0);
+  this.cam.near=Math.max(.1,cam.dist-cam.r*3);this.cam.far=cam.dist+cam.r*6;this.cam.updateProjectionMatrix();
+  this.sun.position.set(LIGHT[0]*cam.r*4,LIGHT[1]*cam.r*4,LIGHT[2]*cam.r*4);
+  b=cam.r*1.7;
+  var sc=this.sun.shadow.camera;sc.left=-b;sc.right=b;sc.top=b;sc.bottom=-b;sc.near=.1;sc.far=cam.r*9;sc.updateProjectionMatrix();
+};
+GLView.prototype.draw=function(fr,cam){this.apply(fr,cam);this.r.render(this.scene,this.cam);};
+GLView.prototype.pick=function(x,y){
+  var w=this.cv.clientWidth,h=this.cv.clientHeight,hits,i;
+  this.ray.setFromCamera({x:x/w*2-1,y:-(y/h)*2+1},this.cam);
+  hits=this.ray.intersectObjects(this.meshes,false);
+  for(i=0;i<hits.length;i++){if(hits[i].object.visible)return hits[i].object.userData.part;}
+  return -1;
+};
+GLView.prototype.snapshot=function(w,h,fr,camFn){
+  var pr=this.r.getPixelRatio(),size={w:this.cv.clientWidth,h:this.cv.clientHeight},c=document.createElement('canvas');
+  c.width=w;c.height=h;
+  this.r.setPixelRatio(1);this.r.setSize(w,h,false);this.cam.aspect=w/h;
+  this.apply(fr,camFn(w/h));this.r.render(this.scene,this.cam);
+  c.getContext('2d').drawImage(this.cv,0,0,w,h);
+  this.resize(size.w,size.h,pr);
+  return c;
+};
+GLView.prototype.dispose=function(){this.clear();try{this.r.dispose();}catch(e){}};
+
+/* ---------- app state ---------- */
+var S={prod:0,t:0,yaw:P[0].yaw,pitch:P[0].pitch,hi:-1,hm:-1,hiUntil:0,touched:false};
+var models=[],view=null,softView=null,glOK=false,drawQueued=false,tween=null,lastFrame=null,lastCam=null;
+var stageEl=$('stage'),cvSoft=$('cvSoft'),cvGL=$('cvGL'),slider=$('slider');
+
+function modelNow(){if(!models[S.prod])models[S.prod]=makeModel(P[S.prod]);return models[S.prod];}
+function dprNow(){return Math.min(window.devicePixelRatio||1,2);}
+function camFnFor(fr,ins){var m=modelNow();return function(aspect){return camFor(m,fr,aspect,S.yaw,S.pitch,ins);};}
+function drawNow(){
+  drawQueued=false;
+  if(!view)return;
+  var w=stageEl.clientWidth,h=stageEl.clientHeight;if(!w||!h)return;
+  var now=Date.now();
+  if((S.hi>=0||S.hm>=0)&&now>S.hiUntil){S.hi=-1;S.hm=-1;}
+  var fr=frameFor(modelNow(),S.t,S.hi,S.hm);
+  lastFrame=fr;lastCam=camFnFor(fr,{t:clamp(66/h,.1,.26),b:.03})(w/h);
+  try{view.draw(fr,lastCam);}
+  catch(e){if(view!==softView){useSoft();softView.draw(fr,lastCam);}}
+  if(S.hi>=0||S.hm>=0)setTimeout(queueDraw,Math.max(30,S.hiUntil-now+20));
+}
+function queueDraw(){if(drawQueued)return;drawQueued=true;(window.requestAnimationFrame||function(f){return setTimeout(f,16);})(drawNow);}
+function sizeStage(){
+  var w=stageEl.clientWidth,h=stageEl.clientHeight;if(!w||!h||!view)return;
+  view.resize(w,h,dprNow());queueDraw();
+}
+function useSoft(){
+  if(!softView)softView=new SoftView(cvSoft);
+  if(view&&view!==softView){try{view.dispose();}catch(e){}}
+  view=softView;view.setModel(modelNow());
+  cvSoft.style.display='block';cvGL.style.display='none';
+  sizeStage();
+}
+function hasWebGL(){
+  try{var c=document.createElement('canvas');return !!(window.WebGLRenderingContext&&(c.getContext('webgl2')||c.getContext('webgl')||c.getContext('experimental-webgl')));}catch(e){return false;}
+}
+function useGL(){
+  if(!hasWebGL()){$('basicNote').hidden=false;return;}
+  try{
+    var g=new GLView(cvGL);
+    g.setModel(modelNow());
+    view=g;glOK=true;
+    cvGL.style.display='block';
+    sizeStage();drawNow();
+    cvSoft.style.display='none';
+    $('basicNote').hidden=true;
+    cvGL.addEventListener('webglcontextlost',function(ev){ev.preventDefault();glOK=false;useSoft();$('basicNote').hidden=false;},false);
+  }catch(e){glOK=false;useSoft();$('basicNote').hidden=false;}
+}
+function loadThree(i){
+  if(window.THREE){useGL();return;}
+  if(i>=THREE_URLS.length){$('basicNote').hidden=false;return;}
+  var s=document.createElement('script'),done=false,to;
+  function next(){if(done)return;done=true;clearTimeout(to);loadThree(i+1);}
+  s.src=THREE_URLS[i];s.async=true;
+  s.onload=function(){if(done)return;done=true;clearTimeout(to);if(window.THREE)useGL();else loadThree(i+1);};
+  s.onerror=next;to=setTimeout(next,8000);
+  document.head.appendChild(s);
+}
+
+/* ---------- derived numbers for the current position ---------- */
+function stateNow(){
+  var p=P[S.prod],t=S.t,seg=t<=.5?0:1,u=t<=.5?t/.5:(t-.5)/.5,near=Math.round(t*2),atAnchor=Math.abs(t*2-near)<.004;
+  function mix(v){return lerp(v[seg],v[seg+1],u);}
+  var k=0,configs=1,stock=0,form=[],adds=[],i,open=[];
+  for(i=0;i<4;i++){
+    open[i]=t>=p.mods[i].rel-.0005;
+    if(open[i]){k++;configs*=p.mods[i].o;stock+=p.mods[i].o;form.push(String(p.mods[i].o));adds.push(String(p.mods[i].o));}else form.push('1');
+  }
+  return {p:p,t:t,seg:seg,u:u,near:near,atAnchor:atAnchor,mix:mix,k:k,configs:configs,stock:stock,form:form.join(' × '),adds:adds.join(' + '),open:open,flex:mix(p.flex)};
+}
+
+/* ---------- DOM rendering ---------- */
+function setHTML(el,html){if(el.__h!==html){el.innerHTML=html;el.__h=html;}}
+function setText(el,txt){if(el.__t!==txt){el.textContent=txt;el.__t=txt;}}
+
+function buildProducts(){
+  var h='',i;
+  for(i=0;i<P.length;i++)h+='<button type="button" class="pbtn" data-i="'+i+'" aria-pressed="'+(i===S.prod)+'" aria-label="'+esc(P[i].name)+'">'+ICONS[P[i].id]+'<span class="full">'+esc(P[i].name)+'</span><span class="short">'+esc(P[i].short)+'</span></button>';
+  $('products').innerHTML=h;
+}
+function buildTrack(){
+  var h='',n=24,i,w=400/n,gap,x;
+  for(i=0;i<n;i++){
+    gap=Math.pow(i/(n-1),1.6)*w*.5;x=i*w+gap/2;
+    h+='<rect x="'+x.toFixed(2)+'" y="2" width="'+(w-gap+.4).toFixed(2)+'" height="10" rx="'+(gap>.8?1.5:0)+'" fill="#12202B"/>';
+  }
+  $('trackSvg').innerHTML=h;
+}
+function buildStatic(){
+  var p=P[S.prod],h='',i;
+  for(i=0;i<3;i++)h+='<button type="button" class="abtn" data-a="'+i+'" aria-pressed="false">'+esc(p.anchors[i].tick)+'</button>';
+  $('anchors').innerHTML=h;
+  h='';
+  for(i=0;i<4;i++)h+='<li><button type="button" class="mod" data-m="'+i+'"><span class="sw s'+i+'">'+MODLET[i]+'</span><span class="mt"><span class="mn">'+esc(p.mods[i].n)+'</span><span class="ms"></span></span></button></li>';
+  $('mods').innerHTML=h;
+  function rows(labs,cls){
+    var s='',j;
+    for(j=0;j<labs.length;j++)s+='<li><div class="rowtop"><span class="lab"><button type="button" class="term" data-term="'+labs[j].tip+'">'+esc(labs[j].l)+'</button></span><span class="val"><span class="vn"></span><small> / 5</small><em></em></span></div><div class="bar" role="img"><i class="'+cls+'"></i></div><p class="why"></p></li>';
+    return s;
+  }
+  $('costRows').innerHTML=rows(COSTLAB,'costfill');
+  $('benRows').innerHTML=rows(BENLAB,'benfill');
+  var pb=$('products').querySelectorAll('.pbtn');
+  for(i=0;i<pb.length;i++)pb[i].setAttribute('aria-pressed',String(i===S.prod));
+  buildCompare();
+}
+function fillRows(listEl,defs,labs,st){
+  var li=listEl.children,i,v,w;
+  for(i=0;i<defs.length;i++){
+    v=st.mix(defs[i].v);
+    setText(li[i].querySelector('.vn'),st.atAnchor?String(Math.round(v)):fmt(v));
+    setText(li[i].querySelector('em'),word(v));
+    li[i].querySelector('.bar i').style.width=(v/5*100).toFixed(1)+'%';
+    li[i].querySelector('.bar').setAttribute('aria-label',labs[i].l+': '+fmt(v)+' out of 5, '+word(v).toLowerCase());
+    setHTML(li[i].querySelector('.why'),rich(defs[i].why[st.near]));
+  }
+}
+function render(){
+  var st=stateNow(),p=st.p,i,a,b,ab,mods,flexTxt=st.atAnchor?String(Math.round(st.flex)):fmt(st.flex);
+  /* anchors + position card */
+  ab=$('anchors').children;
+  for(i=0;i<3;i++)ab[i].setAttribute('aria-pressed',String(st.atAnchor&&st.near===i));
+  if(st.atAnchor){
+    setText($('whereTitle'),p.anchors[st.near].label);
+    setHTML($('whereText'),'<span class="kind">Real example: </span>'+rich(p.anchors[st.near].ex));
+  }else{
+    a=p.anchors[st.seg].tick;b=p.anchors[st.seg+1].tick;
+    setText($('whereTitle'),'Between '+a+' and '+b);
+    setHTML($('whereText'),'Scores here are blended from the two anchors on either side. The notes beside each score come from the nearer one, '+esc(p.anchors[st.near].tick)+'. Tap a name on the slider for a sourced real example.');
+  }
+  slider.setAttribute('aria-valuetext',Math.round(st.t*100)+' percent toward modular. '+(st.atAnchor?p.anchors[st.near].tick:('Between '+p.anchors[st.seg].tick+' and '+p.anchors[st.seg+1].tick))+'. Flexibility '+fmt(st.flex)+' out of 10.');
+  /* flexibility */
+  setText($('flexNum'),flexTxt);setText($('roFlex'),flexTxt);
+  $('flexFill').style.width=(st.flex*10).toFixed(1)+'%';$('roBar').style.width=(st.flex*10).toFixed(1)+'%';
+  $('flexRuler').setAttribute('aria-label','Flexibility '+fmt(st.flex)+' out of 10');
+  setText($('roCfg'),st.configs+(st.configs===1?' configuration':' configurations'));
+  setText($('cfgFormula'),st.form);setText($('cfgTotal'),String(st.configs));
+  setText($('cfgWord'),st.configs===1?'configuration':'configurations');
+  if(st.k===0){
+    setText($('flexWhy'),'Nothing can be swapped at this setting, so each version is its own finished product.');
+    setText($('stockLine'),'To offer 96 choices this way, you would have to make and stock 96 different finished products.');
+  }else if(st.k===4){
+    setText($('flexWhy'),'All four modules can be swapped. Each one you free up multiplies the choices.');
+    setText($('stockLine'),'Choices multiply to '+st.configs+'. Kinds of part to stock only add up to '+st.stock+' ('+st.adds+').');
+  }else{
+    setText($('flexWhy'),st.k+' of 4 modules can be swapped. Each one you free up multiplies the choices.');
+    setText($('stockLine'),st.k===1?('One swappable module gives '+st.configs+' choices from '+st.stock+' kinds of part.'):('Choices multiply to '+st.configs+'. Kinds of part to stock only add up to '+st.stock+' ('+st.adds+').'));
+  }
+  mods=$('mods').querySelectorAll('.mod');
+  for(i=0;i<4;i++){
+    mods[i].className='mod'+(st.open[i]?' on':'');
+    mods[i].querySelector('.sw').className='sw '+(st.open[i]?'s'+i:'lock');
+    setText(mods[i].querySelector('.ms'),st.open[i]?(p.mods[i].o+' options to swap'):'Fixed in for now');
+  }
+  fillRows($('costRows'),p.cost,COSTLAB,st);
+  fillRows($('benRows'),p.ben,BENLAB,st);
+  setText($('takeaway'),st.atAnchor?p.take[st.near]:('You are between '+p.anchors[st.seg].tick+' and '+p.anchors[st.seg+1].tick+'. Each step right frees another part to swap. Each step left seals one in.'));
+  queueDraw();
+}
+function buildCompare(){
+  var p=P[S.prod],h='',i,j;
+  function item(title,vals,max,cls){
+    var s='<div class="cmpitem"><h3>'+esc(title)+'</h3>',k;
+    for(k=0;k<3;k++)s+='<div class="cmprow"><span>'+esc(p.anchors[k].tick)+'</span><div class="bar'+(max===10?' ten':'')+'" role="img" aria-label="'+esc(p.anchors[k].tick)+': '+vals[k]+' out of '+max+'"><i class="'+cls+'" style="width:'+(vals[k]/max*100)+'%"></i></div><b>'+vals[k]+'</b></div>';
+    return s+'</div>';
+  }
+  h+='<div class="cmpgrid">'+item('Flexibility (out of 10)',p.flex,10,'flexfill')+'</div>';
+  h+='<p class="cmpgroup">What it costs (out of 5, striped)</p><div class="cmpgrid">';
+  for(i=0;i<3;i++)h+=item(COSTLAB[i].l,p.cost[i].v,5,'costfill');
+  h+='</div><p class="cmpgroup">What you get (out of 5, solid)</p><div class="cmpgrid">';
+  for(j=0;j<4;j++)h+=item(BENLAB[j].l,p.ben[j].v,5,'benfill');
+  h+='</div>';
+  $('cmpBody').innerHTML=h;
+  $('cmpSub').textContent=p.name+': '+p.anchors[0].tick+', '+p.anchors[1].tick+' and '+p.anchors[2].tick+'. Illustrative scores.';
+  /* the 10-segment look for the flexibility bars */
+}
+
+/* ---------- slider + tweening ---------- */
+function setT(t,fromSlider){
+  S.t=clamp(t,0,1);
+  if(!fromSlider)slider.value=String(Math.round(S.t*100));
+  render();
+}
+function animateTo(target,ms){
+  if(tween)cancelAnimationFrame(tween.id);
+  if(reduceMotion||!window.requestAnimationFrame){setT(target);return;}
+  var from=S.t,t0=null;tween={id:0};
+  function step(ts){
+    if(t0===null)t0=ts;
+    var u=clamp((ts-t0)/ms,0,1),e=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;
+    setT(lerp(from,target,e));
+    if(u<1)tween.id=requestAnimationFrame(step);else{tween=null;setT(target);}
+  }
+  tween.id=requestAnimationFrame(step);
+}
+var sliding=false;
+function magnet(v){var a=[0,50,100],i;for(i=0;i<3;i++)if(Math.abs(v-a[i])<=3)return a[i];return v;}
+function onSliderInput(){
+  S.touched=true;if(tween){cancelAnimationFrame(tween.id);tween=null;}
+  var v=parseFloat(slider.value);
+  setT((sliding?magnet(v):v)/100,true);
+}
+function endSlide(){
+  if(!sliding)return;sliding=false;
+  var v=parseFloat(slider.value),m=magnet(v);
+  if(m!==v){slider.value=String(m);setT(m/100,true);}
+}
+
+/* ---------- labels, terms, dialogs ---------- */
+function showPart(partIdx){
+  var m=modelNow(),pt=m.parts[partIdx],p=P[S.prod],txt,open,e,sw;
+  if(!pt)return;
+  if(pt.m!=null){
+    open=S.t>=p.mods[pt.m].rel-.0005;
+    txt=open?('user-replaceable, '+p.mods[pt.m].o+' options'):'fixed in at this setting, not swappable';
+    sw='<span class="sw '+(open?'s'+pt.m:'lock')+'">'+MODLET[pt.m]+'</span>';
+  }else{
+    e=pt.rel>1?0:smooth((S.t-(pt.rel-.2))/.2);
+    if(pt.rel>1)txt=S.t>.5?(pt.free||'the structure the modules attach to'):(pt.lock||'part of the sealed body');
+    else txt=e>.5?(pt.free||'a separate part'):(pt.lock||'part of the sealed body');
+    sw='<span class="sw sx" aria-hidden="true"></span>';
+  }
+  var el=$('partLabel');el.hidden=false;
+  el.innerHTML=sw+'<span><strong>'+esc(pt.n)+':</strong> '+esc(txt)+'</span>';
+  S.hi=partIdx;S.hm=-1;S.hiUntil=Date.now()+1400;queueDraw();
+}
+function showModule(mi){
+  var m=modelNow(),i;
+  for(i=0;i<m.parts.length;i++)if(m.parts[i].m===mi){
+    showPart(i);
+    var el=$('partLabel');el.querySelector('strong').textContent=P[S.prod].mods[mi].n+':';
+    S.hi=-1;S.hm=mi;queueDraw();
+    return;
+  }
+}
+var tip=$('tip'),tipFor=null;
+function closeTip(){tip.hidden=true;if(tipFor){tipFor.removeAttribute('aria-describedby');tipFor=null;}}
+function openTip(btn){
+  var key=btn.getAttribute('data-term');if(!TERMS[key])return;
+  if(tipFor===btn){closeTip();return;}
+  closeTip();
+  tip.textContent=TERMS[key];tip.hidden=false;tipFor=btn;btn.setAttribute('aria-describedby','tip');
+  var r=btn.getBoundingClientRect(),sx=window.pageXOffset||document.documentElement.scrollLeft,sy=window.pageYOffset||document.documentElement.scrollTop,vw=document.documentElement.clientWidth;
+  var w=Math.min(300,vw-24);tip.style.width=w+'px';
+  var left=clamp(r.left+sx,sx+12,sx+vw-w-12),top=r.bottom+sy+8;
+  if((r.top>window.innerHeight*.6||r.bottom+tip.offsetHeight+16>window.innerHeight)&&r.top-tip.offsetHeight-8>0)top=r.top+sy-tip.offsetHeight-8;
+  tip.style.left=left+'px';tip.style.top=top+'px';
+}
+var modal=$('modal'),modalReturn=null;
+function openModal(title,bodyNode,buttons){
+  modalReturn=document.activeElement;
+  $('modalTitle').textContent=title;
+  var b=$('modalBody'),a=$('modalActions'),i,btn;
+  b.innerHTML='';b.appendChild(bodyNode);a.innerHTML='';
+  for(i=0;i<buttons.length;i++)a.appendChild(buttons[i]);
+  btn=document.createElement('button');btn.type='button';btn.className='act';btn.textContent='Close';btn.onclick=closeModal;a.appendChild(btn);
+  modal.hidden=false;btn.focus();
+}
+function closeModal(){modal.hidden=true;if(modalReturn&&modalReturn.focus)modalReturn.focus();}
+
+/* ---------- share: PNG card ---------- */
+function wrapText(ctx,text,x,y,maxW,lh,maxLines){
+  var words=text.split(' '),line='',lines=[],i,test;
+  for(i=0;i<words.length;i++){
+    test=line?line+' '+words[i]:words[i];
+    if(ctx.measureText(test).width>maxW&&line){lines.push(line);line=words[i];}else line=test;
+  }
+  if(line)lines.push(line);
+  if(maxLines&&lines.length>maxLines){lines=lines.slice(0,maxLines);lines[maxLines-1]=lines[maxLines-1].replace(/[\s,.;:]+\S*$/,'')+'…';}
+  for(i=0;i<lines.length;i++)ctx.fillText(lines[i],x,y+i*lh);
+  return y+lines.length*lh;
+}
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();}
+function hatch(ctx,x,y,w,h){
+  ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();ctx.fillStyle='#D55E00';ctx.fillRect(x,y,w,h);
+  ctx.strokeStyle='#9A4200';ctx.lineWidth=3;var i;
+  for(i=-h;i<w+h;i+=9){ctx.beginPath();ctx.moveTo(x+i,y+h);ctx.lineTo(x+i+h,y);ctx.stroke();}
+  ctx.restore();
+}
+function drawBar(ctx,x,y,w,h,frac,kind,segs){
+  var i;ctx.fillStyle='#E4E9ED';ctx.fillRect(x,y,w,h);
+  if(kind==='cost')hatch(ctx,x,y,w*frac,h);else{ctx.fillStyle=kind==='ben'?'#0072B2':MAT;ctx.fillRect(x,y,w*frac,h);}
+  ctx.fillStyle='#fff';for(i=1;i<segs;i++)ctx.fillRect(x+w*i/segs-1,y,2,h);
+}
+function buildCard(){
+  var st=stateNow(),p=st.p,W=1200,H=630,LW=520,c=document.createElement('canvas'),ctx,snap,x,y,i,v,disp='"Barlow Condensed","Bahnschrift","Arial Narrow",Arial,sans-serif',body='"Barlow","Bahnschrift","Segoe UI",Arial,sans-serif',tw,cw,pos;
+  c.width=W;c.height=H;ctx=c.getContext('2d');
+  ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,W,H);
+  var cardFrame=frameFor(modelNow(),S.t,-1,-1);snap=view.snapshot(LW,H,cardFrame,camFnFor(cardFrame,{t:.14,b:.03}));
+  ctx.drawImage(snap,0,0);
+  /* label on the picture */
+  ctx.fillStyle='rgba(9,25,32,.78)';roundRect(ctx,20,20,300,58,10);ctx.fill();
+  ctx.fillStyle='#fff';ctx.textBaseline='alphabetic';ctx.font='600 30px '+disp;ctx.fillText(p.name,36,58);
+  /* right side */
+  x=LW+38;cw=W-x-38;y=64;
+  ctx.fillStyle='#12202B';ctx.font='700 44px '+disp;ctx.fillText('Integrated or modular?',x,y);
+  y+=36;ctx.font='500 22px '+body;ctx.fillStyle='#44535F';
+  pos=st.atAnchor?(p.anchors[st.near].label+' ('+p.anchors[st.near].tick+')'):('Between '+p.anchors[st.seg].tick+' and '+p.anchors[st.seg+1].tick);
+  ctx.fillText(pos.length>52?pos.slice(0,51)+'…':pos,x,y);
+  /* mini slider */
+  y+=30;ctx.fillStyle='#12202B';ctx.fillRect(x,y+6,cw,4);
+  for(i=0;i<3;i++)ctx.fillRect(x+cw*i/2-(i===2?3:(i===1?1.5:0)),y,3,16);
+  ctx.beginPath();ctx.arc(x+cw*st.t,y+8,11,0,2*PI);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=5;ctx.strokeStyle='#12202B';ctx.stroke();
+  y+=38;ctx.fillStyle='#44535F';ctx.font='600 16px '+body;ctx.fillText('Integrated',x,y);
+  tw=ctx.measureText('Modular').width;ctx.fillText('Modular',x+cw-tw,y);
+  /* flexibility */
+  y+=42;ctx.fillStyle='#12202B';ctx.font='600 26px '+disp;ctx.fillText('Flexibility',x,y);
+  ctx.font='600 40px '+disp;v=(st.atAnchor?String(Math.round(st.flex)):fmt(st.flex));tw=ctx.measureText(v).width;
+  ctx.fillText(v,x+cw-tw-52,y+2);ctx.font='500 18px '+body;ctx.fillStyle='#44535F';ctx.fillText('/ 10',x+cw-46,y);
+  y+=12;drawBar(ctx,x,y,cw,16,st.flex/10,'flex',10);
+  y+=40;ctx.fillStyle='#12202B';ctx.font='500 19px '+body;
+  ctx.fillText(st.form+' = '+st.configs+(st.configs===1?' configuration':' configurations')+' (illustrative)',x,y);
+  /* scores: two columns */
+  y+=40;
+  var colW=(cw-32)/2,x2=x+colW+32,yy,labs,defs,kind,col,j;
+  for(col=0;col<2;col++){
+    labs=col?BENLAB:COSTLAB;defs=col?p.ben:p.cost;kind=col?'ben':'cost';
+    var cx0=col?x2:x;yy=y;
+    ctx.fillStyle='#12202B';ctx.font='600 22px '+disp;ctx.fillText(col?'What you get':'What it costs',cx0,yy);
+    yy+=10;
+    for(j=0;j<defs.length;j++){
+      v=st.mix(defs[j].v);yy+=24;
+      ctx.fillStyle='#12202B';ctx.font='500 16px '+body;ctx.fillText(labs[j].l,cx0,yy);
+      ctx.font='600 18px '+disp;var vt=(st.atAnchor?String(Math.round(v)):fmt(v));tw=ctx.measureText(vt).width;ctx.fillText(vt,cx0+colW-tw,yy);
+      yy+=7;drawBar(ctx,cx0,yy,colW,9,v/5,kind,5);yy+=13;
+    }
+  }
+  /* takeaway + footer */
+  y=H-112;ctx.fillStyle='#12202B';ctx.font='500 19px '+body;
+  wrapText(ctx,st.atAnchor?p.take[st.near]:'Each step right frees another part to swap. Each step left seals one in.',x,y,cw,25,2);
+  ctx.fillStyle='#44535F';ctx.font='400 15px '+body;
+  ctx.fillText('Illustrative scores. markfourman.github.io/integrated-vs-modular-slider',x,H-26);
+  return c;
+}
+function saveView(){
+  function go(){
+    var c,name='integrated-vs-modular-'+P[S.prod].id+'-'+Math.round(S.t*100)+'.png';
+    try{c=buildCard();}catch(e){return;}
+    function finish(url){
+      var a=document.createElement('a');a.href=url;a.download=name;a.style.display='none';document.body.appendChild(a);a.click();
+      setTimeout(function(){document.body.removeChild(a);},200);
+      var wrap=document.createElement('div'),img=new Image(),pg=document.createElement('p');
+      img.alt='Picture of the current view: '+P[S.prod].name+' with its scores.';img.src=url;
+      pg.textContent='Your picture is downloading (1200 × 630, sized for a LinkedIn post). If nothing happened, press and hold the picture to save it.';
+      wrap.appendChild(pg);wrap.appendChild(img);
+      var again=document.createElement('a');again.className='act primary';again.href=url;again.download=name;again.textContent='Download again';
+      openModal('Saved this view',wrap,[again]);
+    }
+    if(c.toBlob&&window.URL&&URL.createObjectURL){c.toBlob(function(b){if(b)finish(URL.createObjectURL(b));else finish(c.toDataURL('image/png'));},'image/png');}
+    else finish(c.toDataURL('image/png'));
+  }
+  if(document.fonts&&document.fonts.load){
+    var done=false;function once(){if(!done){done=true;go();}}
+    try{Promise.all([document.fonts.load('600 40px "Barlow Condensed"'),document.fonts.load('500 19px "Barlow"')]).then(once,once);}catch(e){once();}
+    setTimeout(once,1200);
+  }else go();
+}
+
+/* ---------- share: LinkedIn draft ---------- */
+function buildPost(){
+  var st=stateNow(),p=st.p,s=[];
+  s.push('I built a small 3D tool to show how product design shapes a supply chain, using a '+p.noun+' as the example.');
+  if(st.k===0)s.push('At the fully integrated end ('+p.anchors[0].tick+'-style), everything is sealed in, so each version is its own finished product to forecast and stock.');
+  else if(st.k===4)s.push('At the fully modular end, four swappable modules with '+p.mods[0].o+', '+p.mods[1].o+', '+p.mods[2].o+' and '+p.mods[3].o+' options give '+st.configs+' possible configurations from just '+st.stock+' kinds of part (an illustrative example).');
+  else s.push('With '+st.k+' of 4 modules swappable, the same stocked parts can become '+st.configs+' different configurations (an illustrative example).');
+  s.push('The more modular the design, the more flexible it gets: common parts can share one stock (risk pooling) and final assembly can wait for the real order (postponement), two ideas from Simchi-Levi, Kaminsky and Simchi-Levi (2022).');
+  s.push('The catch is that '+p.catchLine+'.');
+  return s.join(' ')+'\n\nTry it: '+LIVE_URL+'\n\nWhere would you set the slider for a '+p.noun+'?';
+}
+function copyText(txt,cb){
+  function fallback(){
+    var ta=document.createElement('textarea'),ok=false;
+    ta.value=txt;ta.setAttribute('readonly','');ta.setAttribute('aria-hidden','true');ta.style.position='fixed';ta.style.left='-9999px';ta.style.top='0';
+    document.body.appendChild(ta);ta.select();try{ta.setSelectionRange(0,txt.length);}catch(e){}
+    try{ok=document.execCommand('copy');}catch(e){ok=false;}
+    document.body.removeChild(ta);cb(ok);
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){cb(true);},fallback);}
+  else fallback();
+}
+function copyPost(){
+  var txt=buildPost();
+  copyText(txt,function(ok){
+    var wrap=document.createElement('div'),st=document.createElement('p'),pre=document.createElement('div');
+    st.className='status';st.setAttribute('role','status');
+    st.textContent=ok?'Copied. Paste it into a new LinkedIn post.':'Your browser blocked the copy. Select the text below and copy it by hand.';
+    pre.className='posttext';pre.textContent=txt;
+    wrap.appendChild(st);wrap.appendChild(pre);
+    openModal('LinkedIn post draft',wrap,[]);
+  });
+}
+
+/* ---------- events ---------- */
+function setProduct(i){
+  if(i===S.prod)return;
+  closeTip();$('partLabel').hidden=true;S.hi=-1;S.hm=-1;
+  function swap(){
+    S.prod=i;S.yaw=P[i].yaw;S.pitch=P[i].pitch;
+    if(view)view.setModel(modelNow());
+    buildStatic();render();drawNow();
+    stageEl.className='stage';
+  }
+  var pb=$('products').querySelectorAll('.pbtn'),k;
+  for(k=0;k<pb.length;k++)pb[k].setAttribute('aria-pressed',String(k===i));
+  if(reduceMotion){swap();return;}
+  stageEl.className='stage swap';setTimeout(swap,230);
+}
+document.addEventListener('click',function(ev){
+  var t=ev.target,el;
+  function up(cls){var n=t;while(n&&n!==document){if(n.className&&typeof n.className==='string'&&(' '+n.className+' ').indexOf(' '+cls+' ')>=0)return n;n=n.parentNode;}return null;}
+  if((el=up('term'))){ev.preventDefault();openTip(el);return;}
+  closeTip();
+  if((el=up('pbtn'))){S.touched=true;setProduct(parseInt(el.getAttribute('data-i'),10));return;}
+  if((el=up('abtn'))){S.touched=true;animateTo(parseInt(el.getAttribute('data-a'),10)/2,520);return;}
+  if((el=up('mod'))){showModule(parseInt(el.getAttribute('data-m'),10));return;}
+  if(t===modal)closeModal();
+},false);
+document.addEventListener('keydown',function(ev){if(ev.key==='Escape'||ev.keyCode===27){closeTip();if(!modal.hidden)closeModal();}},false);
+slider.addEventListener('input',onSliderInput,false);
+slider.addEventListener('change',function(){onSliderInput();endSlide();},false);
+function startSlide(){sliding=true;}
+slider.addEventListener('pointerdown',startSlide,false);slider.addEventListener('mousedown',startSlide,false);slider.addEventListener('touchstart',startSlide,{passive:true});
+window.addEventListener('pointerup',endSlide,false);window.addEventListener('mouseup',endSlide,false);window.addEventListener('touchend',endSlide,false);
+slider.addEventListener('keydown',function(){sliding=false;},false);
+
+$('btnCompare').addEventListener('click',function(){
+  var c=$('compare'),open=c.hidden;c.hidden=!open;this.setAttribute('aria-expanded',String(open));
+  this.lastChild.nodeValue=open?'Hide the comparison':'Compare all three';
+  if(open&&c.scrollIntoView){try{c.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest'});}catch(e){}}
+},false);
+$('btnSave').addEventListener('click',saveView,false);
+$('btnCopy').addEventListener('click',copyPost,false);
+$('resetView').addEventListener('click',function(){S.yaw=P[S.prod].yaw;S.pitch=P[S.prod].pitch;queueDraw();},false);
+
+/* drag to turn, tap to pick */
+(function(){
+  var down=null;
+  function pt(ev){var r=stageEl.getBoundingClientRect();return {x:ev.clientX-r.left,y:ev.clientY-r.top};}
+  function onDown(ev){
+    if(ev.button!=null&&ev.button!==0)return;
+    var p=pt(ev);down={x:p.x,y:p.y,lx:ev.clientX,ly:ev.clientY,moved:0,t:Date.now(),id:ev.pointerId};
+    S.touched=true;$('hint').className='hint gone';
+    ev.target.className='dragging';
+    try{ev.target.setPointerCapture(ev.pointerId);}catch(e){}
+  }
+  function onMove(ev){
+    if(!down||(ev.pointerId!=null&&ev.pointerId!==down.id))return;
+    var dx=ev.clientX-down.lx,dy=ev.clientY-down.ly;
+    down.lx=ev.clientX;down.ly=ev.clientY;down.moved+=Math.abs(dx)+Math.abs(dy);
+    if(down.moved<6)return;
+    S.yaw+=dx*.011;S.pitch=clamp(S.pitch+dy*.008,.08,1.25);
+    queueDraw();
+  }
+  function onUp(ev){
+    if(!down)return;
+    var d=down;down=null;ev.target.className='';
+    if(d.moved<8&&Date.now()-d.t<600&&view){
+      var hit=view.pick(d.x,d.y,dprNow());
+      if(hit>=0)showPart(hit);
+    }
+  }
+  function onCancel(ev){down=null;if(ev.target)ev.target.className='';}
+  [cvSoft,cvGL].forEach(function(cv){
+    if(window.PointerEvent){
+      cv.addEventListener('pointerdown',onDown,false);cv.addEventListener('pointermove',onMove,false);
+      cv.addEventListener('pointerup',onUp,false);cv.addEventListener('pointercancel',onCancel,false);
+    }else{
+      cv.addEventListener('mousedown',onDown,false);window.addEventListener('mousemove',onMove,false);window.addEventListener('mouseup',onUp,false);
+      cv.addEventListener('touchstart',function(e){var t=e.changedTouches[0];onDown({clientX:t.clientX,clientY:t.clientY,target:cv});},{passive:true});
+      cv.addEventListener('touchmove',function(e){var t=e.changedTouches[0];onMove({clientX:t.clientX,clientY:t.clientY});},{passive:true});
+      cv.addEventListener('touchend',function(e){var t=e.changedTouches[0];onUp({clientX:t.clientX,clientY:t.clientY,target:cv});},false);
+    }
+  });
+})();
+window.addEventListener('resize',function(){closeTip();sizeStage();},false);
+window.addEventListener('scroll',function(){if(!tip.hidden)closeTip();},{passive:true});
+window.addEventListener('orientationchange',function(){setTimeout(sizeStage,250);},false);
+
+/* ---------- start ---------- */
+buildProducts();buildTrack();buildStatic();
+useSoft();
+render();
+loadThree(0);
+/* one opening move: let the product come apart to the middle anchor */
+setTimeout(function(){if(!S.touched&&S.t===0)animateTo(.5,1500);},700);
+
+/* small hook for automated checks */
+window.__slider={set:function(i,t){if(i!==S.prod){S.prod=i;S.yaw=P[i].yaw;S.pitch=P[i].pitch;if(view)view.setModel(modelNow());buildStatic();}S.touched=true;if(tween){cancelAnimationFrame(tween.id);tween=null;}setT(t);drawNow();},view:function(y,p){S.yaw=y;S.pitch=p;drawNow();},state:function(){var s=stateNow();return {prod:s.p.id,t:s.t,k:s.k,configs:s.configs,flex:s.flex,gl:view!==softView,yaw:S.yaw,pitch:S.pitch};},post:buildPost,card:function(){return buildCard().toDataURL('image/png');}};
+})();
+</script>
+</body>
+</html>
