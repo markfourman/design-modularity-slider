@@ -163,6 +163,11 @@ a{color:#005A8F}
 .bar.ten:after{background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 2px),#fff calc(10% - 2px),#fff 10%)}
 .costfill{background:repeating-linear-gradient(135deg,var(--cost) 0,var(--cost) 5px,var(--costdark) 5px,var(--costdark) 8px)}
 .benfill{background:var(--benefit)}
+.logfill{background:#009E73}
+.stages{display:flex;list-style:none;margin:10px 0 8px;padding:0;gap:6px}
+.stages li{flex:1 1 0;position:relative;padding:9px 6px;border:1.5px solid var(--rule);border-radius:10px;background:#fff;font:500 13.5px/1.25 var(--body);text-align:center;color:var(--ink2)}
+.stages li.on{border-color:#009E73;background:#DDF3EA;color:#0F2A22;font-weight:600}
+.stages li.on::before{content:'\25CF  ';color:#007A59}
 .flexfill{background:var(--mat)}
 .why{margin:0;color:var(--ink2);font-size:15.5px}
 .h2icon{display:inline-flex;align-items:center}
@@ -199,6 +204,11 @@ a{color:#005A8F}
 .notice .n1{border-left-color:#56B4E9;background:#EEF7FD}.notice .n1 .nb{background:#56B4E9}
 .notice .n2{border-left-color:#E69F00;background:#FDF6E6}.notice .n2 .nb{background:#E69F00}
 .notice .n3{border-left-color:#CC79A7;background:#FAF0F5}.notice .n3 .nb{background:#CC79A7}
+.notice .n5{border-left-color:#009E73;background:#E6F6F0}.notice .n5 .nb{background:#5CC6A2}
+.notice .n6{border-left-color:#0072B2;background:#E8F1F8}.notice .n6 .nb{background:#7FB8DE}
+.notice .n7{border-left-color:#D55E00;background:#FBEEE6}.notice .n7 .nb{background:#F0A673}
+.notice .n8{border-left-color:#56B4E9;background:#EEF7FD}.notice .n8 .nb{background:#56B4E9}
+.lessons .about{margin:0 0 12px}
 .notice .n4{border-left-color:#F0E442;background:#FDFCE9}.notice .n4 .nb{background:#F0E442}
 .notice h3{font:600 17px/1.3 var(--body);margin:0 0 2px}
 .notice p{margin:0;color:#33424E;font-size:15.5px}
@@ -266,7 +276,7 @@ a{color:#005A8F}
   <div class="head">
     <header class="masthead">
       <h1 aria-label="Integrated or modular?"><span aria-hidden="true"><span class="w-int">Integrated</span><span class="w-or">or</span><span class="w-mod"><i>m</i><i>o</i><i>d</i><i>u</i><i>l</i><i>a</i><i>r</i></span>?</span></h1>
-      <p class="deck">Pick a product. Slide to take it apart. See what each side wins.</p>
+      <p class="deck">Pick a product. Slide to take it apart. See how it ships, stocks and what each side wins.</p>
     </header>
     <nav class="products" id="products" aria-label="Choose a product"></nav>
   </div>
@@ -319,6 +329,15 @@ a{color:#005A8F}
         <ul class="mods" id="mods"></ul>
       </section>
 
+      <section class="panel scores logi" aria-labelledby="hLog">
+        <h2 id="hLog" class="h2icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="#009E73"/><path d="M5 8h8v7H5zM13 10.5h3l2.5 2.5v2H13z" fill="#fff"/><circle cx="8" cy="16" r="1.6" fill="#fff" stroke="#009E73"/><circle cx="16" cy="16" r="1.6" fill="#fff" stroke="#009E73"/></svg>Logistics</h2>
+        <p class="sub">How it is shipped, stocked and finished.</p>
+        <ol class="stages" id="stages"><li>Finished before the order</li><li>Finished after the order</li><li>Finished by you</li></ol>
+        <p class="why" id="stageWhy"></p>
+        <ul><li><div class="rowtop"><span class="lab">Fits in a truck</span><span class="val"><span class="vn" id="truckN"></span><small> / 5</small><em id="truckW"></em></span></div><div class="bar" role="img" id="truckBar"><i class="logfill" id="truckFill"></i></div><p class="why" id="shipWhy"></p></li>
+        <li><div class="rowtop"><span class="lab">What is kept in stock</span></div><p class="why" id="stockWhy"></p></li></ul>
+      </section>
+
       <section class="panel scores" aria-labelledby="hCost">
         <h2 id="hCost" class="h2icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="#D55E00"/><path d="M7 12h10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>What it costs</h2>
         <p class="sub">Striped bars. Longer means more cost or effort for the company.</p>
@@ -342,6 +361,17 @@ a{color:#005A8F}
 
     </div>
   </main>
+
+  <section class="notes lessons" aria-labelledby="hLesson">
+    <h2 id="hLesson">The logistics lesson</h2>
+    <p class="about">From the SCM940 slides on coordinated product and supply chain design <a class="cite" href="#r-simchi">(Simchi-Levi et al., 2022)</a>.</p>
+    <ul class="notice">
+      <li class="n5"><span class="nb" aria-hidden="true">A</span><h3>Wait to finish the product.</h3><p>HP shipped generic DeskJet printers to its European warehouse and added each country's language and power parts only after it saw local demand. At a 98% service level, safety stock fell from 3.8 to 2.6 weeks of supply, saving about $800,000 a year <a class="cite" href="#r-simchi">(Simchi-Levi et al., 2022)</a>.</p></li>
+      <li class="n6"><span class="nb" aria-hidden="true">B</span><h3>Design for the truck.</h3><p>Products and packaging that pack densely put more on each pallet and truck, which cuts transport and storage cost. The catch: standard box sizes can clash, and a truck can fill up by space before weight, or the other way round <a class="cite" href="#r-simchi">(Simchi-Levi et al., 2022)</a>.</p></li>
+      <li class="n7"><span class="nb" aria-hidden="true">C</span><h3>Make the parts ahead, build the product on order.</h3><p>A forecast for a whole product family is more reliable than one for each version. So shared parts are made ahead from the forecast, and the final product is put together when the order arrives <a class="cite" href="#r-simchi">(Simchi-Levi et al., 2022)</a>.</p></li>
+      <li class="n8"><span class="nb" aria-hidden="true">D</span><h3>Tariffs, and the price of waiting.</h3><p>Duties are often lower on half-finished goods, so finishing them in a local warehouse can save money. But postponement can raise the cost of each unit and need new equipment and training, and redesigning is cheapest early in a product's life <a class="cite" href="#r-simchi">(Simchi-Levi et al., 2022)</a>.</p></li>
+    </ul>
+  </section>
 
   <section class="notes" aria-labelledby="hNotice">
     <h2 id="hNotice">What to notice</h2>
@@ -375,7 +405,7 @@ a{color:#005A8F}
       <li id="r-lazboy">La-Z-Boy Ottawa &amp; Kingston. (n.d.). <i>Custom furniture at La-Z-Boy: What to expect</i>. Retrieved November 14, 2026, from <a href="https://stylemeetscomfort.ca/blog/custom-furniture-at-la-z-boy-what-to-expect/">https://stylemeetscomfort.ca/blog/custom-furniture-at-la-z-boy-what-to-expect/</a></li>
       <li id="r-lenovo">Lenovo. (n.d.). <i>ThinkPad P1 Gen 8 and ThinkPad T1g Gen 8 user guide: CRU list</i>. Retrieved November 14, 2026, from <a href="https://download.lenovo.com/manual/thinkpad_p1_gen8_t1g_gen8/user_guide/en/CRU_list.html">https://download.lenovo.com/manual/thinkpad_p1_gen8_t1g_gen8/user_guide/en/CRU_list.html</a></li>
       <li id="r-samsung">Samsung Canada. (2026, January 15). <i>Samsung Canada introduces the Galaxy A17 5G with everyday AI and essential performance</i>. Samsung Newsroom Canada. Retrieved November 14, 2026, from <a href="https://news.samsung.com/ca/samsung-canada-introduces-the-galaxy-a17-5g-with-everyday-ai-and-essential-performance">https://news.samsung.com/ca/samsung-canada-introduces-the-galaxy-a17-5g-with-everyday-ai-and-essential-performance</a></li>
-      <li id="r-simchi">Simchi-Levi, D., Kaminsky, P., &amp; Simchi-Levi, E. (2022). <i>Designing and managing the supply chain: Concepts, strategies and case studies</i> (4th ed.). McGraw Hill.</li>
+      <li id="r-simchi">Simchi-Levi, D., Kaminsky, P., &amp; Simchi-Levi, E. (2022). <i>Designing and managing the supply chain: Concepts, strategies and case studies</i> (4th ed.). McGraw Hill. Chapter 10 slides, Coordinated product and supply chain design, used in SCM940 Logistics.</li>
       <li id="r-spec">Specialized. (n.d.). <i>S-Works Epic 29er frameset</i>. Retrieved November 14, 2026, from <a href="https://specialized.com/us/en/s-works-epic-29er-frameset/p/23663">https://specialized.com/us/en/s-works-epic-29er-frameset/p/23663</a></li>
       <li id="r-ulrich">Ulrich, K. (1995). The role of product architecture in the manufacturing firm. <i>Research Policy, 24</i>(3), 419–440.</li>
     </ol>
@@ -583,6 +613,7 @@ var P=[
   {v:[2,4,5],why:["Special versions are built at the factory, then shipped.","Final assembly can wait until the order arrives. That is {t:postponement|postponement}.","Fit the chosen parts when the order arrives."]},
   {v:[5,3,2],why:["Everything fits in one small, quiet box. Memory built into the chip package can also be faster.","A tower with room for standard parts is bigger, but tidy inside.","Standard sockets, cables and spare room take space, so the box is bigger."]}],
  take:["Compact and sealed. What you buy is what you keep.","A middle path: upgrade the common parts, while the core stays tied to the brand.","The most flexible. You pay with more parts to manage and a little more cost per unit."],
+  logi:{stage:[0, 1, 2],truck:[4, 3, 3],ship:["One small, finished box per computer.","Built from shared parts after the order, then shipped as one finished box.","Parts arrive in many small boxes from different makers."],stock:["Stock is finished computers: a separate pile for every version.","Stock is parts. In the classic Dell example, 13 kinds of part make 96 computers {c:r-simchi|Simchi-Levi et al., 2022}.","Shops and buyers stock parts, not finished computers."]},
  winLine:'a smaller, quieter box',
  catchLine:'every socket and connector adds a little cost and one more thing to support'},
 
@@ -604,6 +635,7 @@ var P=[
   {v:[2,3,5],why:["Special versions are built at the factory, then shipped.","Some options can be fitted late.","Fit the chosen memory, storage and port cards when the order arrives ({t:postponement|postponement})."]},
   {v:[5,3,2],why:["The thinnest, lightest build, with nothing to rattle or work loose.","A little thicker, to leave room for sockets and a cover that comes off.","Sockets and slide-in cards need space, so it is harder to make as thin."]}],
  take:["Thin, light and sealed. Choose carefully, because you can't change it later.","A middle path: the common parts swap, the rest stays put.","Built to be opened. You trade a little thinness and unit cost for a longer life."],
+  logi:{stage:[0, 1, 2],truck:[5, 4, 4],ship:["Thin finished laptops pack densely.","Shipped finished, built with the options on the order.","Memory, storage and port cards can come in separate small packs for you to fit {c:r-fwlaptop|Framework, n.d.}."],stock:["Finished laptops for every memory and storage size.","Shared drives and batteries, plus finished laptops.","Shared modules that serve new laptops, upgrades and repairs."]},
  winLine:'the thinnest, lightest build',
  catchLine:'every swappable part needs its own socket, which costs space and money'},
 
@@ -625,6 +657,7 @@ var P=[
   {v:[2,2,5],why:["Quick if it is in stock. Any change means a different piece.","Made to order, so the {t:leadtime|lead time} is the build time: usually 8 to 10 weeks {c:r-lazboy|La-Z-Boy Ottawa & Kingston, n.d.}.","Pick the parts off the shelf and take them home."]},
   {v:[5,4,2],why:["Built and glued at the factory: solid, with no fittings to work loose.","Built and finished in a factory, so the joints are solid.","Fittings can work loose over time, especially after a move, and the seams show."]}],
  take:["Solid and finished. Changing it later means a new piece.","You get your own combination, and you wait while it is built.","Low cost and ready today. The assembly work moves to you."],
+  logi:{stage:[0, 1, 2],truck:[1, 1, 5],ship:["Full-size finished pieces: the truck is mostly carrying air.","Full-size pieces, delivered one order at a time.","Flat packs: far more fits into trucks, containers and warehouses {c:r-ikea-museum|IKEA Museum, n.d.}."],stock:["Big showroom and warehouse space for bulky finished pieces.","Little finished stock. Frames and fabrics wait for the order.","Flat panels and fittings shared across many products."]},
  winLine:'a solid piece with no fittings to work loose',
  catchLine:'the design work is harder and the assembly moves to the customer'},
 
@@ -646,6 +679,7 @@ var P=[
   {v:[1,2,4],why:["Versions are fixed at the factory.","Only storage can change after purchase.","Accessories and parts can be added at the last step, or by the owner."]},
   {v:[5,4,2],why:["Glue lets the phone be thinner and easier to seal against water and dust.","Still slim and glued. The card tray is one more opening to seal.","Screws, connectors and module casings add thickness and more seams to seal."]}],
  take:["Sealed and compact. Repair is a job for a technician.","One slot opens for more storage. The rest stays sealed.","Built to be opened. You trade some unit cost and design effort for a longer life."],
+  logi:{stage:[0, 0, 2],truck:[5, 5, 4],ship:["Small, light and sealed. Easy to ship anywhere.","The same. Memory cards travel as a separate small item.","Phones, plus a steady flow of small spare parts to owners."],stock:["Finished phones for every colour and storage size.","Memory cards let one phone cover more storage needs, so fewer versions are stocked.","Shared modules serve new phones and repairs from one stock."]},
  winLine:'a thinner phone that is easier to seal against water',
  catchLine:'each module needs its own connector and casing, which adds design work and unit cost'},
 
@@ -667,6 +701,7 @@ var P=[
   {v:[1,3,4],why:["Fixed at the factory.","Swap a saddle or tyres at the shop.","Build to order from parts on the shelf ({t:postponement|postponement})."]},
   {v:[4,3,2],why:["Ready to ride the day you buy it, with every part chosen to work together.","Mostly tidy, with a few brand-only fittings.","You or a shop must choose, fit and tune every part."]}],
  take:["Ready to ride today at a low price. You get the parts the maker chose.","Easy to service almost anywhere, with a few brand-only exceptions.","You choose everything. Someone has to do the choosing and the building."],
+  logi:{stage:[0, 0, 2],truck:[3, 3, 4],ship:["Boxed nearly complete; the store finishes assembly {c:r-ct|Canadian Tire, n.d.}.","Boxed nearly complete; the bike shop finishes assembly.","The frame ships on its own, and the shop orders the parts to build it."],stock:["Finished bikes for every model, size and colour.","Finished bikes, plus standard parts many models share.","Frames and standard parts that can become many different bikes."]},
  winLine:'a low-cost bike that is ready to ride the day you buy it',
  catchLine:'someone still has to choose, stock and build all those parts'},
 
@@ -688,6 +723,7 @@ var P=[
   {v:[1,2,5],why:["Delivery can take up to nine or more weeks {c:r-homedepot|The Home Depot Canada, n.d.}.","Longer {t:leadtime|lead times} than stock cabinets {c:r-homedepot|The Home Depot Canada, n.d.}.","Stock cabinets are often available the same day or within a few days {c:r-homedepot|The Home Depot Canada, n.d.}."]},
   {v:[5,3,2],why:["Made to fit the room exactly, with no gaps to fill.","Standard sizes in 3-inch steps can leave small gaps to fill {c:r-kraftmaid|KraftMaid, 2022}.","Set box sizes often need filler panels to meet your walls."]}],
  take:["Made for one room: exactly what you asked for, slowly, and hard to change.","Standard sizes with your choice of finish. A wait, but less than custom.","Standard boxes, ready quickly and easy to rearrange. Your kitchen has to fit the sizes on offer."],
+  logi:{stage:[1, 1, 2],truck:[2, 2, 5],ship:["Built for one kitchen and installed by the cabinetmaker.","Factory-built boxes, shipped to order.","Flat-pack boxes, fronts and fittings, picked from stock."],stock:["No finished stock. The customer waits instead: up to nine or more weeks {c:r-homedepot|The Home Depot Canada, n.d.}.","Little finished stock, with longer lead times than stock cabinets {c:r-homedepot|The Home Depot Canada, n.d.}.","Standard parts in stock. Stock cabinets are often available the same day or within a few days {c:r-homedepot|The Home Depot Canada, n.d.}."]},
  winLine:'cabinets made to fit the room exactly',
  catchLine:'your kitchen has to fit the standard sizes on offer'}
 ];
@@ -1136,6 +1172,7 @@ function stateNow(){
   return {p:p,t:t,seg:seg,u:u,near:near,atAnchor:atAnchor,mix:mix,k:k,configs:configs,stock:stock,form:form.join(' × '),adds:adds.join(' + '),open:open,flex:mix(p.flex)};
 }
 
+var STAGEWHY=["Every version is finished at the factory before anyone orders it, so the maker has to guess demand for each one.","Common parts are made ahead from a forecast. The last step waits for the real order. This is {t:postponement|postponement}.","The last step moves to the buyer or a local shop, so almost nothing has to be guessed in advance."];
 /* ---------- DOM rendering ---------- */
 function setHTML(el,html){if(el.__h!==html){el.innerHTML=html;el.__h=html;}}
 function setText(el,txt){if(el.__t!==txt){el.textContent=txt;el.__t=txt;}}
@@ -1219,6 +1256,12 @@ function render(){
     mods[i].querySelector('.sw').className='sw '+(st.open[i]?'s'+i:'lock');
     setText(mods[i].querySelector('.ms'),st.open[i]?(p.mods[i].o+' options to swap'):'Fixed in for now');
   }
+  var lg=p.logi,stg=lg.stage[st.near],tv=st.mix(lg.truck),sl=$('stages').children;
+  for(i=0;i<3;i++){sl[i].className=i===stg?'on':'';if(i===stg)sl[i].setAttribute('aria-current','step');else sl[i].removeAttribute('aria-current');}
+  setHTML($('stageWhy'),rich(STAGEWHY[stg]));
+  setText($('truckN'),st.atAnchor?String(Math.round(tv)):fmt(tv));setText($('truckW'),word(tv));
+  $('truckFill').style.width=(tv/5*100).toFixed(1)+'%';$('truckBar').setAttribute('aria-label','Fits in a truck: '+fmt(tv)+' out of 5');
+  setHTML($('shipWhy'),rich(lg.ship[st.near]));setHTML($('stockWhy'),rich(lg.stock[st.near]));
   fillRows($('costRows'),p.cost,COSTLAB,st);
   fillRows($('benRows'),p.ben,BENLAB,st);
   setText($('takeaway'),st.atAnchor?p.take[st.near]:('You are between '+p.anchors[st.seg].tick+' and '+p.anchors[st.seg+1].tick+'. Each step right frees another part to swap. Each step left seals one in.'));

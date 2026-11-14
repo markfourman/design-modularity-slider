@@ -13,6 +13,8 @@ The more modular a product is, the more flexible it is, for the customer and for
 - **Choices multiply. Parts only add.** Four modules with 4, 3, 2 and 4 options make 4 × 3 × 2 × 4 = 96 products from 4 + 3 + 2 + 4 = 13 kinds of part. A modular maker can offer a lot of variety without stocking a lot of different finished products.
 - **Shared parts lower inventory risk.** One stock of common parts can be turned into whichever product is ordered. This is called risk pooling.
 - **Final assembly can wait.** If the product is finished only after the real order arrives, less has to be guessed in advance. This is called postponement.
+- **Modular design changes the logistics.** A live Logistics panel shows when each product is finished (before the order, after the order, or by you), how well it fits in a truck, and what is kept in stock. Flat-pack furniture fills a truck; a finished sofa mostly ships air.
+- **The logistics lesson.** Four cards from the SCM940 slides: HP's DeskJet postponement case (safety stock 3.8 to 2.6 weeks at a 98% service level, about $800,000 a year), design for logistics, making parts ahead and building on order, and tariffs on half-finished goods (Simchi-Levi et al., 2022).
 - **Sealed designs win something too.** A single fixed design can be slimmer, better sealed against water and dust, and tighter fitting. Brand-only parts can also keep repair and upgrade sales with the maker. The app scores this as "Sleek and sealed", so each end of the slider wins something.
 - **It is a trade-off, not a verdict.** Modular designs take more design work and more parts to manage. Unit cost can go either way: sealing parts in is the cheap end for electronics, and flat-pack is the cheap end for furniture.
 
