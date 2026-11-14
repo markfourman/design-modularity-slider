@@ -59,8 +59,8 @@ a{color:#005A8F}
 .deck{margin:0;font-size:16px;line-height:1.4;color:var(--ink2);max-width:60ch}
 
 /* product picker */
-.products{display:flex;margin:12px -3px 10px}
-.pbtn{flex:1 1 0;min-width:0;min-height:60px;margin:3px;padding:8px 2px 6px;border:1.5px solid var(--rule);background:#fff;border-radius:10px;font:500 12.5px/1.15 var(--body);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.products{display:flex;flex-wrap:wrap;margin:12px -3px 10px}
+.pbtn{flex:1 1 28%;min-width:0;min-height:56px;margin:3px;padding:8px 2px 6px;border:1.5px solid var(--rule);background:#fff;border-radius:10px;font:500 12.5px/1.15 var(--body);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .pbtn svg{width:22px;height:22px;margin:0 0 4px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .pbtn .full{display:none}
 .pbtn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -194,8 +194,14 @@ a{color:#005A8F}
 .notes{border-top:2px solid var(--ink);margin-top:26px;padding:18px 0 4px}
 .notes h2,.refs h2{font:600 26px/1.15 var(--display);margin:0 0 8px}
 .notice{display:grid;grid-template-columns:1fr;grid-gap:14px 30px;margin:0;padding:0;list-style:none}
+.notice li{position:relative;background:#fff;border-radius:12px;padding:16px 16px 16px 62px;border-left:8px solid var(--ink);box-shadow:0 1px 3px rgba(18,32,43,.08)}
+.notice .nb{position:absolute;left:14px;top:14px;width:34px;height:34px;border-radius:9px;font:700 21px/34px var(--disp);text-align:center;color:#12202B}
+.notice .n1{border-left-color:#56B4E9;background:#EEF7FD}.notice .n1 .nb{background:#56B4E9}
+.notice .n2{border-left-color:#E69F00;background:#FDF6E6}.notice .n2 .nb{background:#E69F00}
+.notice .n3{border-left-color:#CC79A7;background:#FAF0F5}.notice .n3 .nb{background:#CC79A7}
+.notice .n4{border-left-color:#F0E442;background:#FDFCE9}.notice .n4 .nb{background:#F0E442}
 .notice h3{font:600 17px/1.3 var(--body);margin:0 0 2px}
-.notice p{margin:0;color:var(--ink2);font-size:15.5px}
+.notice p{margin:0;color:#33424E;font-size:15.5px}
 .about{margin:18px 0 0;font-size:15px;color:var(--ink2);max-width:78ch}
 .refs{border-top:1px solid var(--rule);margin-top:20px;padding:18px 0 8px}
 .refs ol{list-style:none;margin:0;padding:0;max-width:92ch}
@@ -260,7 +266,7 @@ a{color:#005A8F}
   <div class="head">
     <header class="masthead">
       <h1 aria-label="Integrated or modular?"><span aria-hidden="true"><span class="w-int">Integrated</span><span class="w-or">or</span><span class="w-mod"><i>m</i><i>o</i><i>d</i><i>u</i><i>l</i><i>a</i><i>r</i></span>?</span></h1>
-      <p class="deck">Pick a product. Slide to take it apart. See what the flexibility costs.</p>
+      <p class="deck">Pick a product. Slide to take it apart. See what each side wins.</p>
     </header>
     <nav class="products" id="products" aria-label="Choose a product"></nav>
   </div>
@@ -331,26 +337,19 @@ a{color:#005A8F}
       </section>
 
       <div class="actions">
-        <button type="button" class="act" id="btnCompare" aria-expanded="false" aria-controls="compare"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Compare all three</button>
         <button type="button" class="act primary" id="btnSave"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Save this view</button>
-        <button type="button" class="act" id="btnCopy"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copy LinkedIn post</button>
       </div>
 
-      <section class="compare" id="compare" hidden aria-labelledby="hCmp">
-        <h2 id="hCmp">All three, side by side</h2>
-        <p class="sub" id="cmpSub"></p>
-        <div id="cmpBody"></div>
-      </section>
     </div>
   </main>
 
   <section class="notes" aria-labelledby="hNotice">
     <h2 id="hNotice">What to notice</h2>
     <ul class="notice">
-      <li><h3>Choices multiply. Parts only add.</h3><p>Four modules with 4, 3, 2 and 4 options make 4 × 3 × 2 × 4 = 96 products from 4 + 3 + 2 + 4 = 13 kinds of part. That is how a modular maker offers variety without filling a warehouse.</p></li>
-      <li><h3>Unit cost can go either way.</h3><p>In electronics, sealing parts in is the cheap end. In furniture and cabinets, modular is the cheap end, because standard flat parts are cheap to make, ship and store.</p></li>
-      <li><h3>Each side wins something.</h3><p>Modular wins on choice, repair and stock. Sealed wins on looks, fit and keeping out water and dust, and brand-only parts can keep repair sales with the maker. Even where modular comes out ahead overall, the trade-off is real.</p></li>
-      <li><h3>Waiting is the other way to avoid stock.</h3><p>Made-to-order furniture and custom cabinets carry little finished stock too, but the customer waits. Shared parts give low stock risk and a short wait together.</p></li>
+      <li class="n1"><span class="nb" aria-hidden="true">1</span><h3>Choices multiply. Parts only add.</h3><p>Four modules with 4, 3, 2 and 4 options make 4 × 3 × 2 × 4 = 96 products from 4 + 3 + 2 + 4 = 13 kinds of part. That is how a modular maker offers variety without filling a warehouse.</p></li>
+      <li class="n2"><span class="nb" aria-hidden="true">2</span><h3>Unit cost can go either way.</h3><p>In electronics, sealing parts in is the cheap end. In furniture and cabinets, modular is the cheap end, because standard flat parts are cheap to make, ship and store.</p></li>
+      <li class="n3"><span class="nb" aria-hidden="true">3</span><h3>Each side wins something.</h3><p>Modular wins on choice, repair and stock. Sealed wins on looks, fit and keeping out water and dust, and brand-only parts can keep repair sales with the maker. Even where modular comes out ahead overall, the trade-off is real.</p></li>
+      <li class="n4"><span class="nb" aria-hidden="true">4</span><h3>Waiting is the other way to avoid stock.</h3><p>Made-to-order furniture and custom cabinets carry little finished stock too, but the customer waits. Shared parts give low stock risk and a short wait together.</p></li>
     </ul>
     <p class="about"><strong>About the scores.</strong> Every score on this page (flexibility out of 10, costs and benefits out of 5) is an illustrative judgment based on the reason printed beside it. They are for comparing positions, not measurements. The option counts (4, 3, 2 and 4) and the 3D models are teaching examples, not catalogue data. Facts about real companies carry a citation. Between two anchors, scores are blended in a straight line from the nearest two.</p>
   </section>
@@ -360,23 +359,24 @@ a{color:#005A8F}
     <ol>
       <li id="r-apple-mac">Apple. (2026a, September 21). <i>Upgrade or install memory in your Mac mini</i>. Apple Support. Retrieved November 14, 2026, from <a href="https://support.apple.com/en-ca/102328">https://support.apple.com/en-ca/102328</a></li>
       <li id="r-apple-iphone">Apple. (2026b, October 23). <i>iPhone introduction</i> [Repair manual]. Apple Support. Retrieved November 14, 2026, from <a href="https://support.apple.com/en-ca/125146">https://support.apple.com/en-ca/125146</a></li>
-      <li id="r-canadel">Canadel. (n.d.). <i>Canadel store in Ottawa</i>. Retrieved November 14, 2026, from <a href="https://canadel.com/canadel-stores/ottawa/?lang=en">https://canadel.com/canadel-stores/ottawa/?lang=en</a></li>
-      <li id="r-croxton">Croxton, J. (2023, July 19). <i>E-bike brand VanMoof declared bankrupt</i>. Cyclingnews. Retrieved November 14, 2026, from <a href="https://www.cyclingnews.com/news/e-bike-brand-vanmoof-declared-bankrupt">https://www.cyclingnews.com/news/e-bike-brand-vanmoof-declared-bankrupt</a></li>
+      <li id="r-ct">Canadian Tire. (n.d.). <i>Raleigh Sprint road bike</i> [Product page, questions and answers]. Retrieved November 14, 2026, from <a href="https://www.canadiantire.ca/en/pdp/p-0711952p.html">https://www.canadiantire.ca/en/pdp/p-0711952p.html</a></li>
       <li id="r-dell">Dell. (2026, October 9). <i>Upgrades to consider for your Dell computer</i> (Article No. 000191108). Dell Support. Retrieved November 14, 2026, from <a href="https://www.dell.com/support/kbdoc/en-ca/000191108/upgrades-to-consider-for-your-dell-computer">https://www.dell.com/support/kbdoc/en-ca/000191108/upgrades-to-consider-for-your-dell-computer</a></li>
+      <li id="r-everymac">EveryMac. (n.d.). <i>Apple MacBook Air "M4" 10 CPU/10 GPU 13" specs</i>. Retrieved November 14, 2026, from <a href="https://everymac.com/systems/apple/macbook-air/specs/macbook-air-m4-10-core-cpu-10-core-gpu-13-2025-specs.html">https://everymac.com/systems/apple/macbook-air/specs/macbook-air-m4-10-core-cpu-10-core-gpu-13-2025-specs.html</a></li>
       <li id="r-fairphone">Fairphone. (n.d.). <i>The Fairphone (Gen. 6)</i>. Retrieved November 14, 2026, from <a href="https://www.fairphone.com/the-fairphone-gen-6">https://www.fairphone.com/the-fairphone-gen-6</a></li>
       <li id="r-feitzinger">Feitzinger, E., &amp; Lee, H. L. (1997). Mass customization at Hewlett-Packard: The power of postponement. <i>Harvard Business Review, 75</i>(1), 116–121.</li>
       <li id="r-fisher">Fisher, M. L. (1997). What is the right supply chain for your product? <i>Harvard Business Review, 75</i>(2), 105–116.</li>
       <li id="r-framework">Framework. (2025, February 25). <i>Introducing the Framework Desktop</i> [Online forum post]. Framework Community. Retrieved November 14, 2026, from <a href="https://community.frame.work/t/introducing-the-framework-desktop/65008">https://community.frame.work/t/introducing-the-framework-desktop/65008</a></li>
+      <li id="r-fwlaptop">Framework. (n.d.). <i>Framework Laptop 13</i>. Retrieved November 14, 2026, from <a href="https://frame.work/laptop13">https://frame.work/laptop13</a></li>
       <li id="r-giant">Giant Bicycles. (n.d.). <i>D-Fuse composite seatpost</i>. Retrieved November 14, 2026, from <a href="https://www.giant-bicycles.com/au/d-fuse-composite-seatpost">https://www.giant-bicycles.com/au/d-fuse-composite-seatpost</a></li>
-      <li id="r-westbros">Hofmann, A. (2026, May 25). <i>What makes quality wood furniture last?</i> West Bros Furniture. Retrieved November 14, 2026, from <a href="https://www.westbrosfurniture.com/blogs/journal/what-makes-quality-wood-furniture-last">https://www.westbrosfurniture.com/blogs/journal/what-makes-quality-wood-furniture-last</a></li>
       <li id="r-homedepot">The Home Depot Canada. (n.d.). <i>How to buy kitchen cabinets: Buying guide</i>. Retrieved November 14, 2026, from <a href="https://www.homedepot.ca/en/home/ideas-how-to/kitchen/how-to-buy-kitchen-cabinets.html">https://www.homedepot.ca/en/home/ideas-how-to/kitchen/how-to-buy-kitchen-cabinets.html</a></li>
       <li id="r-ikea-ca">IKEA Canada. (n.d.). <i>How to choose kitchen cabinets and cabinet interiors</i>. Retrieved November 14, 2026, from <a href="https://www.ikea.com/ca/en/rooms/kitchen/how-to/how-to-choose-kitchen-cabinets-and-cabinet-interiors-pubde8f91e0">https://www.ikea.com/ca/en/rooms/kitchen/how-to/how-to-choose-kitchen-cabinets-and-cabinet-interiors-pubde8f91e0</a></li>
       <li id="r-ikea-museum">IKEA Museum. (n.d.). <i>How IKEA took flatpacks to a whole new level</i>. Retrieved November 14, 2026, from <a href="https://ikeamuseum.com/en/explore/the-story-of-ikea/flatpacks/">https://ikeamuseum.com/en/explore/the-story-of-ikea/flatpacks/</a></li>
       <li id="r-kraftmaid">KraftMaid. (2022, June 23). <i>What are standard kitchen cabinet sizes?</i> Retrieved November 14, 2026, from <a href="https://www.kraftmaid.com/kraftmaid/kitchen-cabinet-sizes">https://www.kraftmaid.com/kraftmaid/kitchen-cabinet-sizes</a></li>
-      <li id="r-samsung">Samsung. (n.d.). <i>Galaxy XCover7 Pro: Specifications</i>. Samsung Mobile Press. Retrieved November 14, 2026, from <a href="https://www.samsungmobilepress.com/media-assets/galaxy-xcover7-pro?tab=specs">https://www.samsungmobilepress.com/media-assets/galaxy-xcover7-pro?tab=specs</a></li>
-      <li id="r-schmitz">Schmitz, R. (2023, August 23). <i>The downfall of e-bike company VanMoof has left its customers stranded</i> [Radio broadcast transcript]. NPR. Retrieved November 14, 2026, from <a href="https://www.npr.org/2023/08/23/1195541570/the-downfall-of-e-bike-company-vanmoof-has-left-its-customers-stranded">https://www.npr.org/2023/08/23/1195541570/the-downfall-of-e-bike-company-vanmoof-has-left-its-customers-stranded</a></li>
+      <li id="r-lazboy">La-Z-Boy Ottawa &amp; Kingston. (n.d.). <i>Custom furniture at La-Z-Boy: What to expect</i>. Retrieved November 14, 2026, from <a href="https://stylemeetscomfort.ca/blog/custom-furniture-at-la-z-boy-what-to-expect/">https://stylemeetscomfort.ca/blog/custom-furniture-at-la-z-boy-what-to-expect/</a></li>
+      <li id="r-lenovo">Lenovo. (n.d.). <i>ThinkPad P1 Gen 8 and ThinkPad T1g Gen 8 user guide: CRU list</i>. Retrieved November 14, 2026, from <a href="https://download.lenovo.com/manual/thinkpad_p1_gen8_t1g_gen8/user_guide/en/CRU_list.html">https://download.lenovo.com/manual/thinkpad_p1_gen8_t1g_gen8/user_guide/en/CRU_list.html</a></li>
+      <li id="r-samsung">Samsung Canada. (2026, January 15). <i>Samsung Canada introduces the Galaxy A17 5G with everyday AI and essential performance</i>. Samsung Newsroom Canada. Retrieved November 14, 2026, from <a href="https://news.samsung.com/ca/samsung-canada-introduces-the-galaxy-a17-5g-with-everyday-ai-and-essential-performance">https://news.samsung.com/ca/samsung-canada-introduces-the-galaxy-a17-5g-with-everyday-ai-and-essential-performance</a></li>
       <li id="r-simchi">Simchi-Levi, D., Kaminsky, P., &amp; Simchi-Levi, E. (2022). <i>Designing and managing the supply chain: Concepts, strategies and case studies</i> (4th ed.). McGraw Hill.</li>
-      <li id="r-surly">Surly Bikes. (n.d.). <i>Steamroller frameset</i>. Retrieved November 14, 2026, from <a href="https://surlybikes.com/products/steamroller-frameset-anxious-lavender">https://surlybikes.com/products/steamroller-frameset-anxious-lavender</a></li>
+      <li id="r-spec">Specialized. (n.d.). <i>S-Works Epic 29er frameset</i>. Retrieved November 14, 2026, from <a href="https://specialized.com/us/en/s-works-epic-29er-frameset/p/23663">https://specialized.com/us/en/s-works-epic-29er-frameset/p/23663</a></li>
       <li id="r-ulrich">Ulrich, K. (1995). The role of product architecture in the manufacturing firm. <i>Research Policy, 24</i>(3), 419–440.</li>
     </ol>
   </section>
@@ -444,6 +444,24 @@ function buildDesktop(){
   return a;
 }
 
+function buildLaptop(){
+  var a=[],an=.3,cs=Math.cos(an),sn=Math.sin(an),ly=.14+cs,lz=-1-sn;
+  a.push(part('Base',{rel:9,lock:'one sealed shell',free:'holds every part, and opens with a few screws'},[
+    B(3,.05,2,0,-.075,0),B(.05,.2,2,-1.475,0,0),B(.05,.2,2,1.475,0,0),B(2.9,.2,.05,0,0,.975),B(2.9,.2,.05,0,0,-.975),
+    C(.06,2.4,0,.12,-1.0,'x',10)]));
+  a.push(part('Main board',{rel:9,col:'#3E7A5E',lock:'chips fixed to one board',free:'can be replaced with a newer one'},[B(1.5,.03,.75,0,-.03,-.5)]));
+  a.push(part('Keyboard and trackpad',{rel:.85,out:[0,1.0,.15],lock:'part of the sealed shell',free:'lifts off for access'},[
+    B(3,.04,2,0,.12,0),fx(B(2.5,.012,.85,0,.146,-.3),'#22303A'),fx(B(.95,.012,.6,0,.146,.6),'#B4BEC7')]));
+  a.push(part('Screen',{rel:.8,out:[0,.5,-.9],lock:'fixed to the hinge',free:'unscrews from the hinge'},[
+    B(3,2,.07,0,ly,lz,-an,0,0),fx(B(2.8,1.8,.012,0,ly+.04*sn,lz+.04*cs,-an,0,0),'#16222B')]));
+  a.push(part('Battery',{m:0,rel:.3,inside:true,out:[0,.45,1.25]},[B(2.2,.07,.7,0,.02,.5)]));
+  a.push(part('Storage drive',{m:1,rel:.45,inside:true,out:[1.0,.5,-.1]},[B(.24,.03,.8,1.05,.02,-.45)]));
+  a.push(part('Memory',{m:2,rel:.7,inside:true,out:[-1.0,.5,-.1]},[B(.7,.03,.3,-1.0,.02,-.3),B(.7,.03,.3,-1.0,.02,-.68)]));
+  a.push(part('Port cards',{m:3,rel:.9,out:[-.9,0,0]},[B(.34,.1,.32,-1.36,0,-.05),B(.34,.1,.32,-1.36,0,.4)]));
+  a.push(part('Port cards',{m:3,rel:.9,out:[.9,0,0]},[B(.34,.1,.32,1.36,0,-.05),B(.34,.1,.32,1.36,0,.4)]));
+  return a;
+}
+
 function buildFurniture(){
   var a=[],t=.12,i,lx=[-.95,.95,-.95,.95],lz=[.33,.33,-.33,-.33],legs=[],dw;
   a.push(part('Centre divider',{rel:9,lock:'glued into the unit',free:'fixed with dowels'},[B(t,2.16,1,0,0,0)]));
@@ -475,13 +493,13 @@ function buildPhone(){
     B(.08,3,.2,-.71,0,0),B(.08,3,.2,.71,0,0),B(1.34,.08,.2,0,1.46,0),B(1.34,.08,.2,0,-1.46,0)]));
   a.push(part('Main board',{rel:9,col:'#3E7A5E',lock:'chips fixed to one board',free:'the one part that is not a swap-in module'},[B(1.34,2.84,.03,0,0,.07)]));
   a.push(part('Screen',{rel:.85,out:[0,0,1.15],fixed:'#16222B',lock:'glued to the frame',free:'unscrews for repair'},[B(1.5,3,.05,0,0,.125)]));
-  a.push(part('Back cover',{rel:.2,out:[0,0,-1.9],lock:'glued shut',free:'comes off for access'},[B(1.5,3,.05,0,0,-.125)]));
-  a.push(part('Battery',{m:0,rel:.3,out:[0,0,-1.05]},[B(1,1.5,.1,.05,-.35,-.03)]));
-  a.push(part('Storage card',{m:1,rel:.45,out:[-1.0,0,0]},[B(.34,.44,.03,-.5,.75,-.03)]));
-  a.push(part('Camera',{m:2,rel:.7,out:[0,.2,-.8]},[B(.52,.52,.1,.36,1.05,-.04),fx(C(.15,.1,.36,1.05,-.16,'z',16),'#16222B')]));
+  a.push(part('Back cover',{rel:.74,out:[0,0,-1.9],lock:'glued shut',free:'comes off for access'},[B(1.5,3,.05,0,0,-.125)]));
+  a.push(part('Battery',{m:1,rel:.8,out:[0,0,-1.05]},[B(1,1.5,.1,.05,-.35,-.03)]));
+  a.push(part('Storage card',{m:0,rel:.3,out:[-1.0,0,0]},[B(.34,.44,.03,-.5,.75,-.03)]));
+  a.push(part('Camera',{m:2,rel:.88,out:[0,.2,-.8]},[B(.6,.78,.1,.36,.95,-.04),fx(C(.13,.1,.36,1.15,-.16,'z',16),'#16222B'),fx(C(.13,.1,.36,.82,-.16,'z',16),'#16222B'),fx(C(.05,.1,.57,.99,-.15,'z',10),'#F4F6F8')]));
   a.push(part('Charging port',{rel:.8,out:[0,-.8,-.45],col:'#8A97A3',lock:'fixed to the main board',free:'a small replaceable module'},[B(.42,.2,.1,0,-1.3,-.03)]));
   for(i=0;i<4;i++)scr.push(C(.04,.07,sx[i],sy[i],-.16,'z',8));
-  a.push(part('Screws',{rel:.25,fast:true,out:[0,0,-2.25],col:'#F4F6F8',free:'standard screws instead of glue'},scr));
+  a.push(part('Screws',{rel:.74,fast:true,out:[0,0,-2.25],col:'#F4F6F8',free:'standard screws instead of glue'},scr));
   a.push(part('Back add-on',{m:3,rel:.9,fast:true,out:[0,0,-2.5]},[B(1,.8,.04,.1,-.8,-.17)]));
   return a;
 }
@@ -515,8 +533,6 @@ function buildBike(){
     fx(B(.09,.09,.2,1.02,1.42,.4),'#22303A'),fx(B(.09,.09,.2,1.02,1.42,-.4),'#22303A')]));
   a.push(part('Saddle and seatpost',{m:3,rel:.9,out:[-.12,.65,0]},[
     T(STx,STy,STx-.08,STy+.43,.06),B(.5,.07,.2,STx-.1,STy+.47,0)]));
-  a.push(part('Battery',{rel:.75,inside:true,out:[.25,-.6,.55],col:'#A9BAC6',lock:'sealed inside the frame',free:'slides out as a standard pack (on e-bikes)'},[
-    B(dl*.72,.12,.1,mx,my,0,0,0,ang)]));
   return a;
 }
 
@@ -539,6 +555,7 @@ function buildCabinets(){
 
 /* ---------- content ---------- */
 var ICONS={
+  laptop:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="10" rx="1.2"/><path d="M2.5 19h19M4.5 15.5l-2 3.5M19.5 15.5l2 3.5"/></svg>',
   desktop:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="1.5"/><path d="M10 7h4M10 10h4"/><circle cx="12" cy="16.5" r="1.2"/></svg>',
   furniture:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="15" rx="1"/><path d="M12 3.5v15M4 11h16M6.5 18.5V21M17.5 18.5V21"/></svg>',
   phone:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg>',
@@ -548,6 +565,7 @@ var ICONS={
 
 var P=[
 {id:'desktop',name:'Desktop PC',short:'Desktop',noun:'desktop PC',sealed:'#C9CED4',neutral:'#DDE3E8',yaw:-.68,pitch:.34,build:buildDesktop,
+ shape:function(t){var u=smooth(t/.4);return [lerp(1.9,1,u),lerp(.36,1,u),lerp(.95,1,u)];},
  mods:[{n:'Storage drive',o:3,rel:.2},{n:'Memory',o:4,rel:.4},{n:'Graphics card',o:2,rel:.7},{n:'Port cards',o:4,rel:.9}],
  anchors:[
   {tick:'Mac mini',label:'Sealed and compact',ex:"Apple's Mac mini. Apple says the memory is built into the chip package and can't be upgraded, so you choose it when you buy {c:r-apple-mac|Apple, 2026a}."},
@@ -568,67 +586,88 @@ var P=[
  winLine:'a smaller, quieter box',
  catchLine:'every socket and connector adds a little cost and one more thing to support'},
 
+{id:'laptop',name:'Laptop',short:'Laptop',noun:'laptop',sealed:'#C9CED4',neutral:'#DDE3E8',yaw:-.55,pitch:.42,build:buildLaptop,
+ mods:[{n:'Battery',o:2,rel:.3},{n:'Storage drive',o:4,rel:.45},{n:'Memory',o:3,rel:.7},{n:'Port cards',o:4,rel:.9}],
+ anchors:[
+  {tick:'MacBook Air',label:'Thin and sealed',ex:"Apple's MacBook Air. Memory and storage are chosen when you buy and can't be upgraded later {c:r-everymac|EveryMac, n.d.}."},
+  {tick:'Lenovo ThinkPad',label:'Some parts you can swap',ex:"Lenovo ThinkPads. Lenovo lists the parts an owner can replace. On the ThinkPad P1 Gen 8 that includes the storage drive, the battery and the memory module {c:r-lenovo|Lenovo, n.d.}."},
+  {tick:'Framework',label:'Built to be opened',ex:"The Framework Laptop 13. Framework says every part is replaceable with the one tool in the box, and four slide-in cards let you choose your ports {c:r-fwlaptop|Framework, n.d.}."}],
+ flex:[1,5,10],
+ cost:[
+  {v:[5,3,4],why:["Board, battery and case are shaped around each other to save every millimetre.","Mostly standard sockets inside the maker's own case.","Every part needs its own connector, screws and repair guide."]},
+  {v:[2,3,4],why:["Chips fixed to one board need fewer sockets and connectors.","Sockets for storage and memory add a little cost.","Sockets, slide-in cards and extra casings add cost."]},
+  {v:[2,3,4],why:["Few versions to support, but a fault can mean replacing the whole main board.","Spare parts and guides for the parts owners can swap.","A full store of parts and guides to keep running for years."]}],
+ ben:[
+  {v:[2,3,5],why:["Pick memory and storage once, when you buy.","Factory options, plus a few upgrades later.","Choose ports, memory and storage, and change them any time."]},
+  {v:[1,3,5],why:["Memory and storage can't be upgraded later {c:r-everymac|EveryMac, n.d.}.","Swap the storage drive or battery yourself {c:r-lenovo|Lenovo, n.d.}.","Every part can be replaced with one tool {c:r-fwlaptop|Framework, n.d.}."]},
+  {v:[2,3,5],why:["Each memory and storage version is its own finished laptop to forecast.","Shared drives and batteries help. The rest is tied to each model.","One stock of shared parts serves new laptops, upgrades and repairs ({t:pooling|risk pooling})."]},
+  {v:[2,3,5],why:["Special versions are built at the factory, then shipped.","Some options can be fitted late.","Fit the chosen memory, storage and port cards when the order arrives ({t:postponement|postponement})."]},
+  {v:[5,3,2],why:["The thinnest, lightest build, with nothing to rattle or work loose.","A little thicker, to leave room for sockets and a cover that comes off.","Sockets and slide-in cards need space, so it is harder to make as thin."]}],
+ take:["Thin, light and sealed. Choose carefully, because you can't change it later.","A middle path: the common parts swap, the rest stays put.","Built to be opened. You trade a little thinness and unit cost for a longer life."],
+ winLine:'the thinnest, lightest build',
+ catchLine:'every swappable part needs its own socket, which costs space and money'},
+
 {id:'furniture',name:'Furniture',short:'Furniture',noun:'shelving unit',sealed:'#C9A27A',neutral:'#DCC3A1',yaw:-.6,pitch:.3,build:buildFurniture,
  mods:[{n:'Legs',o:2,rel:.2},{n:'Doors and inserts',o:3,rel:.4},{n:'Shelves',o:4,rel:.7},{n:'Frame panels',o:4,rel:.9}],
  anchors:[
-  {tick:'West Bros',label:'Built and glued',ex:"West Bros Furniture in Hanover, Ontario, glues its wood joints (mortise and tenon), which locks them in place {c:r-westbros|Hofmann, 2026}."},
-  {tick:'Canadel',label:'Customized, then built',ex:"Canadel sells Canadian-made custom dining furniture. You customize a piece, then wait: its site lists a production {t:leadtime|lead time} of 4 to 6 weeks for new orders {c:r-canadel|Canadel, n.d.}."},
+  {tick:"The Brick / Leon's",label:'Ready-made',ex:"Ready-made furniture, like a cabinet or sofa from a big store such as The Brick or Leon's. It is built at the factory, and you choose from the models on offer."},
+  {tick:'La-Z-Boy',label:'Customized, then built',ex:"La-Z-Boy. Most of its furniture is made to order: you start with a frame, then choose from hundreds of fabrics and leathers. The usual wait is 8 to 10 weeks {c:r-lazboy|La-Z-Boy Ottawa & Kingston, n.d.}."},
   {tick:'IKEA',label:'Flat-pack with standard fittings',ex:"IKEA put three flat-pack tables in its 1953 catalogue. Flat, stackable packs fit far more product into trucks and warehouses {c:r-ikea-museum|IKEA Museum, n.d.}."}],
  flex:[1,5,9],
  cost:[
-  {v:[2,3,5],why:["Proven joinery. Little system design is needed.","A menu of sizes, legs and finishes has to be designed to combine.","Every piece must pack flat, use standard fittings and be buildable at home."]},
-  {v:[5,4,1],why:["Skilled labour, and a full-size piece is bulky to ship and store.","Built one order at a time.","Flat packs fill trucks and shelves densely {c:r-ikea-museum|IKEA Museum, n.d.}, and the customer does the assembly."]},
+  {v:[2,3,5],why:["One fixed design, built the same way every time.","A menu of frames, fabrics and finishes has to be designed to combine.","Every piece must pack flat, use standard fittings and be buildable at home."]},
+  {v:[3,4,1],why:["Made in volume, but a full-size piece is bulky to ship and store.","Built one order at a time.","Flat packs fill trucks and shelves densely {c:r-ikea-museum|IKEA Museum, n.d.}, and the customer does the assembly."]},
   {v:[1,3,4],why:["One finished piece. Nothing to assemble or get wrong.","Each order's options must be tracked through the factory.","Fittings, instructions and missing-part requests to manage."]}],
  ben:[
-  {v:[2,4,4],why:["What the maker built is what you get.","A wide menu, but you choose once, before it is built.","Combine frames, shelves, doors and legs from stock."]},
-  {v:[3,3,4],why:["Built to last, but a broken part means a workshop repair.","Sturdy, but parts are specific to your order.","Replace a damaged panel or add a door without replacing the unit."]},
-  {v:[2,4,5],why:["Finished pieces in every style are bulky and risky to stock.","Built after the order, so little finished stock. The customer waits instead.","Shared panels and fittings serve many products, so stock is pooled ({t:pooling|risk pooling})."]},
-  {v:[1,2,5],why:["A change means building a new piece.","Made to order, so the {t:leadtime|lead time} is the factory's build time.","Pick the parts off the shelf and take them home."]},
-  {v:[5,4,2],why:["Glued joints stay tight and solid for decades, with no fittings to work loose.","Built and finished in a workshop, so the joints are solid.","Fittings can work loose over time, especially after a move, and the seams show."]}],
+  {v:[2,4,4],why:["You choose from the models in the store.","A wide menu, but you choose once, before it is built.","Combine frames, shelves, doors and legs from stock."]},
+  {v:[3,3,4],why:["Sturdy, but a broken part usually means a repair visit.","Sturdy, but parts are specific to your order.","Replace a damaged panel or add a door without replacing the unit."]},
+  {v:[2,4,5],why:["Finished pieces in every style and colour are bulky and risky to stock.","Built after the order, so little finished stock. The customer waits instead.","Shared panels and fittings serve many products, so stock is pooled ({t:pooling|risk pooling})."]},
+  {v:[2,2,5],why:["Quick if it is in stock. Any change means a different piece.","Made to order, so the {t:leadtime|lead time} is the build time: usually 8 to 10 weeks {c:r-lazboy|La-Z-Boy Ottawa & Kingston, n.d.}.","Pick the parts off the shelf and take them home."]},
+  {v:[5,4,2],why:["Built and glued at the factory: solid, with no fittings to work loose.","Built and finished in a factory, so the joints are solid.","Fittings can work loose over time, especially after a move, and the seams show."]}],
  take:["Solid and finished. Changing it later means a new piece.","You get your own combination, and you wait while it is built.","Low cost and ready today. The assembly work moves to you."],
- winLine:'joints that stay tight for decades',
+ winLine:'a solid piece with no fittings to work loose',
  catchLine:'the design work is harder and the assembly moves to the customer'},
 
 {id:'phone',name:'Smartphone',short:'Phone',noun:'smartphone',sealed:'#C7CCD2',neutral:'#DDE3E8',yaw:2.5,pitch:.3,build:buildPhone,
- mods:[{n:'Battery',o:2,rel:.3},{n:'Storage card',o:4,rel:.45},{n:'Camera',o:3,rel:.7},{n:'Back add-on',o:4,rel:.9}],
+ mods:[{n:'Storage card',o:4,rel:.3},{n:'Battery',o:2,rel:.7},{n:'Camera',o:3,rel:.8},{n:'Back add-on',o:4,rel:.9}],
  anchors:[
   {tick:'iPhone',label:'Sealed with adhesive',ex:"Apple's iPhone. Apple sells genuine repair parts, but its repair manual is written for experienced technicians and uses a heated fixture to soften the adhesive under the display {c:r-apple-iphone|Apple, 2026b}."},
-  {tick:'Galaxy XCover',label:'One part swaps by hand',ex:"Samsung's Galaxy XCover7 Pro. Samsung lists the battery as user replaceable {c:r-samsung|Samsung, n.d.}."},
+  {tick:'Galaxy A17',label:'One slot opens, the rest is sealed',ex:"Samsung's Galaxy A17 5G. A memory card adds up to 2 TB of storage {c:r-samsung|Samsung Canada, 2026}. The battery and other parts are not made to be swapped by hand."},
   {tick:'Fairphone',label:'Built to be opened',ex:"The Fairphone (Gen. 6). Fairphone says owners can replace up to 12 spare parts themselves, and that a single screwdriver opens the phone {c:r-fairphone|Fairphone, n.d.}."}],
  flex:[1,4,8],
  cost:[
-  {v:[3,4,5],why:["Parts are packed and glued tightly. No swap-in connections to design.","A sealed design plus one part that must open by hand.","Each module needs its own connector, screws and housing, designed and tested."]},
-  {v:[2,3,4],why:["Glue and tight packing use fewer parts.","A removable battery adds a cover and contacts.","Each module carries its own connector and casing."]},
-  {v:[2,3,4],why:["Few parts for owners to handle. Repairs need trained people and special tools.","Spare batteries become one more product to stock and sell.","Up to 12 spare parts to stock and guide owners through {c:r-fairphone|Fairphone, n.d.}."]}],
+  {v:[3,4,5],why:["Parts are packed and glued tightly. No swap-in connections to design.","A sealed design plus one slot that opens by hand.","Each module needs its own connector, screws and housing, designed and tested."]},
+  {v:[2,3,4],why:["Glue and tight packing use fewer parts.","A card tray adds a slot and a seal.","Each module carries its own connector and casing."]},
+  {v:[2,2,4],why:["Few parts for owners to handle. Repairs need trained people and special tools.","Memory cards are a standard item sold everywhere, so there is little extra to support.","Up to 12 spare parts to stock and guide owners through {c:r-fairphone|Fairphone, n.d.}."]}],
  ben:[
-  {v:[2,3,4],why:["Pick a colour and storage size when you buy.","The same, plus spare batteries to swap in.","Add or change back accessories and replace parts yourself."]},
-  {v:[2,3,5],why:["Repair is possible, but adhesive and special tools stand in the way {c:r-apple-iphone|Apple, 2026b}.","A worn battery swaps by hand {c:r-samsung|Samsung, n.d.}.","Owners can replace up to 12 parts, and one screwdriver opens the phone {c:r-fairphone|Fairphone, n.d.}."]},
-  {v:[2,3,4],why:["Each colour and storage size is its own finished phone to forecast.","One battery type serves every unit. The rest is fixed.","Shared modules serve repairs and new phones from one stock ({t:pooling|risk pooling})."]},
-  {v:[1,2,4],why:["Versions are fixed at the factory.","Only the battery can change after purchase.","Accessories and parts can be added at the last step, or by the owner."]},
-  {v:[5,3,2],why:["Glue lets the phone be thinner and easier to seal against water and dust.","A back that opens by hand needs clips and seals, so it is a little thicker.","Screws, connectors and module casings add thickness and more seams to seal."]}],
- take:["Sealed and compact. Repair is a job for a technician.","One part swaps by hand. The rest stays sealed.","Built to be opened. You trade some unit cost and design effort for a longer life."],
+  {v:[2,3,4],why:["Pick a colour and storage size when you buy.","The same, plus memory cards in many sizes.","Add or change back accessories and replace parts yourself."]},
+  {v:[2,3,5],why:["Repair is possible, but adhesive and special tools stand in the way {c:r-apple-iphone|Apple, 2026b}.","Storage can grow with a memory card {c:r-samsung|Samsung Canada, 2026}. Other repairs need a shop.","Owners can replace up to 12 parts, and one screwdriver opens the phone {c:r-fairphone|Fairphone, n.d.}."]},
+  {v:[2,3,4],why:["Each colour and storage size is its own finished phone to forecast.","Memory cards add storage later, so fewer storage versions are needed.","Shared modules serve repairs and new phones from one stock ({t:pooling|risk pooling})."]},
+  {v:[1,2,4],why:["Versions are fixed at the factory.","Only storage can change after purchase.","Accessories and parts can be added at the last step, or by the owner."]},
+  {v:[5,4,2],why:["Glue lets the phone be thinner and easier to seal against water and dust.","Still slim and glued. The card tray is one more opening to seal.","Screws, connectors and module casings add thickness and more seams to seal."]}],
+ take:["Sealed and compact. Repair is a job for a technician.","One slot opens for more storage. The rest stays sealed.","Built to be opened. You trade some unit cost and design effort for a longer life."],
  winLine:'a thinner phone that is easier to seal against water',
  catchLine:'each module needs its own connector and casing, which adds design work and unit cost'},
 
 {id:'bike',name:'Bicycle',short:'Bicycle',noun:'bicycle',sealed:'#D3D9DE',neutral:'#DDE3E8',yaw:-.42,pitch:.2,build:buildBike,
  mods:[{n:'Wheels and tyres',o:4,rel:.25},{n:'Gears and chain',o:3,rel:.4},{n:'Handlebar and stem',o:2,rel:.7},{n:'Saddle and seatpost',o:4,rel:.9}],
  anchors:[
-  {tick:'VanMoof',label:'All-in-one e-bike',ex:"VanMoof e-bikes fit the battery, main board and electronic shifter inside the frame {c:r-schmitz|Schmitz, 2023}. When VanMoof was declared bankrupt on 17 July 2023, spare parts and repair bookings stopped {c:r-croxton|Croxton, 2023}."},
+  {tick:'Raleigh',label:'Sold complete, ready to ride',ex:"Raleigh bikes at Canadian Tire. You buy a complete bike with every part already chosen, and the store assembles it {c:r-ct|Canadian Tire, n.d.}."},
   {tick:'Giant',label:'Standard parts, some brand-only',ex:"Giant's D-Fuse seatpost is D-shaped and fits only selected Giant and Liv bikes {c:r-giant|Giant Bicycles, n.d.}."},
-  {tick:'Surly frameset',label:'Bare frame, standard fittings',ex:"Surly sells its Steamroller as a frame and fork only. The crank bearings screw into a common 68 mm threaded shell, and riders pick every other part {c:r-surly|Surly Bikes, n.d.}."}],
- flex:[2,7,10],
+  {tick:'Specialized',label:'Frame only, you pick the parts',ex:"Specialized sells some bikes as a frameset: the frame on its own, ready for you to hang your own parts on {c:r-spec|Specialized, n.d.}."}],
+ flex:[2,6,10],
  cost:[
-  {v:[5,3,2],why:["The maker designs its own battery, electronics and fittings.","Mostly bought-in standard parts, plus a few of the brand's own.","Fittings follow shared standards, so most of the design work is already done."]},
-  {v:[4,3,3],why:["Own-design parts are made in smaller numbers.","Standard parts are made in huge volumes for many brands.","Parts are cheap, but building bikes one at a time adds labour."]},
-  {v:[4,2,3],why:["Only the maker can supply parts and do repairs.","Most bike shops can service most of it.","Any shop can fix it, but no two builds are the same."]}],
+  {v:[3,3,2],why:["The maker chooses and fits every part once, for thousands of bikes.","Mostly bought-in standard parts, plus a few of the brand's own.","A frame made to take standard parts. Riders and shops do the rest."]},
+  {v:[1,3,4],why:["Thousands of identical bikes keep the cost of each one low.","Standard parts are made in huge volumes for many brands.","Parts bought one at a time and fitted by hand cost more."]},
+  {v:[2,2,3],why:["One parts list per model, sold through big stores.","Most bike shops can service most of it.","Any shop can fix it, but no two builds are the same."]}],
  ben:[
-  {v:[1,3,5],why:["A few models and colours.","Models and sizes, with some swaps at the shop.","Choose every part yourself."]},
-  {v:[1,4,5],why:["Parts come only from the maker. After VanMoof's 2023 bankruptcy, repair bookings stopped {c:r-croxton|Croxton, 2023}.","Standard parts swap easily. The brand-only seatpost does not {c:r-giant|Giant Bicycles, n.d.}.","Every part can be replaced or upgraded with a standard one."]},
-  {v:[1,4,5],why:["Own-design spares are useful for one model only.","Standard parts fit many models, so shops can pool stock ({t:pooling|risk pooling}).","One stock of standard parts can build many different bikes."]},
+  {v:[1,3,5],why:["A few models, sizes and colours.","Models and sizes, with some swaps at the shop.","Choose every part yourself."]},
+  {v:[3,4,5],why:["Worn parts can be replaced, but upgrades were not part of the plan.","Standard parts swap easily. The brand-only seatpost does not {c:r-giant|Giant Bicycles, n.d.}.","Every part can be replaced or upgraded on its own."]},
+  {v:[2,4,5],why:["Each model, size and colour is its own finished bike to forecast and store.","Standard parts fit many models, so shops can pool stock ({t:pooling|risk pooling}).","One stock of standard parts can build many different bikes."]},
   {v:[1,3,4],why:["Fixed at the factory.","Swap a saddle or tyres at the shop.","Build to order from parts on the shelf ({t:postponement|postponement})."]},
-  {v:[5,3,2],why:["Battery and wiring hide inside the frame: a clean look, kept out of the rain.","Mostly tidy, with some cables and fittings on show.","Parts from many makers, with cables and fittings on the outside."]}],
- take:["Sleek and all-in-one. Everything depends on one maker staying in business.","Easy to service almost anywhere, with a few brand-only exceptions.","You choose everything. Someone has to do the choosing and the building."],
- winLine:'a clean frame with the battery tucked out of the rain',
+  {v:[4,3,2],why:["Ready to ride the day you buy it, with every part chosen to work together.","Mostly tidy, with a few brand-only fittings.","You or a shop must choose, fit and tune every part."]}],
+ take:["Ready to ride today at a low price. You get the parts the maker chose.","Easy to service almost anywhere, with a few brand-only exceptions.","You choose everything. Someone has to do the choosing and the building."],
+ winLine:'a low-cost bike that is ready to ride the day you buy it',
  catchLine:'someone still has to choose, stock and build all those parts'},
 
 {id:'cabinets',name:'Kitchen cabinets',short:'Cabinets',noun:'set of kitchen cabinets',sealed:'#E6E2D9',neutral:'#DDE3E8',yaw:-.55,pitch:.36,build:buildCabinets,
@@ -756,6 +795,7 @@ function makeModel(p){
 /* Where every primitive sits, and what colour it is, at slider position t. */
 function frameFor(model,t,hi,hm){
   var items=[],i,pr,pt,e,s,col,own,pos,min=[1e9,1e9,1e9],max=[-1e9,-1e9,-1e9],k,edge,g=smooth(t),r;
+  var S=model.p.shape?model.p.shape(t):[1,1,1],SM=Math.max(S[0],S[1],S[2]);
   for(i=0;i<model.prims.length;i++){
     pr=model.prims[i];pt=model.parts[pr.part];
     if(pt.rel>1){e=0;edge=g*.85;}
@@ -771,18 +811,18 @@ function frameFor(model,t,hi,hm){
     items.push({pos:pos,s:s,col:col,edge:edge});
     if(s>.02){
       r=pr.br*s;
-      for(k=0;k<3;k++){if(pos[k]-r<min[k])min[k]=pos[k]-r;if(pos[k]+r>max[k])max[k]=pos[k]+r;}
+      for(k=0;k<3;k++){if((pos[k]-r)*S[k]<min[k])min[k]=(pos[k]-r)*S[k];if((pos[k]+r)*S[k]>max[k])max[k]=(pos[k]+r)*S[k];}
     }
   }
   var c=[(min[0]+max[0])/2,(min[1]+max[1])/2,(min[2]+max[2])/2],rad=0,dx,dy,dz,dd,lowY=1e9,rm,ym;
   for(i=0;i<items.length;i++){
     if(items[i].s<=.02)continue;
     pr=model.prims[i];
-    dx=items[i].pos[0]-c[0];dy=items[i].pos[1]-c[1];dz=items[i].pos[2]-c[2];
-    dd=Math.sqrt(dx*dx+dy*dy+dz*dz)+pr.br*items[i].s;if(dd>rad)rad=dd;
-    for(k=0;k<pr.rv.length;k++){ym=items[i].pos[1]+pr.rv[k][1]*items[i].s;if(ym<lowY)lowY=ym;}
+    dx=items[i].pos[0]*S[0]-c[0];dy=items[i].pos[1]*S[1]-c[1];dz=items[i].pos[2]*S[2]-c[2];
+    dd=Math.sqrt(dx*dx+dy*dy+dz*dz)+pr.br*items[i].s*SM;if(dd>rad)rad=dd;
+    for(k=0;k<pr.rv.length;k++){ym=(items[i].pos[1]+pr.rv[k][1]*items[i].s)*S[1];if(ym<lowY)lowY=ym;}
   }
-  return {items:items,bounds:{min:min,max:max,c:c,r:rad,groundY:lowY-.012}};
+  return {items:items,S:S,bounds:{min:min,max:max,c:c,r:rad,groundY:lowY-.012}};
 }
 
 function camFor(model,fr,aspect,yaw,pitch,ins){
@@ -790,7 +830,7 @@ function camFor(model,fr,aspect,yaw,pitch,ins){
   for(i=0;i<fr.items.length;i++){
     it=fr.items[i];if(it.s<=.02)continue;pr=model.prims[i];
     for(k=0;k<pr.rv.length;k++){
-      v=mv(Rv,[it.pos[0]+pr.rv[k][0]*it.s-b.c[0],it.pos[1]+pr.rv[k][1]*it.s-b.c[1],it.pos[2]+pr.rv[k][2]*it.s-b.c[2]]);vs.push(v);
+      v=mv(Rv,[(it.pos[0]+pr.rv[k][0]*it.s)*fr.S[0]-b.c[0],(it.pos[1]+pr.rv[k][1]*it.s)*fr.S[1]-b.c[1],(it.pos[2]+pr.rv[k][2]*it.s)*fr.S[2]-b.c[2]]);vs.push(v);
       if(v[0]<minx)minx=v[0];if(v[0]>maxx)maxx=v[0];if(v[1]<miny)miny=v[1];if(v[1]>maxy)maxy=v[1];
     }
   }
@@ -835,7 +875,7 @@ SoftView.prototype.paint=function(ctx,W,H,fr,cam,keep){
       pr=model.prims[i];it=fr.items[i];if(it.s<=.02)continue;
       vv=[];
       for(k=0;k<pr.rv.length;k++){
-        var pv=view([it.pos[0]+pr.rv[k][0]*it.s,it.pos[1]+pr.rv[k][1]*it.s,it.pos[2]+pr.rv[k][2]*it.s]);
+        var pv=view([(it.pos[0]+pr.rv[k][0]*it.s)*fr.S[0],(it.pos[1]+pr.rv[k][1]*it.s)*fr.S[1],(it.pos[2]+pr.rv[k][2]*it.s)*fr.S[2]]);
         var sd=((pv[0]-p0[0])*ng[0]+(pv[1]-p0[1])*ng[1]+(pv[2]-p0[2])*ng[2])/ln;
         vv.push(proj([pv[0]-LIGHT[0]*sd,pv[1]-LIGHT[1]*sd,pv[2]-LIGHT[2]*sd]));
       }
@@ -853,10 +893,10 @@ SoftView.prototype.paint=function(ctx,W,H,fr,cam,keep){
     pr=model.prims[i];it=fr.items[i];if(it.s<=.02)continue;
     vv=[];pts=[];x0=y0=1e9;x1=y1=-1e9;zc=0;
     for(k=0;k<pr.rv.length;k++){
-      vz=view([it.pos[0]+pr.rv[k][0]*it.s,it.pos[1]+pr.rv[k][1]*it.s,it.pos[2]+pr.rv[k][2]*it.s]);vv.push(vz);zc+=vz[2];
+      vz=view([(it.pos[0]+pr.rv[k][0]*it.s)*fr.S[0],(it.pos[1]+pr.rv[k][1]*it.s)*fr.S[1],(it.pos[2]+pr.rv[k][2]*it.s)*fr.S[2]]);vv.push(vz);zc+=vz[2];
       q=proj(vz);pts.push(q);if(q[0]<x0)x0=q[0];if(q[0]>x1)x1=q[0];if(q[1]<y0)y0=q[1];if(q[1]>y1)y1=q[1];
     }
-    nn=[];for(j=0;j<pr.fn.length;j++)nn.push(mv(Rv,pr.fn[j]));
+    nn=[];for(j=0;j<pr.fn.length;j++)nn.push(mv(Rv,norm([pr.fn[j][0]/fr.S[0],pr.fn[j][1]/fr.S[1],pr.fn[j][2]/fr.S[2]])));
     objs.push({pr:pr,it:it,vv:vv,pts:pts,n:nn,x0:x0,x1:x1,y0:y0,y1:y1,z:zc/pr.rv.length,after:[],indeg:0});
   }
   function sep(P1,P2){
@@ -935,7 +975,7 @@ function GLView(canvas){
   this.r.shadowMap.type=T3.PCFSoftShadowMap;
   this.scene=new T3.Scene();
   this.cam=new T3.PerspectiveCamera(30,1,.1,300);
-  this.root=new T3.Group();this.scene.add(this.root);
+  this.root=new T3.Group();this.scene.add(this.root);this.body=new T3.Group();
   this.scene.add(new T3.HemisphereLight(0xffffff,0x6f8590,.6));
   this.sun=new T3.DirectionalLight(0xffffff,.46);
   this.sun.castShadow=true;this.sun.shadow.mapSize.set(1024,1024);this.sun.shadow.bias=-.0006;
@@ -949,11 +989,12 @@ GLView.prototype.clear=function(){
     o=this.root.children[0];this.root.remove(o);
     o.traverse(function(n){if(n.geometry)n.geometry.dispose();if(n.material)n.material.dispose();});
   }
+  while(this.body.children.length)this.body.remove(this.body.children[0]);
   this.meshes=[];
 };
 GLView.prototype.setModel=function(model){
   var T3=window.THREE,i,pr,pt,g,mesh,mat,ed,m=model.mat,N=12,pos=[],colr=[],u,strong,gg;
-  this.clear();this.model=model;
+  this.clear();this.model=model;this.root.add(this.body);
   for(i=0;i<model.prims.length;i++){
     pr=model.prims[i];pt=model.parts[pr.part];
     g=pr.s==='b'?new T3.BoxGeometry(pr.sz[0],pr.sz[1],pr.sz[2]):new T3.CylinderGeometry(pr.rad,pr.rad,pr.len,Math.max(pr.seg,18));
@@ -964,7 +1005,7 @@ GLView.prototype.setModel=function(model){
       ed=new T3.LineSegments(new T3.EdgesGeometry(g,28),new T3.LineBasicMaterial({color:0x0c1a22,transparent:true,opacity:0}));
       ed.visible=false;mesh.add(ed);mesh.userData.edges=ed;
     }
-    this.root.add(mesh);this.meshes.push(mesh);
+    this.body.add(mesh);this.meshes.push(mesh);
   }
   /* cutting-mat grid */
   for(i=0;i<=N;i++){
@@ -994,6 +1035,7 @@ GLView.prototype.apply=function(fr,cam){
     ed=me.userData.edges;
     if(ed){ed.visible=it.edge>.03;ed.material.opacity=it.edge*.55;}
   }
+  this.body.scale.set(fr.S[0],fr.S[1],fr.S[2]);
   this.grid.position.y=cam.groundY+.004;this.ground.position.y=cam.groundY;
   this.root.rotation.set(cam.pitch,cam.yaw,0);
   v=new T3.Vector3(cam.c[0],cam.c[1],cam.c[2]).applyEuler(this.root.rotation);
@@ -1183,6 +1225,7 @@ function render(){
   queueDraw();
 }
 function buildCompare(){
+  if(!$('cmpBody'))return;
   var p=P[S.prod],h='',i,j;
   function item(title,vals,max,cls){
     var s='<div class="cmpitem"><h3>'+esc(title)+'</h3>',k;
@@ -1449,13 +1492,7 @@ slider.addEventListener('pointerdown',startSlide,false);slider.addEventListener(
 window.addEventListener('pointerup',endSlide,false);window.addEventListener('mouseup',endSlide,false);window.addEventListener('touchend',endSlide,false);
 slider.addEventListener('keydown',function(){sliding=false;},false);
 
-$('btnCompare').addEventListener('click',function(){
-  var c=$('compare'),open=c.hidden;c.hidden=!open;this.setAttribute('aria-expanded',String(open));
-  this.lastChild.nodeValue=open?'Hide the comparison':'Compare all three';
-  if(open&&c.scrollIntoView){try{c.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest'});}catch(e){}}
-},false);
 $('btnSave').addEventListener('click',saveView,false);
-$('btnCopy').addEventListener('click',copyPost,false);
 $('resetView').addEventListener('click',function(){S.yaw=P[S.prod].yaw;S.pitch=P[S.prod].pitch;queueDraw();},false);
 
 /* drag to turn, tap to pick */
